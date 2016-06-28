@@ -19,7 +19,8 @@ public class GameManager : MonoBehaviour {
 
 	UIScript ui;
 	BallScript ball;
-	SpikeGeneratorScript spikes;
+
+	public bool gameStarted;
 
 	public int currentPoints;
 
@@ -52,7 +53,6 @@ public class GameManager : MonoBehaviour {
 
 		ui = GameObject.Find ("UI").GetComponent<UIScript>();
 		ball = GameObject.Find ("Ball").GetComponent<BallScript>();
-		spikes = GameObject.Find ("SpikeGenerator").GetComponent<SpikeGeneratorScript>();
 
 
 		switch (currentState) {
@@ -62,14 +62,16 @@ public class GameManager : MonoBehaviour {
 			ui.MenuUI ();
 			currentPoints = 0;
 
+			gameStarted = false;
+
 			break;
 
 		case GameStates.PlayGame:
 
 			ui.PlayUI ();
-			ball.gameStarted = true;
 			ball.ResetBounce ();
-			spikes.gameStarted = true;
+
+			gameStarted = true;
 
 			break;
 

@@ -9,7 +9,7 @@ public class BallScript : MonoBehaviour
 	float hitPower = -0.55f;
 
 	float ballSize;
-	float floorSize = 1;
+	float floorSize;
 
 	float xPos = -2;
 
@@ -20,20 +20,19 @@ public class BallScript : MonoBehaviour
 	float halfFloorSize;
 	float ballBase;
 
+	float landHeight;
+
 	bool beenHit;
 
-	public bool gameStarted;
-
-	//public GameObject hitWords;
-
 	public Transform floorTrans;
+
+	public SpikeGeneratorScript generatorScript;
 
 
 	void Start ()
 	{
 
-		gameStarted = false;
-
+		floorSize = floorTrans.localScale.y;
 		ballSize = transform.localScale.x;
 		halfBallSize = ballSize / 2;
 		halfFloorSize = floorSize / 2;
@@ -44,8 +43,11 @@ public class BallScript : MonoBehaviour
 
 	void Update ()
 	{
+		landHeight = generatorScript.LandHeight (xPos);
 
-		if (gameStarted) {
+		print (landHeight);
+
+		if (GameManager.instance.gameStarted) {
 
 			if (!beenHit) {
 				Bounce ();
@@ -54,17 +56,16 @@ public class BallScript : MonoBehaviour
 			}
 		}
 
-		TouchInput ();
-		KeyboardInput ();
-
 		if (transform.position.y == ballBase) {
 			ResetBounce ();
 		}
+
+		TouchInput ();
+		KeyboardInput ();
 	}
 
 	void TouchInput ()
 	{
-
 		if (Input.touchCount > 0) {
 			Touch touch = Input.GetTouch (0);
 			switch (touch.phase) {
@@ -83,7 +84,6 @@ public class BallScript : MonoBehaviour
 
 	void Bounce ()
 	{
-
 		bouncingTime += Time.deltaTime;
 
 		posCos = Mathf.Abs (Mathf.Sin (freq * (bouncingTime)) * height);

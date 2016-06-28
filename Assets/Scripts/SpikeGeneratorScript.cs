@@ -5,58 +5,113 @@ public class SpikeGeneratorScript : MonoBehaviour {
 
 
 
+	int spikeCreationXPos = 7;
+	int hillCreationXPos = 9;
+
 	public GameObject spike;
 	public GameObject spikesParent;
 
+	public GameObject hill;
+
 	public Transform floorTrans;
 
-	float spikeSizeHalf;
-	float floorHeightHalf;
+	public Transform hillTrans;
 
-	public bool gameStarted;
+	float floorHeightHalf;
+	float hillHeightHalf;
+
+	float hillHeight;
+
+	public GameObject hillParent;
+	Transform[] hillTransforms;
 
 	float timer;
+
+	float hillTimer;
 
 	// Use this for initialization
 	void Start () {
 
-		gameStarted = false;
+		Random.seed = 2;
+
 		timer = 1;
 
-		spikeSizeHalf =spike.transform.localScale.y / 2;
+		hillTimer = 1;
+
+		float heightOfSpike = 2;
+
 		floorHeightHalf = floorTrans.localScale.y / 2;
+
+		hillHeight = hillTrans.localScale.y;
+		hillHeightHalf = hillHeight / 2;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-
 		if (timer <= 0) {
 			CreateSpike ();
 		}
 
-		if (gameStarted) {
+		if (hillTimer <= 0) {
+			CreateHill ();
+		}
 
+		if (GameManager.instance.gameStarted) {
 			timer -= Time.deltaTime;
+			hillTimer -= Time.deltaTime;
 		}
 	}
 
 	void CreateSpike(){
 
-		float spikeBaseHeight = floorTrans.position.y + floorHeightHalf + spikeSizeHalf;
-
 		GameObject newSpike = Instantiate (spike) as GameObject;
 		newSpike.SetActive (true);
-		newSpike.transform.position = new Vector3(7, spikeBaseHeight);
+		newSpike.transform.position = new Vector3(spikeCreationXPos, LandHeight(spikeCreationXPos));
 		newSpike.transform.parent = spikesParent.transform;
 
 		ResetTimer ();
 	}
 
+	void CreateHill(){
+
+		float hillBaseHeight = floorTrans.position.y + floorHeightHalf + hillHeightHalf;
+
+		GameObject newHill = Instantiate (hill) as GameObject;
+		newHill.SetActive (true);
+		newHill.transform.position = new Vector3(hillCreationXPos, hillBaseHeight);
+		newHill.transform.parent = hillParent.transform;
+
+		ResetHillTimer ();
+	}
+
 	void ResetTimer(){
 
-		timer = 3;
+		timer = Random.Range(0.5f,3.6f);
+	}
+
+	void ResetHillTimer(){
+
+		hillTimer = Random.Range(2,6);
 	}
 
 
+	public float LandHeight(float inputObject){
+
+		float floorHeight = floorTrans.position.y + floorHeightHalf;
+
+		hillTransforms = hillParent.GetComponentsInChildren<Transform>();
+		foreach (Transform trans in hillTransforms) {
+
+			float hillCenter = trans.position.x;
+			float hillRight = hillCenter + (trans.localScale.x / 2);
+			float hillLeft = hillCenter - (trans.localScale.x / 2);
+
+			if (inputObject < hillRight && inputObject > hillLeft) {
+
+				return floorHeight + hillHeight;
+			} 
+		}
+		return floorHeight;
+	}
 }
