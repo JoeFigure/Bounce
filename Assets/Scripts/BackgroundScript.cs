@@ -6,9 +6,9 @@ public class BackgroundScript : MonoBehaviour {
 
 	float speed = -1;
 
-	int enterFrame = 18;
+	int enterFrame = 16;
 
-	int offFrame = 0;
+	int offFrame = - 3;
 
 	bool addedNew;
 
@@ -34,13 +34,8 @@ public class BackgroundScript : MonoBehaviour {
 
 	void CreateNewBackground(){
 
-		//float spikeBaseHeight = floorTrans.position.y + floorHeightHalf + spikeSizeHalf;
-
 		GameObject newBG = Instantiate (gameObject) as GameObject;
-		//newSpike.SetActive (true);
 		newBG.transform.position = new Vector3(enterFrame, transform.position.y);
-		//newSpike.transform.parent = spikesParent.transform;
 
-		//ResetTimer ();
 	}
 }

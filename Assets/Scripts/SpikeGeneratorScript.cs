@@ -36,9 +36,9 @@ public class SpikeGeneratorScript : MonoBehaviour {
 
 		timer = 1;
 
-		hillTimer = 1;
+		hillTimer = 2;
 
-		float heightOfSpike = 2;
+		//float heightOfSpike = 2;
 
 		floorHeightHalf = floorTrans.localScale.y / 2;
 

@@ -6,6 +6,10 @@ public class SpikeScript : MonoBehaviour {
 
 	float speed = -5;
 
+	public bool spike;
+
+	public int offScreen;
+
 	public Camera camera;
 
 	// Use this for initialization
@@ -20,9 +24,12 @@ public class SpikeScript : MonoBehaviour {
 
 		Vector3 place = camera.WorldToScreenPoint (transform.position);
 
-		if (place.x < 0) {
-			GameManager.instance.currentPoints++;
+		if (place.x < offScreen) {
+			
 			Destroy (gameObject);
+			if (spike) {
+				GameManager.instance.currentPoints++;
+			}
 		}
 	}
 }
