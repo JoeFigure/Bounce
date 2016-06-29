@@ -87,7 +87,7 @@ public class SpikeGeneratorScript : MonoBehaviour {
 
 	void ResetTimer(){
 
-		timer = Random.Range(0.5f,3.6f);
+		timer = Random.Range(0.5f,3f);
 	}
 
 	void ResetHillTimer(){
