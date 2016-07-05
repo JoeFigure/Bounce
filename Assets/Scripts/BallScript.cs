@@ -3,49 +3,59 @@ using System.Collections;
 
 public class BallScript : MonoBehaviour
 {
-	//Parameters
-	private int meat;
-
-	public int Meat{
-		get{ return meat * 2; }
-		set{ meat = value; }
-	}
 
 	float hitPower = -15;
-	float energy = 0.7f; //Height
-	float force = 14; //Speed
+	public float energy = 0.7f; //Height
+	public float force = 14; //Speed
+	public float bounceHeight = 2;
 	float xPos = -2;
 
+	public float scaleMult {
+		get{ return scaleMult ;}
+		set {
+			scaleMult = value ;
+			//ResizeBall ();
+		}
+
+	}
 	float fullEnergy;
-	float yPos;
-	float ballSize;
-	float halfBallSize;
 	float landHeight;
 	bool beenHit;
 	float ballBase;
-
 	public bool alive;
 
+	public float ballSize {
+		get{ return  transform.localScale.x ;}
+	}
+
+	public float halfBallSize {
+		get{ return  ballSize / 2 ;}
+	}
+
+	public float yPos{
+		get{return transform.position.y ;}
+	}
+		
 	public Transform floorTrans;
 	public SpikeGeneratorScript generatorScript;
 
 	void Start ()
 	{
-		fullEnergy = energy;
+		scaleMult = 0.5f;
 
-		ballSize = transform.localScale.x;
-		halfBallSize = ballSize / 2;
+		fullEnergy = energy;
 
 		transform.position = new Vector3 (xPos, 0);
 
 		alive = true;
 
+		transform.localScale = transform.localScale * scaleMult;
+
+		ResizeBall ();
 	}
 
 	void Update ()
 	{
-
-		yPos = transform.position.y;
 
 		CalculateLandHeight ();
 
@@ -67,6 +77,12 @@ public class BallScript : MonoBehaviour
 
 		TouchInput ();
 		KeyboardInput ();
+
+		//ResizeBall ();
+	}
+
+	public void ResizeBall(){
+		transform.localScale = transform.localScale * scaleMult;
 	}
 
 	void CalculateLandHeight(){
@@ -76,7 +92,7 @@ public class BallScript : MonoBehaviour
 
 	void Bounce(){
 
-		energy -= Time.deltaTime * 2;
+		energy -= Time.deltaTime * bounceHeight;
 
 		if (energy < 0) {
 			if (yPos <= ballBase + 0.2f ) {

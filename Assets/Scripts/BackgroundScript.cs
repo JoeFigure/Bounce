@@ -4,16 +4,17 @@ using System.Collections;
 public class BackgroundScript : MonoBehaviour {
 
 
-	float speed = -1;
+	public SpikeScript spikes;
+
+	public float speed{
+		get{ return spikes.speed / 4 ;}
+	}
 
 	int enterFrame = 16;
 
 	int offFrame = - 3;
 
 	bool addedNew;
-
-	//BallScript ball;
-
 
 	// Use this for initialization
 	void Start () {

@@ -4,7 +4,7 @@ using System.Collections;
 public class SpikeScript : MonoBehaviour {
 
 
-	float speed = -4;
+	public float speed = -4;
 
 	public bool spike;
 

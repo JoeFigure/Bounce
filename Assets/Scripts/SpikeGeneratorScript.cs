@@ -8,6 +8,10 @@ public class SpikeGeneratorScript : MonoBehaviour {
 	int spikeCreationXPos = 7;
 	int hillCreationXPos = 9;
 
+	public float scaleMult;
+
+	public float spikeFreq;
+
 	public GameObject spike;
 	public GameObject spikesParent;
 
@@ -17,12 +21,24 @@ public class SpikeGeneratorScript : MonoBehaviour {
 
 	public Transform hillTrans;
 
-	float floorHeightHalf;
-	float hillHeightHalf;
+	public float floorHeightHalf {
+		get{ return  floorTrans.localScale.y / 2;}
+	}
 
-	float hillHeight;
+	public float hillHeightHalf{
+		get{ return hillHeight / 2; }
+	}
+
+	public float hillHeight{
+		get{ return  hillTrans.localScale.y;}
+	}
+
+	public float hillBaseHeight{
+		get{ return floorTrans.position.y + floorHeightHalf + hillHeightHalf; ;}
+	}
 
 	public GameObject hillParent;
+
 	Transform[] hillTransforms;
 
 	float timer;
@@ -32,16 +48,12 @@ public class SpikeGeneratorScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
+		spikeFreq = 2.5f;
+		scaleMult = 0.5f;
 		Random.seed = 2;
-
 		timer = 1;
-
 		hillTimer = 2;
 
-		floorHeightHalf = floorTrans.localScale.y / 2;
-
-		hillHeight = hillTrans.localScale.y;
-		hillHeightHalf = hillHeight / 2;
 	}
 	
 	// Update is called once per frame
@@ -67,14 +79,14 @@ public class SpikeGeneratorScript : MonoBehaviour {
 		newSpike.SetActive (true);
 		newSpike.transform.position = new Vector3(spikeCreationXPos, LandHeight(spikeCreationXPos));
 		newSpike.transform.parent = spikesParent.transform;
+		newSpike.transform.localScale = new Vector3( scaleMult * 0.5f ,scaleMult * 0.5f,scaleMult);
 
 		ResetTimer ();
 	}
 
 	void CreateHill(){
 
-		float hillBaseHeight = floorTrans.position.y + floorHeightHalf + hillHeightHalf;
-
+		hillTrans.localScale = new Vector3( 3.5f ,scaleMult * 0.7f ,scaleMult);
 		GameObject newHill = Instantiate (hill) as GameObject;
 		newHill.SetActive (true);
 		newHill.transform.position = new Vector3(hillCreationXPos, hillBaseHeight);
@@ -85,7 +97,7 @@ public class SpikeGeneratorScript : MonoBehaviour {
 
 	void ResetTimer(){
 
-		timer = Random.Range(0.5f,3f);
+		timer = Random.Range(0.5f,spikeFreq);
 	}
 
 	void ResetHillTimer(){
