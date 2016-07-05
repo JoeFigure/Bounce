@@ -17,8 +17,9 @@ public class GameManager : MonoBehaviour {
 
 	private GameStates currentState;
 
+
 	UIScript ui;
-	BallScript ball;
+	public BallScript ball;
 
 	public bool gameStarted;
 
@@ -76,7 +77,7 @@ public class GameManager : MonoBehaviour {
 			break;
 
 		case GameStates.GameOver:
-
+			ui.GameOverUI ();
 			break;
 
 		default:
@@ -87,4 +88,5 @@ public class GameManager : MonoBehaviour {
 	public void ResetGame(){
 		SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
 	}
+		
 }

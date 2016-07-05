@@ -12,6 +12,9 @@ public class BackgroundScript : MonoBehaviour {
 
 	bool addedNew;
 
+	//BallScript ball;
+
+
 	// Use this for initialization
 	void Start () {
 
@@ -23,7 +26,10 @@ public class BackgroundScript : MonoBehaviour {
 	void Update () {
 
 		if (GameManager.instance.gameStarted) {
-			transform.Translate (speed * Time.deltaTime, 0, 0);
+			if (GameManager.instance.ball.alive) {
+				
+				transform.Translate (speed * Time.deltaTime, 0, 0);
+			}
 		}
 
 		if (transform.position.x < offFrame && addedNew == false) {

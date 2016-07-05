@@ -3,96 +3,75 @@ using System.Collections;
 
 public class BallScript : MonoBehaviour
 {
+	//Parameters
+	private int meat;
 
+	public int Meat{
+		get{ return meat * 2; }
+		set{ meat = value; }
+	}
 
 	float hitPower = -15;
-
 	float energy = 0.7f; //Height
 	float force = 14; //Speed
+	float xPos = -2;
 
 	float fullEnergy;
-
-	float xPos = -2;
 	float yPos;
-
 	float ballSize;
-	float floorSize;
-
-	public GameObject hitText;
-
 	float halfBallSize;
-	float halfFloorSize;
-
-	//float frontOfBallY;
-	//float landHeightUnderFrontOfBall;
-
 	float landHeight;
-
 	bool beenHit;
-
-	public Transform floorTrans;
-
-	public SpikeGeneratorScript generatorScript;
-
 	float ballBase;
 
-	//bool alive;
+	public bool alive;
 
+	public Transform floorTrans;
+	public SpikeGeneratorScript generatorScript;
 
 	void Start ()
 	{
 		fullEnergy = energy;
 
-		hitText.SetActive (false);
-
-		floorSize = floorTrans.localScale.y;
 		ballSize = transform.localScale.x;
 		halfBallSize = ballSize / 2;
-		halfFloorSize = floorSize / 2;
-
-		//ballBase = landHeight + halfBallSize;
 
 		transform.position = new Vector3 (xPos, 0);
 
-		//float poo = GetComponent<Collider2D>().bounds.
+		alive = true;
 
 	}
 
 	void Update ()
 	{
 
-		//frontOfBallY = xPos + halfBallSize;
-		//landHeightUnderFrontOfBall = generatorScript.LandHeight (frontOfBallY) + 0.5f;
-
-
 		yPos = transform.position.y;
 
-		landHeight = generatorScript.LandHeight (xPos);
-
-		ballBase = landHeight + halfBallSize ;
-
-
-
+		CalculateLandHeight ();
 
 		if (transform.position.y == ballBase) {
 			ResetBounce ();
 		}
 
-
 		if (GameManager.instance.gameStarted) {
 
-			if (!beenHit) {
-				Bounce ();
-			} else {
-				HitBall ();
+			if(alive){
+
+				if (!beenHit) {
+					Bounce ();
+				} else {
+					HitBall ();
+				}
 			}
 		}
 
-
-
 		TouchInput ();
 		KeyboardInput ();
+	}
 
+	void CalculateLandHeight(){
+		landHeight = generatorScript.LandHeight (xPos);
+		ballBase = landHeight + halfBallSize ;
 	}
 
 	void Bounce(){
@@ -103,24 +82,11 @@ public class BallScript : MonoBehaviour
 			if (yPos <= ballBase + 0.2f ) {
 				transform.position = new Vector3 (transform.position.x, ballBase);
 				energy = fullEnergy;
-
 			}
 		}
-
 		transform.Translate (0, energy * force * Time.deltaTime, 0);
-
-		//CheckForWallHit ();
-			
 	}
-
-	void CheckForWallHit(){
 		
-		if (yPos <= ballBase - 0.2f){
-
-			GameManager.instance.ResetGame ();
-		}
-	}
-
 
 	void TouchInput ()
 	{
@@ -146,28 +112,28 @@ public class BallScript : MonoBehaviour
 		transform.Translate (0, hitPower * Time.deltaTime, 0);
 
 		if (yPos <= ballBase + halfBallSize) {
-
 			transform.position = new Vector3 (transform.position.x, ballBase);
 		}
-
-
 	}
 
 
 	void OnCollisionEnter2D(Collision2D coll) {
 		if (coll.gameObject.tag == "Spike") {
-			GameManager.instance.ResetGame ();
+			Dead();
 		}
 
 		if (coll.gameObject.tag == "Hill") {
 			if(transform.position.x < coll.collider.bounds.min.x){
-			//if(yPos < landHeightUnderFrontOfBall + halfBallSize) {
-				//print ("oooo");
-				GameManager.instance.ResetGame ();
+				Dead ();
 				//print("yPos: " + (transform.position.y).ToString() + " plat: " + (ballBase).ToString() );
 
 			}
 		}
+	}
+
+	public void Dead(){
+		GameManager.instance.CurrentState (GameStates.GameOver);
+		alive = false;
 	}
 
 

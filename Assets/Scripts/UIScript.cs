@@ -8,7 +8,7 @@ public class UIScript : MonoBehaviour {
 	public Text inGameScore;
 
 	public GameObject mainMenuUI;
-
+	public GameObject gameOverUI;
 	public GameObject gameUI;
 
 	// Use this for initialization
@@ -29,6 +29,10 @@ public class UIScript : MonoBehaviour {
 		GameManager.instance.CurrentState (GameStates.PlayGame);
 	}
 
+	public void ReplayBttn(){
+		GameManager.instance.ResetGame();
+	}
+
 	public void PlayUI(){
 
 		mainMenuUI.SetActive (false);
@@ -37,5 +41,13 @@ public class UIScript : MonoBehaviour {
 
 	public void MenuUI(){
 		gameUI.SetActive (false);
+		mainMenuUI.SetActive (true);
+		gameOverUI.SetActive (false);
+	}
+
+	public void GameOverUI(){
+		gameUI.SetActive (false);
+		gameOverUI.SetActive (true);
+
 	}
 }
