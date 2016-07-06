@@ -3,7 +3,6 @@ using System.Collections;
 using UnityEngine.UI;
 
 
-
 public class DebugMenu : MonoBehaviour {
 	/*
 	struct SliderPanel{
@@ -23,6 +22,17 @@ public class DebugMenu : MonoBehaviour {
 
 	public GameObject mainMenuUI;
 	public GameObject debugMenuUI;
+
+	public Text debugHud;
+
+
+	string temp1;
+	string temp2;
+	string temp3;
+	string temp4;
+	string temp5;
+
+	string hudText;
 
 	public Slider slider1;
 	public Text slider1Text;
@@ -51,6 +61,7 @@ public class DebugMenu : MonoBehaviour {
 		slider2Text.text = slider2Name.ToString ();
 		slider3Text.text = slider3Name.ToString ();
 		slider4Text.text = slider4Name.ToString ();
+		slider5Text.text = slider5Name.ToString ();
 
 	}
 	
@@ -73,31 +84,52 @@ public class DebugMenu : MonoBehaviour {
 		slider1Text.text = slider1Name.ToString() + minusSliderValue.ToString ();
 		spikes.speed = minusSliderValue;
 		hills.speed = minusSliderValue;
+
+		temp1 = slider1Text.text + "\n";
+
+		SetHud ();
 	}
 
 	public void Slider2(){
 		float sliderValue = slider2.value;
 		slider2Text.text = slider2Name.ToString() + sliderValue.ToString ();
 		spikeGenerator.spikeFreq = sliderValue;
+
+		temp2 = slider2Text.text + "\n";
+		SetHud ();
 	}
 
 	public void Slider3(){
 		float sliderValue = slider3.value;
 		slider3Text.text = slider3Name.ToString() + sliderValue.ToString ();
 		ball.force = sliderValue;
+
+		temp3 = slider3Text.text + "\n";
+		SetHud ();
 	}
 
 	public void Slider4(){
 		float sliderValue = slider4.value;
 		slider4Text.text = slider4Name.ToString() + sliderValue.ToString ();
 		ball.bounceHeight = sliderValue;
+
+		temp4 = slider4Text.text + "\n";
+		SetHud ();
 	}
 
 	public void Slider5(){
 		float sliderValue = slider5.value;
 		slider5Text.text = slider5Name.ToString() + sliderValue.ToString ();
 		spikeGenerator.scaleMult = sliderValue;
-		ball.scaleMult = sliderValue;
+		ball.ScaleMult = sliderValue;
+
+		temp5 = slider5Text.text + "\n";
+		SetHud ();
+	}
+
+	void SetHud(){
+		hudText = temp1  + temp2  + temp3  + temp4  + temp5;
+		debugHud.text = hudText;
 	}
 
 }

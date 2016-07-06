@@ -7,9 +7,16 @@ public class UIScript : MonoBehaviour {
 
 	public Text inGameScore;
 
+	public Text gameOverScore;
+	public Text nextPrizeScore;
+
 	public GameObject mainMenuUI;
 	public GameObject gameOverUI;
 	public GameObject gameUI;
+
+	public int pointsToNextPrize {
+		get{ return 100 - GameManager.instance.currentPoints; } 
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -48,6 +55,7 @@ public class UIScript : MonoBehaviour {
 	public void GameOverUI(){
 		gameUI.SetActive (false);
 		gameOverUI.SetActive (true);
-
+		gameOverScore.text = GameManager.instance.currentPoints.ToString ();
+		nextPrizeScore.text = pointsToNextPrize.ToString ();
 	}
 }

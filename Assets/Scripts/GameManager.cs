@@ -17,13 +17,15 @@ public class GameManager : MonoBehaviour {
 
 	private GameStates currentState;
 
-
 	UIScript ui;
+
 	public BallScript ball;
 
 	public bool gameStarted;
 
 	public int currentPoints;
+
+	//public int score;
 
 	void Awake ()
 	{

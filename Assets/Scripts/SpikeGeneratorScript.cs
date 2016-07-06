@@ -49,7 +49,7 @@ public class SpikeGeneratorScript : MonoBehaviour {
 	void Start () {
 
 		spikeFreq = 2.5f;
-		scaleMult = 0.5f;
+		scaleMult = 1f;
 		Random.seed = 2;
 		timer = 1;
 		hillTimer = 2;

@@ -9,15 +9,19 @@ public class BallScript : MonoBehaviour
 	public float force = 14; //Speed
 	public float bounceHeight = 2;
 	float xPos = -2;
+	float size = 0.7f;
 
-	public float scaleMult {
+
+	float scaleMult;
+
+	public float ScaleMult{
 		get{ return scaleMult ;}
 		set {
 			scaleMult = value ;
-			//ResizeBall ();
+			ResizeBall ();
 		}
-
 	}
+
 	float fullEnergy;
 	float landHeight;
 	bool beenHit;
@@ -41,7 +45,7 @@ public class BallScript : MonoBehaviour
 
 	void Start ()
 	{
-		scaleMult = 0.5f;
+		scaleMult = 1;
 
 		fullEnergy = energy;
 
@@ -49,7 +53,7 @@ public class BallScript : MonoBehaviour
 
 		alive = true;
 
-		transform.localScale = transform.localScale * scaleMult;
+		transform.localScale = transform.localScale * ScaleMult;
 
 		ResizeBall ();
 	}
@@ -78,11 +82,10 @@ public class BallScript : MonoBehaviour
 		TouchInput ();
 		KeyboardInput ();
 
-		//ResizeBall ();
 	}
 
 	public void ResizeBall(){
-		transform.localScale = transform.localScale * scaleMult;
+		transform.localScale = new Vector3( size * scaleMult, size * scaleMult, 0) ;
 	}
 
 	void CalculateLandHeight(){
@@ -134,6 +137,8 @@ public class BallScript : MonoBehaviour
 
 
 	void OnCollisionEnter2D(Collision2D coll) {
+
+
 		if (coll.gameObject.tag == "Spike") {
 			Dead();
 		}
