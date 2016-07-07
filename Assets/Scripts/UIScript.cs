@@ -34,6 +34,7 @@ public class UIScript : MonoBehaviour {
 
 	public void StartGameBttn(){
 		GameManager.instance.CurrentState (GameStates.PlayGame);
+		GameManager.instance.RecordStartTime ();
 	}
 
 	public void ReplayBttn(){

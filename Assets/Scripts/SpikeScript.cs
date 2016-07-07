@@ -4,7 +4,23 @@ using System.Collections;
 public class SpikeScript : MonoBehaviour {
 
 
-	public float speed = -4;
+	float _speed = -5;
+
+	public bool pointSpike;
+
+	public float speed{
+		get{ return _speed * gameTimeSpeedMult; }
+		set{ _speed = value ; }
+	}
+
+	public float gameTimeSpeedMult{
+		get {
+			float gameTime = GameManager.instance.gameTime;
+			int secondsToFullSpeed = 120;
+			float percentageToFullSpeed = gameTime / secondsToFullSpeed;
+			return (percentageToFullSpeed * 1.5f) + 1;
+		}
+	}
 
 	public bool spike;
 
@@ -26,18 +42,21 @@ public class SpikeScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+
 		if (GameManager.instance.ball.alive) {
 			transform.Translate (speed * Time.deltaTime, 0, 0);
-		}
+		} 
 
 		Vector3 place = camera.WorldToScreenPoint (transform.position);
 
 		if (place.x < offScreen) {
-			
 			Destroy (gameObject);
+
 			if (spike) {
-				GameManager.instance.currentPoints++;
 				spikeParticleSystem.GetComponent<SpikeBurst> ().CreateParticles ();
+				if (pointSpike) {
+					GameManager.instance.currentPoints++;
+				}
 			}
 		}
 	}

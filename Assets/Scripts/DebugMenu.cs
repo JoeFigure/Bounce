@@ -93,7 +93,7 @@ public class DebugMenu : MonoBehaviour {
 	public void Slider2(){
 		float sliderValue = slider2.value;
 		slider2Text.text = slider2Name.ToString() + sliderValue.ToString ();
-		spikeGenerator.spikeFreq = sliderValue;
+		spikeGenerator.largestSpikeDistance = sliderValue;
 
 		temp2 = slider2Text.text + "\n";
 		SetHud ();
@@ -111,7 +111,7 @@ public class DebugMenu : MonoBehaviour {
 	public void Slider4(){
 		float sliderValue = slider4.value;
 		slider4Text.text = slider4Name.ToString() + sliderValue.ToString ();
-		ball.bounceHeight = sliderValue;
+		ball.energyLoss = sliderValue;
 
 		temp4 = slider4Text.text + "\n";
 		SetHud ();

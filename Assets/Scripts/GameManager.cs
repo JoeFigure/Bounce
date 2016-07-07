@@ -25,6 +25,12 @@ public class GameManager : MonoBehaviour {
 
 	public int currentPoints;
 
+	public float gameTimeStart;
+
+	public float gameTime {
+		get{ return Time.time - gameTimeStart; }
+	}
+
 	//public int score;
 
 	void Awake ()
@@ -89,6 +95,10 @@ public class GameManager : MonoBehaviour {
 
 	public void ResetGame(){
 		SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
+	}
+
+	public void RecordStartTime(){
+		gameTimeStart = Time.time;
 	}
 		
 }
