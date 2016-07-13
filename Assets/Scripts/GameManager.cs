@@ -13,7 +13,7 @@ public enum GameStates
 public class GameManager : MonoBehaviour {
 
 	public static GameManager instance = null;
-	//Static instance of GameManager which allows it to be accessed by any other script.
+	//Static instance of GameManager which allows it to be accessed by any other script
 
 	private GameStates currentState;
 
@@ -29,6 +29,14 @@ public class GameManager : MonoBehaviour {
 
 	public float gameTime {
 		get{ return Time.time - gameTimeStart; }
+	}
+
+	public float gameTimePercentOfFullSpeed{
+		get {
+			int secondsToFullSpeed = 120;
+			float percentageToFullSpeed = gameTime / secondsToFullSpeed;
+			return percentageToFullSpeed;
+		}
 	}
 
 	//public int score;
@@ -54,7 +62,7 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		//print (gameTimeStart);
 	}
 
 	public void CurrentState (GameStates currentState)

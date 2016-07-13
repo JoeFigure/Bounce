@@ -8,18 +8,19 @@ public class SpikeScript : MonoBehaviour {
 
 	public bool pointSpike;
 
-	public float speed{
-		get{ return _speed * gameTimeSpeedMult; }
-		set{ _speed = value ; }
+	public float speedMult {
+		get { 
+			float percOfFullSpeed = GameManager.instance.gameTimePercentOfFullSpeed;
+			float multiplier = 1.5f;
+			return (percOfFullSpeed * multiplier) + 1;
+		}
 	}
 
-	public float gameTimeSpeedMult{
-		get {
-			float gameTime = GameManager.instance.gameTime;
-			int secondsToFullSpeed = 120;
-			float percentageToFullSpeed = gameTime / secondsToFullSpeed;
-			return (percentageToFullSpeed * 1.5f) + 1;
-		}
+	public float speed{
+		get{ 
+			return (_speed * speedMult) ;
+			}
+		set{ _speed = value ; }
 	}
 
 	public bool spike;

@@ -93,7 +93,7 @@ public class DebugMenu : MonoBehaviour {
 	public void Slider2(){
 		float sliderValue = slider2.value;
 		slider2Text.text = slider2Name.ToString() + sliderValue.ToString ();
-		spikeGenerator.largestSpikeDistance = sliderValue;
+		//spikeGenerator.largestSpikeDistance = sliderValue;
 
 		temp2 = slider2Text.text + "\n";
 		SetHud ();

@@ -3,8 +3,6 @@ using System.Collections;
 
 public class SpikeGeneratorScript : MonoBehaviour {
 
-
-
 	int spikeInitialXPos = 7;
 	int hillCreationXPos = 9;
 
@@ -12,9 +10,13 @@ public class SpikeGeneratorScript : MonoBehaviour {
 
 	public float scaleMult;
 
-	public float largestSpikeDistance{ get; set; }
-	public float midSpikeDistance{ get; set; }
-	public float smallestSpikeDistance{ get; set; }
+	public float inversePercFullSpeed{
+		get{ 
+			float gameSpeed = GameManager.instance.gameTimePercentOfFullSpeed;
+			float inversePerc = 1 - gameSpeed;
+			return inversePerc;
+		}
+	}
 
 	int lastSpikeAmount;
 	float timer;
@@ -71,9 +73,6 @@ public class SpikeGeneratorScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		largestSpikeDistance = 1.5f;
-		midSpikeDistance = 0.9f;
-		smallestSpikeDistance = 0.4f;
 		scaleMult = 1f;
 		Random.seed = 2;
 		timer = 1;
@@ -142,28 +141,33 @@ public class SpikeGeneratorScript : MonoBehaviour {
 
 	void ResetSpikeTimer(){
 
-		int spikeDistanceProbability = Random.Range (0, 100);
+		const float smallestDist = 0.05f;
+		const float largestDist = 0.3f;
 
-		if (spikeDistanceProbability < 70 && lastSpikeAmount < 3) {
-			timer = Random.Range (smallestSpikeDistance, midSpikeDistance);
-			return;
-		}
-		if (spikeDistanceProbability < 100) {
-			timer = Random.Range (smallestSpikeDistance, largestSpikeDistance);
-		}
+		float lowerExtra = 0.3f * inversePercFullSpeed;
+		float higherExtra = 1 * inversePercFullSpeed;
+			
+		timer = Random.Range (smallestDist + lowerExtra, largestDist + higherExtra);
+
 	}
 
 	void ResetHillTimer(){
 
-		float gameTime = GameManager.instance.gameTime;
 
-		if (gameTime < 11) {
-			hillTimer = Random.Range (1.2f, 6);
-			print ("easy");
+		const float smallestDist = 0.05f;
+		const float largestDist = 0.3f;
+
+		float lowerExtra = 1.2f * inversePercFullSpeed;
+		float higherExtra = 6 * inversePercFullSpeed;
+
+		hillTimer = Random.Range (smallestDist + lowerExtra, largestDist + higherExtra);
+		/*
+		//if (gameTime < 11) {
+			
 		} else {
 			hillTimer = Random.Range (1.2f, 2.5f);
-			print ("difficult");
 		}
+	*/
 	}
 
 
