@@ -82,8 +82,8 @@ public class DebugMenu : MonoBehaviour {
 	public void Slider1(){
 		float minusSliderValue = -slider1.value;
 		slider1Text.text = slider1Name.ToString() + minusSliderValue.ToString ();
-		spikes.speed = minusSliderValue;
-		hills.speed = minusSliderValue;
+		//spikes.speed = minusSliderValue;
+		//hills.speed = minusSliderValue;
 
 		temp1 = slider1Text.text + "\n";
 

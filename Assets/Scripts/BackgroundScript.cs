@@ -7,7 +7,7 @@ public class BackgroundScript : MonoBehaviour {
 	public SpikeScript spikes;
 
 	public float speed{
-		get{ return spikes.speed / 4 ;}
+		get{ return GameManager.instance.speed / 4 ;}
 	}
 
 	int enterFrame = 16;

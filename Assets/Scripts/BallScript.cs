@@ -26,7 +26,7 @@ public class BallScript : MonoBehaviour
 	}
 
 	float landHeight{
-		get { return generatorScript.LandHeight (xPos); }
+		get { return generatorScript.LandHeight2 (xPos); }
 	}
 		
 	float ballBase{
@@ -96,6 +96,7 @@ public class BallScript : MonoBehaviour
 		if (yPos <= ballBase) {
 			transform.position = new Vector2 (xPos, ballBase);
 		}
+
 	}
 
 	public void ResetBounce(){

@@ -4,23 +4,10 @@ using System.Collections;
 public class SpikeScript : MonoBehaviour {
 
 
-	float _speed = -5;
-
 	public bool pointSpike;
 
-	public float speedMult {
-		get { 
-			float percOfFullSpeed = GameManager.instance.gameTimePercentOfFullSpeed;
-			float multiplier = 1.5f;
-			return (percOfFullSpeed * multiplier) + 1;
-		}
-	}
-
-	public float speed{
-		get{ 
-			return (_speed * speedMult) ;
-			}
-		set{ _speed = value ; }
+	float speed{
+		get{ return GameManager.instance.speed;}
 	}
 
 	public bool spike;
