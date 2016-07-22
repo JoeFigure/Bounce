@@ -7,7 +7,7 @@ public class SpikeScript : MonoBehaviour {
 	public bool pointSpike;
 
 	float speed{
-		get{ return GameManager.instance.speed;}
+		get{ return GameManager.instance.speed * Time.deltaTime;}
 	}
 
 	public bool spike;
@@ -31,9 +31,7 @@ public class SpikeScript : MonoBehaviour {
 	void Update () {
 
 
-		if (GameManager.instance.ball.alive) {
-			transform.Translate (speed * Time.deltaTime, 0, 0);
-		} 
+		transform.Translate (speed, 0, 0);
 
 		Vector3 place = camera.WorldToScreenPoint (transform.position);
 

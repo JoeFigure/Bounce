@@ -1,15 +1,17 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GameManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/framerate.cs">
     <Files>
-      <File FileName="Assets/Scripts/SpikeScript.cs" Line="46" Column="1" />
-      <File FileName="Assets/Scripts/SpikeGeneratorScript.cs" Line="157" Column="34" />
+      <File FileName="Assets/Scripts/framerate.cs" Line="7" Column="35" />
       <File FileName="Assets/Scripts/BallScript.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/DebugMenu.cs" Line="96" Column="5" />
-      <File FileName="Assets/Scripts/UIScript.cs" Line="37" Column="32" />
+      <File FileName="Assets/Scripts/SpikeGeneratorScript.cs" Line="58" Column="18" />
+      <File FileName="Assets/Scripts/HillScript.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/SpikeScript.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/BackgroundScript.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/SpikeBurst.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/GameManager.cs" Line="36" Column="32" />
+      <File FileName="Assets/Scripts/LevelDesignScript.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/UIScript.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

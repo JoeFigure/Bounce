@@ -3,14 +3,22 @@ using System.Collections;
 
 public class HillScript : MonoBehaviour {
 
-	float levelHeight = 3.5f;
+	float levelHeight = 4.5f;
+
+	float platformHeightMultiplier = 0.4f;
+
+	public int lastHeight;
+
+	int height;
+
+	public int hillNumber;
 
 	public Camera camera;
 
 	bool instantiated;
 
 	float speed{
-		get{ return GameManager.instance.speed;}
+		get{ return GameManager.instance.speed * Time.deltaTime;}
 	}
 
 	float sizeX {
@@ -19,15 +27,10 @@ public class HillScript : MonoBehaviour {
 		}
 	}
 
-	int widthInPixels {
-		get{ return (int)sizeX * 100; }
+	int widthInPixelsX2 {
+		get{ return ((int)sizeX * 100) * 2; }
 	}
-
-	float halfSizeX {
-		get {
-			return coll.bounds.extents.x;
-		}
-	}
+		
 
 	Vector2 positionInPixels {
 		get{ return camera.WorldToScreenPoint (transform.position); }
@@ -47,46 +50,65 @@ public class HillScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		transform.Translate (speed * Time.deltaTime, 0, 0);
+		transform.Translate (speed, 0, 0);
 
+		CreateHill ();
+					
+		if(positionInPixels.x < (0 - widthInPixelsX2)){
+			Destroy (gameObject);
+		}
+
+	}
+
+	void CreateHill(){
 		if (positionInPixels.x <= Screen.width) {
 			if (!instantiated) {
 
 				GameObject newHill = Instantiate (gameObject) as GameObject;
 				float posX = transform.position.x;
-				float platformHeight = PlatformHeight(Random.Range (0, 4));
 
-				newHill.transform.position = new Vector2 (posX + sizeX, platformHeight);
+				print (lastHeight);
+
+				height = NewHeight (lastHeight);
+
+				lastHeight = height;
+
+				float finalHeight = (height * platformHeightMultiplier) - levelHeight;
+
+				HillScript newHillScript = newHill.GetComponent<HillScript> ();
+
+				newHillScript.lastHeight = height;
+				newHillScript.hillNumber = hillNumber + 1;
+
+				newHill.transform.position = new Vector2 (posX + sizeX, finalHeight);
 				newHill.name = "hill";
 				newHill.transform.parent = hillParent.transform;
 				instantiated = true;
 			}
 		}
-			
-		if(positionInPixels.x < 0 - widthInPixels){
-			Destroy (gameObject);
-		}
 	}
+		
+	int NewHeight(int lastHeight){
 
-	float PlatformHeight(int number){
+		int output;
 
-		float platformHeight = 0;
-
-		switch (number) 
-		{
+		switch(lastHeight){
 		case 0:
-			platformHeight = 0;
+			output = Random.Range (0, 2);
 			break;
 		case 1:
-			platformHeight = -0.5f;
+			output = Random.Range (0, 3);
 			break;
 		case 2:
-			platformHeight = -1f;
+			output = Random.Range (1, 3);
 			break;
 		default:
+			output = 1;
 			break;
 		}
 
-		return platformHeight - levelHeight;
+		return output;
 	}
+
+
 }

@@ -59,4 +59,9 @@ public class UIScript : MonoBehaviour {
 		gameOverScore.text = GameManager.instance.currentPoints.ToString ();
 		nextPrizeScore.text = pointsToNextPrize.ToString ();
 	}
+
+	public IEnumerator WaitAndDisplayScore() {
+		yield return new WaitForSeconds(1.2f);
+		GameOverUI ();
+	}
 }

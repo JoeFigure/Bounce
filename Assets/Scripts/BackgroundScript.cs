@@ -26,11 +26,9 @@ public class BackgroundScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (GameManager.instance.gameStarted) {
-			if (GameManager.instance.ball.alive) {
+		if (GameManager.instance.ball.alive) {
 				
-				transform.Translate (speed * Time.deltaTime, 0, 0);
-			}
+			transform.Translate (speed * Time.deltaTime, 0, 0);
 		}
 
 		if (transform.position.x < offFrame && addedNew == false) {

@@ -18,7 +18,7 @@ public class SpikeBurst : MonoBehaviour {
 	}
 
 	public void CreateParticles(){
-		//aParticleSystem.Clear();
+		aParticleSystem.Clear();
 		aParticleSystem.Emit(amountInBurst);
 	}
 

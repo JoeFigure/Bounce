@@ -26,7 +26,7 @@ public class BallScript : MonoBehaviour
 	}
 
 	float landHeight{
-		get { return generatorScript.LandHeight2 (xPos); }
+		get { return generatorScript.LandHeight (xPos); }
 	}
 		
 	float ballBase{
@@ -34,19 +34,14 @@ public class BallScript : MonoBehaviour
 		get{ return landHeight + halfBallSize; }
 	}
 
-	float ballSize {
-		get{ return  transform.localScale.x ;}
-	}
-
 	float halfBallSize {
-		get{ return  ballSize / 2 ;}
+		get{ return  transform.localScale.x / 2 ;}
 	}
 
 	float yPos{
 		get{return transform.position.y ;}
 	}
 		
-	public Transform floorTrans;
 	public SpikeGeneratorScript generatorScript;
 
 	void Start ()
@@ -58,7 +53,7 @@ public class BallScript : MonoBehaviour
 		scaleMult = 1;
 		fullEnergy = energy;
 		transform.position = new Vector3 (xPos, 0);
-		alive = true;
+		alive = false;
 		transform.localScale = transform.localScale * ScaleMult;
 		ResizeBall ();
 	}
@@ -69,14 +64,12 @@ public class BallScript : MonoBehaviour
 			ResetBounce ();
 		}
 
-		if (GameManager.instance.gameStarted) {
 
-			if(alive){
-				if (!beenHit) {
-					Bounce ();
-				} else {
-					HitBall ();
-				}
+		if (alive) {
+			if (!beenHit) {
+				Bounce ();
+			} else {
+				HitBall ();
 			}
 		}
 
@@ -134,12 +127,16 @@ public class BallScript : MonoBehaviour
 	void OnCollisionEnter2D(Collision2D coll) {
 
 		if (coll.gameObject.tag == "Spike") {
+			//print ("spike");
 			Dead();
 		}
 
 		if (coll.gameObject.tag == "Hill") {
 
-			if (transform.position.x < coll.collider.bounds.min.x) {
+			if (transform.position.x < coll.collider.bounds.min.x
+				
+				&& coll.collider.bounds.max.y > landHeight) {
+
 				Dead ();
 			} else {
 				ResetBounce ();

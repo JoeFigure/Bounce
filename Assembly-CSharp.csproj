@@ -50,10 +50,12 @@
      <Compile Include="Assets\Scripts\DebugMenu.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\HillScript.cs" />
+     <Compile Include="Assets\Scripts\LevelDesignScript.cs" />
      <Compile Include="Assets\Scripts\SpikeBurst.cs" />
      <Compile Include="Assets\Scripts\SpikeGeneratorScript.cs" />
      <Compile Include="Assets\Scripts\SpikeScript.cs" />
      <Compile Include="Assets\Scripts\UIScript.cs" />
+     <Compile Include="Assets\Scripts\framerate.cs" />
  <Reference Include="UnityEngine.Networking">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>

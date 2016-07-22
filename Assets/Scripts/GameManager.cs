@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour {
 
 	public BallScript ball;
 
-	public bool gameStarted;
+	//public bool gameStarted;
 
 	public int currentPoints;
 
@@ -31,11 +31,15 @@ public class GameManager : MonoBehaviour {
 		get{ return Time.time - gameTimeStart; }
 	}
 
-	float _speed = -5;
+	float _speed = -3.8f;
 
 	public float speed{
 		get{ 
-			return (_speed * speedMult) ;
+			if(ball.alive){
+				return (_speed * speedMult);
+			} else{
+				return 0;
+			}
 		}
 		set{ _speed = value ; }
 	}
@@ -51,7 +55,7 @@ public class GameManager : MonoBehaviour {
 	float speedMult {
 		get { 
 			float percOfFullSpeed = gameTimePercentOfFullSpeed;
-			float multiplier = 1.5f;
+			float multiplier = 2;
 			return (percOfFullSpeed * multiplier) + 1;
 		}
 	}
@@ -75,11 +79,11 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 	
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		//print (gameTimeStart);
 	}
 
 	public void CurrentState (GameStates currentState)
@@ -96,21 +100,18 @@ public class GameManager : MonoBehaviour {
 			ui.MenuUI ();
 			currentPoints = 0;
 
-			gameStarted = false;
-
 			break;
 
 		case GameStates.PlayGame:
 
 			ui.PlayUI ();
+			ball.alive = true;
 			ball.ResetBounce ();
-
-			gameStarted = true;
 
 			break;
 
 		case GameStates.GameOver:
-			ui.GameOverUI ();
+			StartCoroutine(ui.WaitAndDisplayScore());
 			break;
 
 		default:

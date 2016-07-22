@@ -55,7 +55,7 @@ public class SpikeGeneratorScript : MonoBehaviour
 	void Start ()
 	{
 		scaleMult = 1f;
-		Random.seed = 2;
+		Random.seed = 1;
 		timer = 3;
 
 	}
@@ -69,7 +69,7 @@ public class SpikeGeneratorScript : MonoBehaviour
 		}
 
 
-		if (GameManager.instance.gameStarted) {
+		if (GameManager.instance.ball.alive) {
 			timer -= Time.deltaTime;
 		}
 	}
@@ -103,7 +103,7 @@ public class SpikeGeneratorScript : MonoBehaviour
 		GameObject newSpike = Instantiate (spike) as GameObject;
 		newSpike.SetActive (true);
 
-		newSpike.transform.position = new Vector3 (spikeInitialXpos, LandHeight2 (spikeInitialXpos));
+		newSpike.transform.position = new Vector3 (spikeInitialXpos, LandHeight (spikeInitialXpos));
 		newSpike.transform.parent = spikesParent.transform;
 		newSpike.transform.localScale = spikeSize;
 		newSpike.GetComponent<SpikeScript> ().pointSpike = pointSpike;
@@ -117,17 +117,22 @@ public class SpikeGeneratorScript : MonoBehaviour
 		const float smallestDist = 0.05f;
 		const float largestDist = 0.3f;
 
-		float lowerExtra = 0.3f * inversePercFullSpeed;
-		float higherExtra = 1 * inversePercFullSpeed;
+		float lowerExtra = 0.7f * inversePercFullSpeed;
+		float higherExtra = 1.5f * inversePercFullSpeed;
 			
 		timer = Random.Range (smallestDist + lowerExtra, largestDist + higherExtra);
 
 	}
 
-	public float LandHeight2 (float xPos)
+	public float LandHeight (float xPos)
 	{
 		GameObject currentHill = HillUnderneath (xPos);
-		float hillHeight = currentHill.GetComponent<BoxCollider2D> ().bounds.max.y;
+
+		float hillHeight = 0;
+
+		if (currentHill != null) {
+			hillHeight = currentHill.GetComponent<BoxCollider2D> ().bounds.max.y;
+		}
 		return hillHeight;
 	}
 
