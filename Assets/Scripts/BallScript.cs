@@ -83,8 +83,10 @@ public class BallScript : MonoBehaviour
 
 	void Bounce(){
 
+		float forceTimesGameSpeed = force + (-GameManager.instance.speed);
+
 		energy -= Time.deltaTime * energyLoss;
-		transform.Translate (0, energy * force * Time.deltaTime, 0);
+		transform.Translate (0, energy * forceTimesGameSpeed * Time.deltaTime, 0);
 
 		if (yPos <= ballBase) {
 			transform.position = new Vector2 (xPos, ballBase);

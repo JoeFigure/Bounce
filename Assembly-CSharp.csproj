@@ -45,10 +45,31 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\GameSparks\GameSparksRTUnity.cs" />
+     <Compile Include="Assets\GameSparks\GameSparksSettings.cs" />
+     <Compile Include="Assets\GameSparks\GameSparksUnity.cs" />
+     <Compile Include="Assets\GameSparks\Platforms\DefaultPlatform.cs" />
+     <Compile Include="Assets\GameSparks\Platforms\IControlledTimer.cs" />
+     <Compile Include="Assets\GameSparks\Platforms\IControlledWebSocket.cs" />
+     <Compile Include="Assets\GameSparks\Platforms\IOS\IOSPlatform.cs" />
+     <Compile Include="Assets\GameSparks\Platforms\IOS\IOSWebSocket.cs" />
+     <Compile Include="Assets\GameSparks\Platforms\Native\NativePlatform.cs" />
+     <Compile Include="Assets\GameSparks\Platforms\Native\NativeWebSocket.cs" />
+     <Compile Include="Assets\GameSparks\Platforms\Native\detail\GameSparksNative.cs" />
+     <Compile Include="Assets\GameSparks\Platforms\Native\detail\GameSparksNativePINVOKE.cs" />
+     <Compile Include="Assets\GameSparks\Platforms\Native\detail\NativeWebSocket.cs" />
+     <Compile Include="Assets\GameSparks\Platforms\PlatformBase.cs" />
+     <Compile Include="Assets\GameSparks\Platforms\TimerController.cs" />
+     <Compile Include="Assets\GameSparks\Platforms\UnityTimer.cs" />
+     <Compile Include="Assets\GameSparks\Platforms\WebGL\WebGLPlatform.cs" />
+     <Compile Include="Assets\GameSparks\Platforms\WebGL\WebGLWebSocket.cs" />
+     <Compile Include="Assets\GameSparks\Platforms\WebSocketController.cs" />
+     <Compile Include="Assets\GameSparks\TestUI\GameSparksTestUI.cs" />
      <Compile Include="Assets\Scripts\BackgroundScript.cs" />
      <Compile Include="Assets\Scripts\BallScript.cs" />
      <Compile Include="Assets\Scripts\DebugMenu.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
+     <Compile Include="Assets\Scripts\GameSparksManager.cs" />
      <Compile Include="Assets\Scripts\HillScript.cs" />
      <Compile Include="Assets\Scripts\LevelDesignScript.cs" />
      <Compile Include="Assets\Scripts\SpikeBurst.cs" />
@@ -56,11 +77,23 @@
      <Compile Include="Assets\Scripts\SpikeScript.cs" />
      <Compile Include="Assets\Scripts\UIScript.cs" />
      <Compile Include="Assets\Scripts\framerate.cs" />
+     <None Include="Assets\Plugins\Metro\GameSparksRT.xml" />
+     <None Include="Assets\GameSparks\link.xml" />
+     <None Include="Assets\Plugins\GameSparksRT.xml" />
  <Reference Include="UnityEngine.Networking">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="GameSparks.Api">
+ <HintPath>/Users/joekletz/Projects Local/Bling/Bounce/Assets/Plugins/GameSparks.Api.dll</HintPath>
+ </Reference>
+ <Reference Include="GameSparks">
+ <HintPath>/Users/joekletz/Projects Local/Bling/Bounce/Assets/Plugins/GameSparks.dll</HintPath>
+ </Reference>
+ <Reference Include="GameSparksRT">
+ <HintPath>/Users/joekletz/Projects Local/Bling/Bounce/Assets/Plugins/GameSparksRT.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

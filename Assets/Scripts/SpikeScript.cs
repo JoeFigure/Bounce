@@ -7,7 +7,7 @@ public class SpikeScript : MonoBehaviour {
 	public bool pointSpike;
 
 	float speed{
-		get{ return GameManager.instance.speed * Time.deltaTime;}
+		get{ return GameManager.instance.speed ;}
 	}
 
 	public bool spike;

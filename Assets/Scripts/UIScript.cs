@@ -10,9 +10,16 @@ public class UIScript : MonoBehaviour {
 	public Text gameOverScore;
 	public Text nextPrizeScore;
 
+	public Text authName;
+
+	public Button authBttn;
+
+	public GameSparksManager gsm;
+
 	public GameObject mainMenuUI;
 	public GameObject gameOverUI;
 	public GameObject gameUI;
+	public GameObject loginUI;
 
 	public int pointsToNextPrize {
 		get{ return 100 - GameManager.instance.currentPoints; } 
@@ -22,6 +29,8 @@ public class UIScript : MonoBehaviour {
 	void Start () {
 
 		GameManager.instance.CurrentState (GameStates.Mainmenu);
+
+		authBttn.GetComponent<Button>().onClick.AddListener(() => { gsm.Authorise(); }); 
 	
 	}
 	
@@ -51,6 +60,7 @@ public class UIScript : MonoBehaviour {
 		gameUI.SetActive (false);
 		mainMenuUI.SetActive (true);
 		gameOverUI.SetActive (false);
+		loginUI.SetActive (false);
 	}
 
 	public void GameOverUI(){
@@ -60,8 +70,17 @@ public class UIScript : MonoBehaviour {
 		nextPrizeScore.text = pointsToNextPrize.ToString ();
 	}
 
+	public void LoginUI(){
+		loginUI.SetActive (true);
+		mainMenuUI.SetActive (false);
+	}
+
 	public IEnumerator WaitAndDisplayScore() {
 		yield return new WaitForSeconds(1.2f);
 		GameOverUI ();
+	}
+
+	public void AuthName(string name){
+		authName.text = name;
 	}
 }

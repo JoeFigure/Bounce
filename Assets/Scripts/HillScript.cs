@@ -18,7 +18,7 @@ public class HillScript : MonoBehaviour {
 	bool instantiated;
 
 	float speed{
-		get{ return GameManager.instance.speed * Time.deltaTime;}
+		get{ return GameManager.instance.speed;}
 	}
 
 	float sizeX {
@@ -66,8 +66,6 @@ public class HillScript : MonoBehaviour {
 
 				GameObject newHill = Instantiate (gameObject) as GameObject;
 				float posX = transform.position.x;
-
-				print (lastHeight);
 
 				height = NewHeight (lastHeight);
 

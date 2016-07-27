@@ -28,7 +28,7 @@ public class BackgroundScript : MonoBehaviour {
 
 		if (GameManager.instance.ball.alive) {
 				
-			transform.Translate (speed * Time.deltaTime, 0, 0);
+			transform.Translate (speed, 0, 0);
 		}
 
 		if (transform.position.x < offFrame && addedNew == false) {

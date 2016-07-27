@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour {
 	public float speed{
 		get{ 
 			if(ball.alive){
-				return (_speed * speedMult);
+				return (_speed * speedMult) * Time.deltaTime;
 			} else{
 				return 0;
 			}
