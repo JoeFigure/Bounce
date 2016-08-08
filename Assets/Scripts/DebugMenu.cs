@@ -36,11 +36,11 @@ public class DebugMenu : MonoBehaviour {
 
 	public Slider slider1;
 	public Text slider1Text;
-	string slider1Name = "Obstacle Start Speed : ";
+	string slider1Name = "Force : ";
 
 	public Slider slider2;
 	public Text slider2Text;
-	string slider2Name = "Spike Amount (smaller = more frequent) : ";
+	string slider2Name = "Energy Loss : ";
 
 	public Slider slider3;
 	public Text slider3Text;
@@ -80,23 +80,21 @@ public class DebugMenu : MonoBehaviour {
 	}
 
 	public void Slider1(){
-		float minusSliderValue = -slider1.value;
-		slider1Text.text = slider1Name.ToString() + minusSliderValue.ToString ();
-		//spikes.speed = minusSliderValue;
-		//hills.speed = minusSliderValue;
-
+		//Ball Force
+		float sliderValue = slider1.value;
+		slider1Text.text = slider1Name.ToString() + sliderValue.ToString ();
 		temp1 = slider1Text.text + "\n";
-
 		SetHud ();
+		ball.force = slider1.value;
 	}
 
 	public void Slider2(){
+		//Ball Energy
 		float sliderValue = slider2.value;
 		slider2Text.text = slider2Name.ToString() + sliderValue.ToString ();
-		//spikeGenerator.largestSpikeDistance = sliderValue;
-
 		temp2 = slider2Text.text + "\n";
 		SetHud ();
+		ball.energyLoss = slider2.value;
 	}
 
 	public void Slider3(){

@@ -66,12 +66,14 @@
      <Compile Include="Assets\GameSparks\Platforms\WebSocketController.cs" />
      <Compile Include="Assets\GameSparks\TestUI\GameSparksTestUI.cs" />
      <Compile Include="Assets\Scripts\BackgroundScript.cs" />
+     <Compile Include="Assets\Scripts\BallParticles.cs" />
      <Compile Include="Assets\Scripts\BallScript.cs" />
      <Compile Include="Assets\Scripts\DebugMenu.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\GameSparksManager.cs" />
      <Compile Include="Assets\Scripts\HillScript.cs" />
      <Compile Include="Assets\Scripts\LevelDesignScript.cs" />
+     <Compile Include="Assets\Scripts\SettingsInfoScript.cs" />
      <Compile Include="Assets\Scripts\SpikeBurst.cs" />
      <Compile Include="Assets\Scripts\SpikeGeneratorScript.cs" />
      <Compile Include="Assets\Scripts\SpikeScript.cs" />

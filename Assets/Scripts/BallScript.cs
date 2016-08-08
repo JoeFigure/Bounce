@@ -13,6 +13,8 @@ public class BallScript : MonoBehaviour
 	float scaleMult;
 	public bool alive;
 
+	public BallParticles particles;
+
 	public float energy{ get; set; }
 	public float energyLoss{ get; set; }
 	public float force{ get; set; }
@@ -41,14 +43,18 @@ public class BallScript : MonoBehaviour
 	float yPos{
 		get{return transform.position.y ;}
 	}
-		
+
+	SpriteRenderer spriteRenderer {
+		get{ return GetComponent<SpriteRenderer> (); }
+	}
+
 	public SpikeGeneratorScript generatorScript;
 
 	void Start ()
 	{
 		energy = 0.7f;
 		energyLoss = 2;
-		force = 13;
+		force = 12;
 
 		scaleMult = 1;
 		fullEnergy = energy;
@@ -60,6 +66,10 @@ public class BallScript : MonoBehaviour
 
 	void Update ()
 	{
+		//print ("force =" + force.ToString());
+		//print ("energy Loss =" + energyLoss.ToString());
+
+
 		if (transform.position.y == ballBase) {
 			ResetBounce ();
 		}
@@ -149,6 +159,8 @@ public class BallScript : MonoBehaviour
 	public void Dead(){
 		GameManager.instance.CurrentState (GameStates.GameOver);
 		alive = false;
+		particles.CreateParticles ();
+		spriteRenderer.enabled = false;
 	}
 
 

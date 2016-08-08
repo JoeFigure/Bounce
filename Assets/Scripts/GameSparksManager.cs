@@ -5,15 +5,34 @@ using System.Collections.Generic;
 
 public class GameSparksManager : MonoBehaviour {
 
-	string userName = "Dingo";
-	string displayName = "Dingo man";
-	string password = "qwerty123";
 
 	UIScript uiScript {
 		get {
 			GameObject authText = GameObject.Find ("UI");
 			return authText.GetComponent<UIScript> ();
 		}
+	}
+
+	string highScoreText {
+		get{ return uiScript.highScoreString; }
+		set{ uiScript.highScoreString = value; }
+	}
+
+	string usernameLogin {
+		get{ return uiScript.usernameLoginString; }
+	}
+	string passwordLogin {
+		get{ return uiScript.passwordLoginString; }
+	}
+
+	string usernameRegister {
+		get{ return uiScript.usernameRegisterString; }
+	}
+	string passwordRegister {
+		get{ return uiScript.passwordRegisterString; }
+	}
+	string displaynameRegister {
+		get{ return usernameRegister + "1" ; }
 	}
 
 	private static GameSparksManager instance = null;
@@ -30,7 +49,10 @@ public class GameSparksManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//RegistrationRequest ();
+
+		GS.GameSparksAvailable += HandleGameSparksAvailable;
+
+		InvokeNotifications ();
 	}
 	
 	// Update is called once per frame
@@ -38,15 +60,56 @@ public class GameSparksManager : MonoBehaviour {
 	
 	}
 
+	//not call if no internet connectivity
+	private void HandleGameSparksAvailable (bool value)
+	{
+		//what is meaning of the bool parameter ???
+		Debug.Log(value);
+		uiScript.AvailabilityOfGameSparksNotification (value);
+	}
+
+	void GameSparksConnected(){
+
+		new GameSparks.Api.Requests.LogEventRequest ()
+		.SetEventKey ("REQUEST")
+		.SetDurable(true)
+		.Send (response => {
+			if (response.HasErrors) {
+				Debug.Log ("Event Request ERROR!!!");
+					uiScript.SignedIntoGameSparksNotification (false);
+			} else {
+				Debug.Log ("Event Request OK");
+					uiScript.SignedIntoGameSparksNotification (true);
+			}   
+		}); 
+	}
+
+	void OnlineNotification() {
+		if (Application.internetReachability != NetworkReachability.NotReachable) {
+			uiScript.InternetAccessNotification (true);
+			Debug.Log("wifi");
+		} else {
+			uiScript.InternetAccessNotification (false);
+			Debug.Log("no wifi");
+		}
+	}
+
+	void InvokeNotifications() {
+		InvokeRepeating("OnlineNotification", 2, 2);
+		InvokeRepeating("GameSparksConnected", 2, 2);
+	}
+
 	public void RegistrationRequest(){
 		new GameSparks.Api.Requests.RegistrationRequest().
-		SetDisplayName(displayName).
-		SetPassword(password).
-		SetUserName(userName).
+		SetDisplayName(displaynameRegister).
+		SetPassword(passwordRegister).
+		SetUserName(usernameRegister).
 		Send((response) => {
 			if (!response.HasErrors)
 			{
 				Debug.Log("Player Registered");
+				uiScript.usernameMainMenuString = usernameRegister;
+				uiScript.MenuUI();
 			}
 			else
 			{
@@ -55,18 +118,22 @@ public class GameSparksManager : MonoBehaviour {
 		});
 	}
 
+
 	public void Authorise(){
-		new GameSparks.Api.Requests.AuthenticationRequest().SetUserName(userName).SetPassword(password).Send((response) => {
+
+		new GameSparks.Api.Requests.AuthenticationRequest().
+		SetUserName(usernameLogin).
+		SetPassword(passwordLogin).
+		Send((response) => {
 			if (!response.HasErrors) {
 				Debug.Log("Player Authenticated...");
-				uiScript.AuthName("your in");
+				uiScript.usernameMainMenuString = usernameLogin;
+				uiScript.MenuUI();
 
 			} else {
 				Debug.Log("Error Authenticating Player...");
 			}
 		});
-
-		//UpdatePlayerName ();
 	}
 
 	public void SaveData(){
@@ -84,7 +151,9 @@ public class GameSparksManager : MonoBehaviour {
 
 	public void LoadPlayer(){
 
-		new GameSparks.Api.Requests.LogEventRequest ().SetEventKey ("LOAD_PLAYER").Send ((response) => {
+		new GameSparks.Api.Requests.LogEventRequest ().
+		SetEventKey ("LOAD_PLAYER").
+		Send ((response) => {
 			if (!response.HasErrors) {
 				Debug.Log ("Received Player Data From GameSparks...");
 				GSData data = response.ScriptData.GetGSData ("player_Data");
@@ -99,5 +168,59 @@ public class GameSparksManager : MonoBehaviour {
 
 	}
 
+	public void SubmitScore(int points){
+		
+		new GameSparks.Api.Requests.LogEventRequest ().
+		SetEventKey ("SUBMIT_SCORE").
+		SetEventAttribute ("SCORE", points.ToString()).
+		Send ((response) => {
+			if (!response.HasErrors) {
+				Debug.Log ("Score Posted Successfully...");
+			} else {
+				Debug.Log ("Error Posting Score...");
+			}
+		});
+	}
+
+	public void GetScores(){
+		new GameSparks.Api.Requests.LeaderboardDataRequest ().
+		SetLeaderboardShortCode ("High_Score_Leaderboard").
+		SetEntryCount (10).
+		Send ((response) => {
+			if (!response.HasErrors) {
+				Debug.Log ("Found Leaderboard Data...");
+
+				highScoreText = null;
+
+				foreach (GameSparks.Api.Responses.LeaderboardDataResponse._LeaderboardData entry in response.Data) {
+					int rank = (int)entry.Rank;
+					string playerName = entry.UserName;
+					string score = entry.JSONData ["SCORE"].ToString ();
+					Debug.Log ("Rank:" + rank + " Name:" + playerName + " \n Score:" + score);
+					CreateHighScoreText("\n Rank:" + rank + " Name:" + playerName + " Score:" + score);
+				}
+			} else {
+				Debug.Log ("Error Retrieving Leaderboard Data...");
+			}
+		});
+	}
+
+	public void LogOut(){
+		new GameSparks.Api.Requests.LogEventRequest ().SetEventKey ("LOGOUT").
+		Send ((response) => {
+			if (!response.HasErrors) {
+				Debug.Log("Player Logged out...");
+				//Load next menu etc here?!
+				GS.GSPlatform.AuthToken = "";
+			} else {
+				Debug.Log("Error Logging out...");
+			}
+		});
+
+	}
+
+	public void CreateHighScoreText(string input){
+		highScoreText = highScoreText + input;
+	}
 
 }
