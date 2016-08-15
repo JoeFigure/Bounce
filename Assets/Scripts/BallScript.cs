@@ -93,7 +93,7 @@ public class BallScript : MonoBehaviour
 
 	void Bounce(){
 
-		float forceTimesGameSpeed = force + (-GameManager.instance.speed);
+		float forceTimesGameSpeed = force + (-GameManager.speed);
 
 		energy -= Time.deltaTime * energyLoss;
 		transform.Translate (0, energy * forceTimesGameSpeed * Time.deltaTime, 0);

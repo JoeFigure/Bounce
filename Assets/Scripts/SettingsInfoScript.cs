@@ -27,9 +27,9 @@ public class SettingsInfoScript : MonoBehaviour {
 	string Updates ()
 	{
 		string updates =
-			"Updates: " +
-			"\n- Settings menu added" +
-			"\n- App name change";
+			"Updates: " ;
+			//"\n- Settings menu added" +
+			//"\n- App name change";
 
 		return updates;
 	}

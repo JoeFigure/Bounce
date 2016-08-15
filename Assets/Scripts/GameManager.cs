@@ -17,23 +17,35 @@ public class GameManager : MonoBehaviour {
 
 	private GameStates currentState;
 
-	UIScript ui;
+	public static bool signedIn = false;
 
-	public BallScript ball;
+	//static UIManager ui;
+
+	public static BallScript ball;
 
 	//public bool gameStarted;
 
-	public int currentPoints;
+	static int _zoins;
 
-	public float gameTimeStart;
+	public static int zoins {
+		get{ return _zoins; }
+		set {
+			_zoins = value;
+			UIManager.instance.ZoinCount (_zoins);
+		}
+	}
 
-	public float gameTime {
+	public static int currentPoints;
+
+	public static float gameTimeStart;
+
+	public static float gameTime {
 		get{ return Time.time - gameTimeStart; }
 	}
 
-	float _speed = -3.8f;
+	static float _speed = -3.8f;
 
-	public float speed{
+	public static float speed{
 		get{ 
 			if(ball.alive){
 				return (_speed * speedMult) * Time.deltaTime;
@@ -44,7 +56,7 @@ public class GameManager : MonoBehaviour {
 		set{ _speed = value ; }
 	}
 
-	public float gameTimePercentOfFullSpeed{
+	public static float gameTimePercentOfFullSpeed{
 		get {
 			int secondsToFullSpeed = 120;
 			float percentageToFullSpeed = gameTime / secondsToFullSpeed;
@@ -52,7 +64,7 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	float speedMult {
+	static float speedMult {
 		get { 
 			float percOfFullSpeed = gameTimePercentOfFullSpeed;
 			float multiplier = 2;
@@ -79,7 +91,7 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 	
-
+		currentState = GameStates.Mainmenu;
 	}
 	
 	// Update is called once per frame
@@ -89,7 +101,6 @@ public class GameManager : MonoBehaviour {
 	public void CurrentState (GameStates currentState)
 	{
 
-		ui = GameObject.Find ("UI").GetComponent<UIScript>();
 		ball = GameObject.Find ("Ball").GetComponent<BallScript>();
 
 
@@ -97,21 +108,25 @@ public class GameManager : MonoBehaviour {
 
 		case GameStates.Mainmenu:
 
-			ui.MenuUI ();
+			UIManager.instance.MenuUI ();
+
 			currentPoints = 0;
 
 			break;
 
 		case GameStates.PlayGame:
 
-			ui.PlayUI ();
 			ball.alive = true;
 			ball.ResetBounce ();
+
+			UIManager.instance.ZoinCount (zoins);
 
 			break;
 
 		case GameStates.GameOver:
-			StartCoroutine(ui.WaitAndDisplayScore());
+			StartCoroutine (UIManager.instance.WaitAndDisplayScore ());
+			GameSparksManager.GameOver ();
+			zoins--;
 			break;
 
 		default:
@@ -121,6 +136,8 @@ public class GameManager : MonoBehaviour {
 
 	public void ResetGame(){
 		SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
+		currentState = GameStates.Mainmenu;
+
 	}
 
 	public void RecordStartTime(){

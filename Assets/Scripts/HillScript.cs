@@ -18,7 +18,7 @@ public class HillScript : MonoBehaviour {
 	bool instantiated;
 
 	float speed{
-		get{ return GameManager.instance.speed;}
+		get{ return GameManager.speed;}
 	}
 
 	float sizeX {

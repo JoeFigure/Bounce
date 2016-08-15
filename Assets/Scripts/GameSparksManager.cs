@@ -6,10 +6,10 @@ using System.Collections.Generic;
 public class GameSparksManager : MonoBehaviour {
 
 
-	UIScript uiScript {
+	UIManager uiScript {
 		get {
-			GameObject authText = GameObject.Find ("UI");
-			return authText.GetComponent<UIScript> ();
+			GameObject authText = GameObject.Find ("UIManager");
+			return authText.GetComponent<UIManager> ();
 		}
 	}
 
@@ -67,7 +67,7 @@ public class GameSparksManager : MonoBehaviour {
 		Debug.Log(value);
 		uiScript.AvailabilityOfGameSparksNotification (value);
 	}
-
+	/*
 	void GameSparksConnected(){
 
 		new GameSparks.Api.Requests.LogEventRequest ()
@@ -77,17 +77,22 @@ public class GameSparksManager : MonoBehaviour {
 			if (response.HasErrors) {
 				Debug.Log ("Event Request ERROR!!!");
 					uiScript.SignedIntoGameSparksNotification (false);
+
+
 			} else {
-				Debug.Log ("Event Request OK");
+				//Debug.Log ("Event Request OK");
 					uiScript.SignedIntoGameSparksNotification (true);
+					GetZoins();
+					CancelInvoke();
+
 			}   
 		}); 
 	}
-
+*/
 	void OnlineNotification() {
 		if (Application.internetReachability != NetworkReachability.NotReachable) {
 			uiScript.InternetAccessNotification (true);
-			Debug.Log("wifi");
+			//Debug.Log("wifi");
 		} else {
 			uiScript.InternetAccessNotification (false);
 			Debug.Log("no wifi");
@@ -95,8 +100,8 @@ public class GameSparksManager : MonoBehaviour {
 	}
 
 	void InvokeNotifications() {
-		InvokeRepeating("OnlineNotification", 2, 2);
-		InvokeRepeating("GameSparksConnected", 2, 2);
+		InvokeRepeating("OnlineNotification", 0.2f, 2);
+		//InvokeRepeating("GameSparksConnected", 2, 2);
 	}
 
 	public void RegistrationRequest(){
@@ -109,7 +114,9 @@ public class GameSparksManager : MonoBehaviour {
 			{
 				Debug.Log("Player Registered");
 				uiScript.usernameMainMenuString = usernameRegister;
-				uiScript.MenuUI();
+				ManualReset(3);
+				UIManager.instance.MenuUI();
+
 			}
 			else
 			{
@@ -128,7 +135,10 @@ public class GameSparksManager : MonoBehaviour {
 			if (!response.HasErrors) {
 				Debug.Log("Player Authenticated...");
 				uiScript.usernameMainMenuString = usernameLogin;
-				uiScript.MenuUI();
+				UIManager.instance.MenuUI();
+
+				GameManager.signedIn = true;
+				//CancelInvoke();
 
 			} else {
 				Debug.Log("Error Authenticating Player...");
@@ -167,6 +177,67 @@ public class GameSparksManager : MonoBehaviour {
 		});
 
 	}
+		
+	public static void GetZoins(){
+
+		new GameSparks.Api.Requests.LogEventRequest ().
+		SetEventKey ("GET_ZOIN").
+		//SetEventAttribute("Z", uiScript.zoins).
+		Send ((response) => {
+			if (!response.HasErrors) {
+				Debug.Log ("Received Player Data From GameSparks...");
+
+				if(response.ScriptData.GetInt("ZOIN") == null){
+					ManualReset(3);
+					return;
+				}
+
+				//GSData data = response.ScriptData.GetGSData ("ZOIN");
+
+				var zoins = response.ScriptData.GetInt("ZOIN").Value;
+
+				GameManager.zoins = zoins;
+
+				print("mike");
+
+			} else {
+				Debug.Log ("Error Loading Player Data...");
+
+			}
+		});
+
+	}
+
+	public static void SetZoin(int amount){
+		
+		new GameSparks.Api.Requests.LogEventRequest ().
+		SetEventKey ("SET_ZOIN").
+		SetEventAttribute ("ZOIN", amount).
+		Send ((response) => {
+			if (!response.HasErrors) {
+				//GetZoins();
+				//GetZoins();
+			} else {
+				Debug.Log("Error");
+			}
+		});
+	}
+
+
+	public static void ManualReset(int zoin){
+
+		new GameSparks.Api.Requests.LogEventRequest ().
+		SetEventKey ("MANUAL_SET").
+		SetEventAttribute ("ZOIN", zoin).
+		Send ((response) => {
+			if (!response.HasErrors) {
+
+			} else {
+				Debug.Log("Error");
+			}
+		});
+	}
+
 
 	public void SubmitScore(int points){
 		
@@ -217,6 +288,17 @@ public class GameSparksManager : MonoBehaviour {
 			}
 		});
 
+	}
+
+	public static void GameOver(){
+		new GameSparks.Api.Requests.LogEventRequest ().SetEventKey ("GAME_OVER").
+		Send ((response) => {
+			if (!response.HasErrors) {
+				
+			} else {
+				Debug.Log("Error");
+			}
+		});
 	}
 
 	public void CreateHighScoreText(string input){

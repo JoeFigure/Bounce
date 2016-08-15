@@ -7,7 +7,7 @@ public class SpikeScript : MonoBehaviour {
 	public bool pointSpike;
 
 	float speed{
-		get{ return GameManager.instance.speed ;}
+		get{ return GameManager.speed ;}
 	}
 
 	public bool spike;
@@ -41,7 +41,7 @@ public class SpikeScript : MonoBehaviour {
 			if (spike) {
 				spikeParticleSystem.GetComponent<SpikeBurst> ().CreateParticles ();
 				if (pointSpike) {
-					GameManager.instance.currentPoints++;
+					GameManager.currentPoints++;
 				}
 			}
 		}

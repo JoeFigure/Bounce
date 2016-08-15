@@ -7,7 +7,7 @@ public class BackgroundScript : MonoBehaviour {
 	public SpikeScript spikes;
 
 	public float speed{
-		get{ return GameManager.instance.speed / 4 ;}
+		get{ return GameManager.speed / 4 ;}
 	}
 
 	int enterFrame = 16;
@@ -26,7 +26,7 @@ public class BackgroundScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (GameManager.instance.ball.alive) {
+		if (GameManager.ball.alive) {
 				
 			transform.Translate (speed, 0, 0);
 		}
