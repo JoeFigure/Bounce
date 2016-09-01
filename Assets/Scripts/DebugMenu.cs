@@ -1,133 +1,56 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic; 
 using UnityEngine.UI;
 
+public enum ModifierTypes{
+	Ball_Scale,
+	B,
+	C,
+	Modifier_Wordszzz
+}
 
 public class DebugMenu : MonoBehaviour {
-	/*
-	struct SliderPanel{
-		public Slider slider;
-		public Text sliderText;
-		string sliderName;
-	}
-
-	SliderPanel[] sPanel;
-	//Fill with every slider panel on game object
-*/
 
 	public SpikeScript spikes;
 	public SpikeScript hills;
 	public SpikeGeneratorScript spikeGenerator;
 	public BallScript ball;
 
-	public GameObject mainMenuUI;
-	public GameObject debugMenuUI;
+	public GameObject modifiersPanel;
+	public GameObject modifierPrefab;
 
-	public Text debugHud;
+	static List<DebugModifier> modifiers = new List<DebugModifier>();
 
+	void Start() {
 
-	string temp1;
-	string temp2;
-	string temp3;
-	string temp4;
-	string temp5;
+		var valuesAsArray = ModifierTypes.GetNames(typeof(ModifierTypes));
 
-	string hudText;
-
-	public Slider slider1;
-	public Text slider1Text;
-	string slider1Name = "Force : ";
-
-	public Slider slider2;
-	public Text slider2Text;
-	string slider2Name = "Energy Loss : ";
-
-	public Slider slider3;
-	public Text slider3Text;
-	string slider3Name = "Bounce Force : ";
-
-	public Slider slider4;
-	public Text slider4Text;
-	string slider4Name = "Bounce Energy : ";
-
-	public Slider slider5;
-	public Text slider5Text;
-	string slider5Name = "Level Scale : ";
-
-	// Use this for initialization
-	void Start () {
-		debugMenuUI.SetActive (false);
-		slider1Text.text = slider1Name.ToString ();
-		slider2Text.text = slider2Name.ToString ();
-		slider3Text.text = slider3Name.ToString ();
-		slider4Text.text = slider4Name.ToString ();
-		slider5Text.text = slider5Name.ToString ();
-
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+		for(int i = 0; i<= valuesAsArray.Length - 1; i++) {
+			
+			GameObject modifier =  Instantiate (modifierPrefab) as GameObject;
+			modifier.transform.SetParent (modifiersPanel.transform,false);
+			modifiers.Add (modifier.GetComponent<DebugModifier>());
+			ModifierConfigure (modifiers [i], (ModifierTypes)i);
+		}
 	}
 
-	public void DebugModeBttn(){
-		mainMenuUI.SetActive (false);
-		debugMenuUI.SetActive (true);
+	void ModifierConfigure(DebugModifier modifier, ModifierTypes m){
+		modifier.modifierName = m.ToString();
+		modifier.type = m; 
 	}
 
-	public void HideDebugBttn(){
-		debugMenuUI.SetActive (false);
-	}
+	public static void ModifyValue(ModifierTypes n, float value){
 
-	public void Slider1(){
-		//Ball Force
-		float sliderValue = slider1.value;
-		slider1Text.text = slider1Name.ToString() + sliderValue.ToString ();
-		temp1 = slider1Text.text + "\n";
-		SetHud ();
-		ball.force = slider1.value;
-	}
+		switch(n){
 
-	public void Slider2(){
-		//Ball Energy
-		float sliderValue = slider2.value;
-		slider2Text.text = slider2Name.ToString() + sliderValue.ToString ();
-		temp2 = slider2Text.text + "\n";
-		SetHud ();
-		ball.energyLoss = slider2.value;
-	}
+		case ModifierTypes.Ball_Scale:
+			GameplayController.ball.gameObject.transform.localScale = new Vector2 (value, value);
+			break;
 
-	public void Slider3(){
-		float sliderValue = slider3.value;
-		slider3Text.text = slider3Name.ToString() + sliderValue.ToString ();
-		ball.force = sliderValue;
-
-		temp3 = slider3Text.text + "\n";
-		SetHud ();
-	}
-
-	public void Slider4(){
-		float sliderValue = slider4.value;
-		slider4Text.text = slider4Name.ToString() + sliderValue.ToString ();
-		ball.energyLoss = sliderValue;
-
-		temp4 = slider4Text.text + "\n";
-		SetHud ();
-	}
-
-	public void Slider5(){
-		float sliderValue = slider5.value;
-		slider5Text.text = slider5Name.ToString() + sliderValue.ToString ();
-		spikeGenerator.scaleMult = sliderValue;
-		ball.ScaleMult = sliderValue;
-
-		temp5 = slider5Text.text + "\n";
-		SetHud ();
-	}
-
-	void SetHud(){
-		hudText = temp1  + temp2  + temp3  + temp4  + temp5;
-		debugHud.text = hudText;
+		default:
+			break;
+		}
 	}
 
 }

@@ -15,3 +15,16 @@
 /Users/joekletz/Projects Local/Bling/Bounce/Temp/bin/Debug/Unity.CecilTools.dll
 /Users/joekletz/Projects Local/Bling/Bounce/Temp/bin/Debug/Mono.Cecil.Pdb.dll
 /Users/joekletz/Projects Local/Bling/Bounce/Temp/bin/Debug/Mono.Cecil.Mdb.dll
+/Users/joekletz/Projects Local/Bling/Bounce/Temp/bin/Debug/UnityEngine.Analytics.dll
+/Users/joekletz/Projects Local/Bling/Bounce/Temp/bin/Debug/UnityEngine.Purchasing.dll
+/Users/joekletz/Projects Local/Bling/Bounce/Temp/bin/Debug/GameSparks.Api.dll
+/Users/joekletz/Projects Local/Bling/Bounce/Temp/bin/Debug/GameSparks.dll
+/Users/joekletz/Projects Local/Bling/Bounce/Temp/bin/Debug/GameSparksRT.dll
+/Users/joekletz/Projects Local/Bling/Bounce/Temp/bin/Debug/Common.dll
+/Users/joekletz/Projects Local/Bling/Bounce/Temp/bin/Debug/Editor.dll
+/Users/joekletz/Projects Local/Bling/Bounce/Temp/bin/Debug/Security.dll
+/Users/joekletz/Projects Local/Bling/Bounce/Temp/bin/Debug/Stores.dll
+/Users/joekletz/Projects Local/Bling/Bounce/Temp/bin/Debug/Apple.dll
+/Users/joekletz/Projects Local/Bling/Bounce/Temp/bin/Debug/winrt.dll
+/Users/joekletz/Projects Local/Bling/Bounce/Temp/bin/Debug/Assembly-CSharp-firstpass.dll
+/Users/joekletz/Projects Local/Bling/Bounce/Temp/bin/Debug/Assembly-CSharp-firstpass.dll.mdb

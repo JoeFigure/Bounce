@@ -178,9 +178,9 @@ using UnityEngine.Purchasing;
 			if (String.Equals(args.purchasedProduct.definition.id, kProductIDConsumable, StringComparison.Ordinal))
 			{
 				print ("10 Zoins");
-				GameSparksManager.SetZoin (10);
+			GameSparksManager.AddZoin (10);
 
-			UIManager.instance.MenuUI ();
+			UIManager.instance.MainMenuUI ();
 
 			}
 			// Or ... a non-consumable product has been purchased by this user.
@@ -205,6 +205,5 @@ using UnityEngine.Purchasing;
 
 			Debug.Log(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}", product.definition.storeSpecificId, failureReason));
 
-		//UIScript.
 		}
 	}

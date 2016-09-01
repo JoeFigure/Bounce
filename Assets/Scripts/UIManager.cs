@@ -2,6 +2,8 @@
 using System.Collections;
 using UnityEngine.UI;
 using GameSparks.Core;
+using System.Collections.Generic; 
+
 
 public class UIManager : MonoBehaviour {
 
@@ -23,10 +25,10 @@ public class UIManager : MonoBehaviour {
 	}
 
 	public string usernameRegisterString {
-		get{ return uiData.usernameRegisterText.text; }
+		get{ return uiData.usernameSignupText.text; }
 	}
 	public string passwordRegisterString {
-		get{ return uiData.passwordRegisterText.text; }
+		get{ return uiData.passwordSignupText.text; }
 	}
 
 	public string usernameMainMenuString {
@@ -38,9 +40,7 @@ public class UIManager : MonoBehaviour {
 		get{ return 100 - GameManager.currentPoints; } 
 	}
 
-	void Awake ()
-	{
-
+	void Awake (){
 		//Check if instance already exists
 		if (instance == null) {
 			instance = this;
@@ -55,20 +55,13 @@ public class UIManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-
-		GameManager.instance.CurrentState (GameStates.Mainmenu);
-
-		uiData.authBttn.GetComponent<Button>().onClick.AddListener(() => { uiData.gsm.Authorise(); }); 
-		uiData.logoutBttn.GetComponent<Button>().onClick.AddListener(() => { uiData.gsm.LogOut(); }); 
-
 		uiData.zoinsText.text = GameManager.zoins.ToString();
-
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		uiData.inGameScore.text = GameManager.currentPoints.ToString();
+		uiData.scoreText.text = GameManager.currentPoints.ToString();
 	}
 
 	public void StartGame(){
@@ -78,7 +71,7 @@ public class UIManager : MonoBehaviour {
 			GameManager.instance.CurrentState (GameStates.PlayGame);
 			GameManager.instance.RecordStartTime ();
 
-			GamePlayUI ();
+			ShowMenu (uiData.gameUI);
 		}
 	}
 
@@ -87,54 +80,51 @@ public class UIManager : MonoBehaviour {
 	}
 		
 
-	public void MenuUI(){
+	public void MainMenuUI(){
 
 		ShowMenu (uiData.mainMenuUI);
 		uiData.topHUDUI.SetActive (true);
 
+		uiData.lastGameText.text = "Last game online: " + GameManager.instance.lastGameWasOnline.ToString ();
 	}
 
-	void GamePlayUI(){
-		ShowMenu (uiData.gameUI);
-		uiData.topHUDUI.SetActive (true);
+	public void ShowWelcome(){
+		ShowMenu (uiData.welcomeMenuUI);
 	}
-	 
-	public void ShowHighScoresBttn(){
 
-		uiData.gsm.GetScores ();
+	public void ShowHighScores(){
+
+		GameSparksManager.instance.GetScores ();
 		ShowMenu (uiData.highScoresUI);
 	}
-		
 
+	public void ShowSettings(GameObject settingsUI, Text scoreText){
+
+		ShowMenu (settingsUI);
+
+	}
+		
 	public void ShowMenu(GameObject showUI){
-		Transform[] transform_list = uiData.uiViewsContainer.GetComponentsInChildren<Transform>();
-		foreach (var tran in transform_list) {
-			if ( tran.gameObject == uiData.uiViewsContainer )
-			{
-				continue;
-			}
-			if (tran.parent.gameObject == uiData.uiViewsContainer) {
-				tran.gameObject.SetActive (false);
-			}
-		}
+
+		DeactivateAllChildren (uiData.uiViewsContainer);
 		showUI.SetActive (true);
 	}
 
 	public IEnumerator WaitAndDisplayScore() {
-		yield return new WaitForSeconds(1.2f);
-		uiData.gsm.SubmitScore (GameManager.currentPoints);
-
+		
 		uiData.gameOverScore.text = GameManager.currentPoints.ToString ();
 		uiData.nextPrizeScore.text = pointsToNextPrize.ToString ();
+		uiData.scoreText.gameObject.SetActive (false);
 
-		ShowMenu (uiData.gameOverUI);
+		yield return new WaitForSeconds(1.2f);
+		ShowPopup(uiData.gameOverPopupContent,"Game Over",false);
 
 	}
 
 	public void ZoinCount(int amount){
 		uiData.zoinsText.text = amount.ToString ();
-		//print ("yo");
 	}
+
 
 	public void SignedIntoGameSparksNotification(bool connected){
 
@@ -148,11 +138,9 @@ public class UIManager : MonoBehaviour {
 	public void InternetAccessNotification(bool connected){
 
 		if (connected) {
-			//internetAccessNotification.text = "Internet Connected";
 			uiData.signalImage.color = Color.green;
 			uiData.connectionText.text = "Online";
 		} else {
-			//internetAccessNotification.text = "Internet Not Connected";
 			uiData.signalImage.color = Color.red;
 			uiData.connectionText.text = "Offline - Prizes currently unavailable";
 		}
@@ -167,11 +155,59 @@ public class UIManager : MonoBehaviour {
 		}
 	}
 
-	public void ActivateOverlayPanel(bool activate){
-		if (activate) {
-			uiData.overlayPanel.SetActive (true);
-		} else {
-			uiData.overlayPanel.SetActive (false);
+	public void ShowWelcomeUIPanel(GameObject iPanel){
+		foreach(var panel in uiData.welcomeUIPanels){
+			panel.SetActive (false);
+		}
+		iPanel.SetActive (true);
+	}
+
+	public void SignOut(){
+		GameManager.signedIn = false;
+		GameManager.instance.Save ();
+	}
+
+	public void DailyRewardPopup(){
+		ShowPopup (uiData.rewardPopupContent, "Daily Reward", true);
+	}
+
+	public void ShowPopup(GameObject popupContent, string titleText, bool displayCloseButton){
+		uiData.popupUI.SetActive (true);
+
+		DeactivateAllChildren (uiData.popupPanel);
+
+		uiData.popupHeader.SetActive (true);
+		uiData.popupTitleText.text = titleText;
+		popupContent.SetActive (true);
+
+		uiData.closePopupButton.SetActive (displayCloseButton);
+
+	}
+
+	public void ShowTextPopup( string titleText, string innerText, bool displayCloseButton){
+		uiData.popupUI.SetActive (true);
+
+		DeactivateAllChildren (uiData.popupPanel);
+
+		uiData.popupHeader.SetActive (true);
+		uiData.popupTitleText.text = titleText;
+		uiData.textPopupContent.SetActive (true);
+
+		uiData.popupText.text = innerText;
+
+	}
+		
+
+	void DeactivateAllChildren(GameObject parent){
+		
+		Transform[] transforms = parent.GetComponentsInChildren<Transform> ();
+		foreach (Transform t in transforms) {
+			if (t.gameObject == parent) {
+				continue;
+			}
+			if (t.parent.gameObject == parent) {
+				t.gameObject.SetActive (false);
+			}
 		}
 	}
 

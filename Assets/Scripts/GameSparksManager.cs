@@ -6,36 +6,30 @@ using System.Collections.Generic;
 public class GameSparksManager : MonoBehaviour {
 
 
-	UIManager uiScript {
-		get {
-			GameObject authText = GameObject.Find ("UIManager");
-			return authText.GetComponent<UIManager> ();
-		}
-	}
 
 	string highScoreText {
-		get{ return uiScript.highScoreString; }
-		set{ uiScript.highScoreString = value; }
+		get{ return UIManager.instance.highScoreString; }
+		set{ UIManager.instance.highScoreString = value; }
 	}
 
 	string usernameLogin {
-		get{ return uiScript.usernameLoginString; }
+		get{ return UIManager.instance.usernameLoginString; }
 	}
 	string passwordLogin {
-		get{ return uiScript.passwordLoginString; }
+		get{ return UIManager.instance.passwordLoginString; }
 	}
 
 	string usernameRegister {
-		get{ return uiScript.usernameRegisterString; }
+		get{ return UIManager.instance.usernameRegisterString; }
 	}
 	string passwordRegister {
-		get{ return uiScript.passwordRegisterString; }
+		get{ return UIManager.instance.passwordRegisterString; }
 	}
 	string displaynameRegister {
 		get{ return usernameRegister + "1" ; }
 	}
 
-	private static GameSparksManager instance = null;
+	public static GameSparksManager instance = null;
 	void Awake() {
 		if (instance == null) // check to see if the instance has a reference
 		{
@@ -52,57 +46,38 @@ public class GameSparksManager : MonoBehaviour {
 
 		GS.GameSparksAvailable += HandleGameSparksAvailable;
 
-		InvokeNotifications ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
 	}
 
 	//not call if no internet connectivity
 	private void HandleGameSparksAvailable (bool value)
 	{
 		//what is meaning of the bool parameter ???
-		Debug.Log(value);
-		uiScript.AvailabilityOfGameSparksNotification (value);
+		//Debug.Log(value);
+		UIManager.instance.AvailabilityOfGameSparksNotification (value);
 	}
-	/*
-	void GameSparksConnected(){
+
+	public void GameSparksConnected(){
 
 		new GameSparks.Api.Requests.LogEventRequest ()
 		.SetEventKey ("REQUEST")
 		.SetDurable(true)
 		.Send (response => {
 			if (response.HasErrors) {
-				Debug.Log ("Event Request ERROR!!!");
-					uiScript.SignedIntoGameSparksNotification (false);
-
+					UIManager.instance.SignedIntoGameSparksNotification (false);
+					GameManager.signedIn = false;
 
 			} else {
-				//Debug.Log ("Event Request OK");
-					uiScript.SignedIntoGameSparksNotification (true);
-					GetZoins();
-					CancelInvoke();
-
+					GameManager.instance.LoggedIn();
+					GameManager.signedIn = true;
+					UIManager.instance.usernameMainMenuString = response.ScriptData.GetString("player_Data");
 			}   
 		}); 
 	}
-*/
-	void OnlineNotification() {
-		if (Application.internetReachability != NetworkReachability.NotReachable) {
-			uiScript.InternetAccessNotification (true);
-			//Debug.Log("wifi");
-		} else {
-			uiScript.InternetAccessNotification (false);
-			Debug.Log("no wifi");
-		}
-	}
 
-	void InvokeNotifications() {
-		InvokeRepeating("OnlineNotification", 0.2f, 2);
-		//InvokeRepeating("GameSparksConnected", 2, 2);
-	}
 
 	public void RegistrationRequest(){
 		new GameSparks.Api.Requests.RegistrationRequest().
@@ -112,15 +87,14 @@ public class GameSparksManager : MonoBehaviour {
 		Send((response) => {
 			if (!response.HasErrors)
 			{
-				Debug.Log("Player Registered");
-				uiScript.usernameMainMenuString = usernameRegister;
-				ManualReset(3);
-				UIManager.instance.MenuUI();
-
+				GameManager.instance.ClearSavedData();
+				GameManager.instance.CurrentState(GameStates.Mainmenu);
+				GameManager.signedIn = true;
 			}
 			else
 			{
 				Debug.Log("Error Registering Player");
+				UIManager.instance.ShowTextPopup("Warning", "Username taken" , true);
 			}
 		});
 	}
@@ -133,15 +107,12 @@ public class GameSparksManager : MonoBehaviour {
 		SetPassword(passwordLogin).
 		Send((response) => {
 			if (!response.HasErrors) {
-				Debug.Log("Player Authenticated...");
-				uiScript.usernameMainMenuString = usernameLogin;
-				UIManager.instance.MenuUI();
-
+				GameManager.instance.ClearSavedData();
+				GameManager.instance.CurrentState(GameStates.Mainmenu);
 				GameManager.signedIn = true;
-				//CancelInvoke();
 
 			} else {
-				Debug.Log("Error Authenticating Player...");
+				UIManager.instance.ShowTextPopup("Warning", "Username or Password unrecognized" , true);
 			}
 		});
 	}
@@ -182,23 +153,16 @@ public class GameSparksManager : MonoBehaviour {
 
 		new GameSparks.Api.Requests.LogEventRequest ().
 		SetEventKey ("GET_ZOIN").
-		//SetEventAttribute("Z", uiScript.zoins).
+		//SetEventAttribute("Z", UIManager.instance.zoins).
 		Send ((response) => {
 			if (!response.HasErrors) {
-				Debug.Log ("Received Player Data From GameSparks...");
-
 				if(response.ScriptData.GetInt("ZOIN") == null){
-					ManualReset(3);
+					// ENTRY POINT FOR FIRST TIME PLAY RECOGNITION
+					GameManager.instance.FirstPlay();
 					return;
 				}
-
-				//GSData data = response.ScriptData.GetGSData ("ZOIN");
-
 				var zoins = response.ScriptData.GetInt("ZOIN").Value;
-
 				GameManager.zoins = zoins;
-
-				print("mike");
 
 			} else {
 				Debug.Log ("Error Loading Player Data...");
@@ -208,21 +172,35 @@ public class GameSparksManager : MonoBehaviour {
 
 	}
 
-	public static void SetZoin(int amount){
+	public static void AddZoin(int amount){
 		
 		new GameSparks.Api.Requests.LogEventRequest ().
 		SetEventKey ("SET_ZOIN").
 		SetEventAttribute ("ZOIN", amount).
 		Send ((response) => {
-			if (!response.HasErrors) {
-				//GetZoins();
-				//GetZoins();
-			} else {
+			if (response.HasErrors) {
 				Debug.Log("Error");
+			} else {
+				GameManager.zoins += amount;
 			}
 		});
 	}
 
+	public static void SetTopScore(int amount){
+
+
+
+		new GameSparks.Api.Requests.LogEventRequest ().
+		SetEventKey ("SET_TOPSCORE").
+		SetEventAttribute ("TOPSCORE", amount).
+		Send ((response) => {
+			if (response.HasErrors) {
+				Debug.Log("Error");
+			} else {
+
+			}
+		});
+	}
 
 	public static void ManualReset(int zoin){
 
@@ -230,18 +208,18 @@ public class GameSparksManager : MonoBehaviour {
 		SetEventKey ("MANUAL_SET").
 		SetEventAttribute ("ZOIN", zoin).
 		Send ((response) => {
-			if (!response.HasErrors) {
-
-			} else {
+			if (response.HasErrors) {
 				Debug.Log("Error");
+			} else {
 			}
 		});
 	}
 
 
-	public void SubmitScore(int points){
+	public static void SubmitScore(int points){
 		
 		new GameSparks.Api.Requests.LogEventRequest ().
+		SetDurable (true).
 		SetEventKey ("SUBMIT_SCORE").
 		SetEventAttribute ("SCORE", points.ToString()).
 		Send ((response) => {
