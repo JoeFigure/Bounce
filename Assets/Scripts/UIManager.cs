@@ -91,7 +91,16 @@ public class UIManager : MonoBehaviour {
 	public void ShowSettings(GameObject settingsUI, Text scoreText){
 
 		ShowMenu (settingsUI);
+	}
 
+	public void ShowIntroTutorial(){
+		ShowMenu (uiData.IntroTutorialUI);
+		/*
+		foreach(var slide in uiData.introUISlides){
+			slide.SetActive (false);
+		}
+		uiData.introUISlides [0].SetActive (true);
+		*/
 	}
 		
 	public void ShowMenu(GameObject showUI){

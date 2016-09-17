@@ -39,12 +39,14 @@ public class UIData : MonoBehaviour {
 	public List<Text> playerHighScore = new List<Text> ();
 	public List<Text> topScores = new List<Text> ();
 
+
 	[Header("UI Containers")]
 	public GameObject uiViewsContainer;
 	public GameObject mainMenuUI;
 	public GameObject topHUDUI;
 	public GameObject gameUI;
 	public GameObject welcomeMenuUI;
+	public GameObject IntroTutorialUI;
 
 	[Header("Popup Container")]
 	public GameObject popupUI;

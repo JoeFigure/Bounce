@@ -75,6 +75,7 @@
      <Compile Include="Assets\Scripts\GameplayController.cs" />
      <Compile Include="Assets\Scripts\HillScript.cs" />
      <Compile Include="Assets\Scripts\Initializer.cs" />
+     <Compile Include="Assets\Scripts\IntroTutorial.cs" />
      <Compile Include="Assets\Scripts\LevelDesignScript.cs" />
      <Compile Include="Assets\Scripts\Purchaser.cs" />
      <Compile Include="Assets\Scripts\SpikeBurst.cs" />

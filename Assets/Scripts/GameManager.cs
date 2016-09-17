@@ -137,7 +137,11 @@ public class GameManager : MonoBehaviour {
 
 			Load ();
 
-			UIManager.instance.MainMenuUI ();
+			//UIManager.instance.MainMenuUI ();
+
+			UIManager.instance.ShowIntroTutorial ();
+
+
 			currentPoints = 0;
 			zoins = zoins;
 			GameSparksManager.instance.CheckConnected ();

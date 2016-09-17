@@ -50,7 +50,9 @@ public class GameplayController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		TouchInput ();
+		TouchCustom.Tap();
+		TouchInput();
+
 		KeyboardInput ();
 	}
 
@@ -66,14 +68,9 @@ public class GameplayController : MonoBehaviour {
 
 	void TouchInput ()
 	{
-		if (Input.touchCount > 0) {
-			Touch touch = Input.GetTouch (0);
-			switch (touch.phase) {
-			case TouchPhase.Began:
-				ball.beenHit = true;
-				break;
-			}
-		}	
+		if (TouchCustom.tapped) {
+			ball.beenHit = true;
+		}
 	}
 
 	void KeyboardInput(){
