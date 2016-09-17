@@ -2,15 +2,9 @@
 using System.Collections;
 using GameSparks.Core;
 using System.Collections.Generic;
+using GameSparks.Api.Messages;
 
 public class GameSparksManager : MonoBehaviour {
-
-
-
-	string highScoreText {
-		get{ return UIManager.instance.highScoreString; }
-		set{ UIManager.instance.highScoreString = value; }
-	}
 
 	string usernameLogin {
 		get{ return UIManager.instance.usernameLoginString; }
@@ -29,14 +23,17 @@ public class GameSparksManager : MonoBehaviour {
 		get{ return usernameRegister + "1" ; }
 	}
 
+	public bool gsAuthenticated {
+		get {return GS.Authenticated;}
+	}
+			
+		
 	public static GameSparksManager instance = null;
 	void Awake() {
-		if (instance == null) // check to see if the instance has a reference
-		{
-			instance = this; // if not, give it a reference to this class...
-			DontDestroyOnLoad(this.gameObject); // and make this object persistent as we load new scenes
-		} else // if we already have a reference then remove the extra manager from the scene
-		{
+		if (instance == null){
+			instance = this;
+			DontDestroyOnLoad(this.gameObject); 
+		} else{
 			Destroy(this.gameObject);
 		}
 	}
@@ -50,34 +47,55 @@ public class GameSparksManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//print("AUTHENTICATED? _ " +  GS.Authenticated.ToString());
 	}
 
-	//not call if no internet connectivity
-	private void HandleGameSparksAvailable (bool value)
+
+	private void HandleGameSparksAvailable (bool available)
 	{
-		//what is meaning of the bool parameter ???
-		//Debug.Log(value);
-		UIManager.instance.AvailabilityOfGameSparksNotification (value);
+		//Debug.Log("Available");
 	}
 
-	public void GameSparksConnected(){
+	public void StartCoroutineCheckIfGamesparksAvailable(){
+		StartCoroutine(CheckIfGamesparksAvailable());
+	}
+
+	IEnumerator CheckIfGamesparksAvailable(){
+		if (GameManager.instance.online) {
+		while (!GS.Available) {
+				yield return null;
+		}
+			CheckIfAuthenticated ();
+		} else {
+			//No Connection route
+			if (GameManager.instance.signedInLastSession) {
+				GameManager.instance.CurrentState (GameStates.Mainmenu);
+			} else {
+				UIManager.instance.ShowWelcome ();
+			}
+		}
+	}
+
+	void CheckIfAuthenticated(){
+		if (gsAuthenticated) {
+			GameManager.instance.CurrentState (GameStates.Mainmenu);
+		} else {
+			UIManager.instance.ShowWelcome ();
+		}
+	}
+
+	public void CheckConnected(){
 
 		new GameSparks.Api.Requests.LogEventRequest ()
 		.SetEventKey ("REQUEST")
 		.SetDurable(true)
 		.Send (response => {
 			if (response.HasErrors) {
-					UIManager.instance.SignedIntoGameSparksNotification (false);
-					GameManager.signedIn = false;
-
 			} else {
-					GameManager.instance.LoggedIn();
-					GameManager.signedIn = true;
-					UIManager.instance.usernameMainMenuString = response.ScriptData.GetString("player_Data");
+			UIManager.instance.usernameMainMenuString = response.ScriptData.GetString("player_Data");
 			}   
 		}); 
 	}
-
 
 	public void RegistrationRequest(){
 		new GameSparks.Api.Requests.RegistrationRequest().
@@ -89,7 +107,6 @@ public class GameSparksManager : MonoBehaviour {
 			{
 				GameManager.instance.ClearSavedData();
 				GameManager.instance.CurrentState(GameStates.Mainmenu);
-				GameManager.signedIn = true;
 			}
 			else
 			{
@@ -101,20 +118,24 @@ public class GameSparksManager : MonoBehaviour {
 
 
 	public void Authorise(){
-
 		new GameSparks.Api.Requests.AuthenticationRequest().
 		SetUserName(usernameLogin).
 		SetPassword(passwordLogin).
 		Send((response) => {
 			if (!response.HasErrors) {
-				GameManager.instance.ClearSavedData();
+				GameManager.instance.signedInLastSession = true;
 				GameManager.instance.CurrentState(GameStates.Mainmenu);
-				GameManager.signedIn = true;
 
+				UIManager.instance.EnableLoginButton(true);
 			} else {
-				UIManager.instance.ShowTextPopup("Warning", "Username or Password unrecognized" , true);
+				ShowAuthWarning();
+				UIManager.instance.EnableLoginButton(true);
 			}
 		});
+	}
+
+	void ShowAuthWarning(){
+		UIManager.instance.ShowTextPopup("Warning", "Username or Password unrecognized" , true);
 	}
 
 	public void SaveData(){
@@ -139,9 +160,7 @@ public class GameSparksManager : MonoBehaviour {
 				Debug.Log ("Received Player Data From GameSparks...");
 				GSData data = response.ScriptData.GetGSData ("player_Data");
 				print ("Player ID: " + data.GetString ("playerID"));
-				//print ("Player XP: " + data.GetString ("playerXP"));
 				print ("Player Gold: " + data.GetString ("playerGold"));
-				//print ("Player Pos: " + data.GetString ("playerPos"));
 			} else {
 				Debug.Log ("Error Loading Player Data...");
 			}
@@ -153,7 +172,6 @@ public class GameSparksManager : MonoBehaviour {
 
 		new GameSparks.Api.Requests.LogEventRequest ().
 		SetEventKey ("GET_ZOIN").
-		//SetEventAttribute("Z", UIManager.instance.zoins).
 		Send ((response) => {
 			if (!response.HasErrors) {
 				if(response.ScriptData.GetInt("ZOIN") == null){
@@ -166,14 +184,12 @@ public class GameSparksManager : MonoBehaviour {
 
 			} else {
 				Debug.Log ("Error Loading Player Data...");
-
 			}
 		});
 
 	}
 
 	public static void AddZoin(int amount){
-		
 		new GameSparks.Api.Requests.LogEventRequest ().
 		SetEventKey ("SET_ZOIN").
 		SetEventAttribute ("ZOIN", amount).
@@ -187,9 +203,6 @@ public class GameSparksManager : MonoBehaviour {
 	}
 
 	public static void SetTopScore(int amount){
-
-
-
 		new GameSparks.Api.Requests.LogEventRequest ().
 		SetEventKey ("SET_TOPSCORE").
 		SetEventAttribute ("TOPSCORE", amount).
@@ -202,8 +215,21 @@ public class GameSparksManager : MonoBehaviour {
 		});
 	}
 
-	public static void ManualReset(int zoin){
+	public static void GetTopScore(){
+		new GameSparks.Api.Requests.LogEventRequest ().
+		SetEventKey ("GET_TOPSCORE").
+		Send ((response) => {
+			if (!response.HasErrors) {
+				var temp = response.ScriptData.GetInt("TOPSCORE");
+				int score = temp.HasValue ? (int)temp : 0;
+				GameManager.instance.playerTopScore = score;
+			} else {
+				Debug.Log ("Error Loading Player Data...");
+			}
+		});
+	}
 
+	public static void ManualReset(int zoin){
 		new GameSparks.Api.Requests.LogEventRequest ().
 		SetEventKey ("MANUAL_SET").
 		SetEventAttribute ("ZOIN", zoin).
@@ -217,7 +243,6 @@ public class GameSparksManager : MonoBehaviour {
 
 
 	public static void SubmitScore(int points){
-		
 		new GameSparks.Api.Requests.LogEventRequest ().
 		SetDurable (true).
 		SetEventKey ("SUBMIT_SCORE").
@@ -231,42 +256,48 @@ public class GameSparksManager : MonoBehaviour {
 		});
 	}
 
-	public void GetScores(){
+
+	public void GetScores (){
 		new GameSparks.Api.Requests.LeaderboardDataRequest ().
 		SetLeaderboardShortCode ("High_Score_Leaderboard").
-		SetEntryCount (10).
+		SetEntryCount (3).
 		Send ((response) => {
 			if (!response.HasErrors) {
-				Debug.Log ("Found Leaderboard Data...");
-
-				highScoreText = null;
-
+				int i = 0;
 				foreach (GameSparks.Api.Responses.LeaderboardDataResponse._LeaderboardData entry in response.Data) {
-					int rank = (int)entry.Rank;
 					string playerName = entry.UserName;
+					GameManager.instance.topPlayerNames [i] = playerName;
 					string score = entry.JSONData ["SCORE"].ToString ();
-					Debug.Log ("Rank:" + rank + " Name:" + playerName + " \n Score:" + score);
-					CreateHighScoreText("\n Rank:" + rank + " Name:" + playerName + " Score:" + score);
+					if (i == 0) {
+						GameManager.instance.universalTopScore = int.Parse (score);
+					}
+					i++;
 				}
+
+
 			} else {
-				Debug.Log ("Error Retrieving Leaderboard Data...");
+				Debug.Log ("Error");
 			}
 		});
 	}
+
 
 	public void LogOut(){
 		new GameSparks.Api.Requests.LogEventRequest ().SetEventKey ("LOGOUT").
 		Send ((response) => {
 			if (!response.HasErrors) {
 				Debug.Log("Player Logged out...");
-				//Load next menu etc here?!
-				GS.GSPlatform.AuthToken = "";
+				GameManager.instance.signedInLastSession = false;
+				GameManager.instance.Save();
+				GameManager.instance.CurrentState(GameStates.Welcome);
+				GS.Reset();
 			} else {
 				Debug.Log("Error Logging out...");
+				GS.Reset();
 			}
 		});
-
 	}
+
 
 	public static void GameOver(){
 		new GameSparks.Api.Requests.LogEventRequest ().SetEventKey ("GAME_OVER").
@@ -277,10 +308,6 @@ public class GameSparksManager : MonoBehaviour {
 				Debug.Log("Error");
 			}
 		});
-	}
-
-	public void CreateHighScoreText(string input){
-		highScoreText = highScoreText + input;
 	}
 
 }

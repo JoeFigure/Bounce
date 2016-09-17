@@ -20,24 +20,25 @@ public class GameManager : MonoBehaviour {
 	public static GameManager instance = null;
 	//Static instance of GameManager which allows it to be accessed by any other script
 
+	public static int currentPoints;
+
+	public GameStates currentState;
+
+	int _playerTopScore;
+
+	int _universalTopScore;
+
+	public string[] topPlayerNames = new string[3];
 
 	public DateTime dateLastPlayed;
 
-	public static bool signedIn = false;
+	public bool signedInLastSession;
 
 	public DateTime day;
-
-	public static BallScript ball;
 
 	public bool lastGameWasOnline;
 
 	static int _zoins;
-
-	static float _speed = -3.8f;
-
-	public static int currentPoints;
-
-	public static float gameTimeStart;
 
 	public List<int> playerScores = new List<int>();
 
@@ -46,6 +47,13 @@ public class GameManager : MonoBehaviour {
 		set {
 			_zoins = value;
 			UIManager.instance.ZoinCount (_zoins);
+		}
+	}
+
+	public int universalTopScore {
+		get{ return _universalTopScore; }
+		set{ _universalTopScore = value;
+			UIManager.instance.SetTopScores (value.ToString());
 		}
 	}
 
@@ -73,34 +81,11 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	public static float gameTime {
-		get{ return Time.time - gameTimeStart; }
-	}
-
-	public static float speed{
-		get{ 
-			if(ball.alive){
-				return (_speed * speedMult) * Time.deltaTime;
-			} else{
-				return 0;
-			}
-		}
-		set{ _speed = value ; }
-	}
-
-	public static float gameTimePercentOfFullSpeed{
-		get {
-			int secondsToFullSpeed = 120;
-			float percentageToFullSpeed = gameTime / secondsToFullSpeed;
-			return percentageToFullSpeed;
-		}
-	}
-
-	static float speedMult {
-		get { 
-			float percOfFullSpeed = gameTimePercentOfFullSpeed;
-			float multiplier = 2;
-			return (percOfFullSpeed * multiplier) + 1;
+	public int playerTopScore {
+		get{ return _playerTopScore; }
+		set{
+			_playerTopScore = value;
+			UIManager.instance.SetPlayerTopScore (value); 
 		}
 	}
 
@@ -133,19 +118,13 @@ public class GameManager : MonoBehaviour {
 		Load ();
 
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
-
-		OnlineNotification ();
-
+		UIManager.instance.InternetAccessNotification (online);
 	}
 
 	public void CurrentState (GameStates currentState)
 	{
-
-		ball = GameObject.Find ("Ball").GetComponent<BallScript>();
-
 		switch (currentState) {
 
 		case GameStates.Welcome:
@@ -156,28 +135,43 @@ public class GameManager : MonoBehaviour {
 
 		case GameStates.Mainmenu:
 
+			Load ();
+
 			UIManager.instance.MainMenuUI ();
 			currentPoints = 0;
 			zoins = zoins;
-			GameSparksManager.instance.GameSparksConnected ();
+			GameSparksManager.instance.CheckConnected ();
+			if (GameSparksManager.instance.gsAuthenticated) {
+				LoggedIn ();
+			}
+			GameSparksManager.GetTopScore ();
+			GameSparksManager.instance.GetScores ();
 			CheckDailyReward (dateLastPlayed);
 
 			break;
 
 		case GameStates.PlayGame:
 
-			ball.alive = true;
-			ball.ResetBounce ();
-			UIManager.instance.ZoinCount (zoins);
+			GameplayController.instance.StartGame ();
+			GameplayController.instance.RecordStartTime ();
+
+			UIManager.instance.ShowGameUI ();
 
 			break;
 
 		case GameStates.GameOver:
 			
-			StartCoroutine (UIManager.instance.WaitAndDisplayScore ());
+			if (currentPoints < universalTopScore) {
+				StartCoroutine (UIManager.instance.WaitAndDisplayScore ());
+			} else {
+				StartCoroutine (UIManager.instance.WaitAndDisplayWinningScore());
+			}
+				
+
 			playerScores.Add (currentPoints);
-			if (online && signedIn) {
+			if (GameSparksManager.instance.gsAuthenticated) {
 				GameSparksManager.SubmitScore (currentPoints);
+				GameSparksManager.SetTopScore (currentPoints);
 				lastGameWasOnline = true;
 				GameSparksManager.GameOver ();
 			} else {
@@ -193,22 +187,12 @@ public class GameManager : MonoBehaviour {
 		default:
 			break;
 		}
+
+		this.currentState = currentState;
 	}
 
 	public void ResetGame(){
 		SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
-	}
-
-	void OnlineNotification(){
-			if (online) {
-				UIManager.instance.InternetAccessNotification (true);
-			} else {
-				UIManager.instance.InternetAccessNotification (false);
-			}
-	}
-
-	public void RecordStartTime(){
-		gameTimeStart = Time.time;
 	}
 
 	public void Save() {
@@ -218,7 +202,7 @@ public class GameManager : MonoBehaviour {
 		playerScores.Clear ();
 		saveData.savedPlayerScores = playerScores;
 		saveData.savedZoins = zoins;
-		saveData.signedIn = signedIn;
+		saveData.signedIn = signedInLastSession;
 		saveData.lastGameWasOnline = online;
 		saveData.dateLastPlayed = day;//new DateTime (2000, 1, 1);
 		bf.Serialize(file, saveData);
@@ -232,7 +216,6 @@ public class GameManager : MonoBehaviour {
 		playerScores.Clear ();
 		saveData.savedPlayerScores = playerScores;
 		saveData.savedZoins = 0;
-		saveData.signedIn = signedIn;
 		saveData.lastGameWasOnline = true;
 		saveData.dateLastPlayed = day;
 		bf.Serialize(file, saveData);
@@ -247,9 +230,9 @@ public class GameManager : MonoBehaviour {
 			file.Close();
 			playerScores = saveData.savedPlayerScores;
 			zoins = saveData.savedZoins;
+			signedInLastSession = saveData.signedIn;
 			lastGameWasOnline = saveData.lastGameWasOnline;
 			dateLastPlayed = saveData.dateLastPlayed;
-			signedIn = saveData.signedIn;
 		}
 	}
 
@@ -257,21 +240,20 @@ public class GameManager : MonoBehaviour {
 		if (datelastPlayed != day) {
 			UIManager.instance.DailyRewardPopup();
 			GameSparksManager.AddZoin (10);
+			Save ();
 		}
 	}
 
 	public void FirstPlay(){
-		//Checks if null zoins in Get
 		int firstTimeFreeZoins = 10;
 		GameSparksManager.ManualReset(firstTimeFreeZoins);
 		zoins = firstTimeFreeZoins;
 		UIManager.instance.ShowTextPopup ("Welcome", "First play.", true);
+		Save ();
 	}
 
 	public void LoggedIn(){
-
-		UIManager.instance.SignedIntoGameSparksNotification (true);
-
+		
 		if(lastGameWasOnline){
 			GameSparksManager.GetZoins();
 		}else{
@@ -284,13 +266,14 @@ public class GameManager : MonoBehaviour {
 	}
 }
 
-[System.Serializable]
+[Serializable]
 public class SaveData { 
 
 	public bool lastGameWasOnline;
 
 	public DateTime dateLastPlayed;
 
+	//Delete this
 	public bool signedIn;
 
 	public int savedZoins;

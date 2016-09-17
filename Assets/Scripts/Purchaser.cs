@@ -197,12 +197,14 @@ using UnityEngine.Purchasing;
 			}
 			
 			return PurchaseProcessingResult.Complete;
+
 		}
 
 
 		public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
 		{
 
+		UIManager.instance.MainMenuUI ();
 			Debug.Log(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}", product.definition.storeSpecificId, failureReason));
 
 		}

@@ -21,7 +21,7 @@ public class SpikeGeneratorScript : MonoBehaviour
 
 	public float inversePercFullSpeed {
 		get { 
-			float gameSpeed = GameManager.gameTimePercentOfFullSpeed;
+			float gameSpeed = GameplayController.gameTimePercentOfFullSpeed;
 			float inversePerc = 1 - gameSpeed;
 			return inversePerc;
 		}
@@ -69,9 +69,10 @@ public class SpikeGeneratorScript : MonoBehaviour
 		}
 
 
-		if (GameManager.ball.alive) {
+		if (GameplayController.ball.alive) {
 			timer -= Time.deltaTime;
 		}
+
 	}
 
 	void CreateRandomSpike ()
@@ -79,7 +80,7 @@ public class SpikeGeneratorScript : MonoBehaviour
 
 		int spikeType = Random.Range (0, 100);
 
-		if (spikeType < 50 || GameManager.gameTime < 7) {
+		if (spikeType < 50 || GameplayController.gameTime < 7) {
 			CreateSpike (spikeInitialXPos, true);
 			lastSpikeAmount = 1;
 			return;

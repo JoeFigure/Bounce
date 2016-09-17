@@ -7,7 +7,7 @@ public class SpikeScript : MonoBehaviour {
 	public bool pointSpike;
 
 	float speed{
-		get{ return GameManager.speed ;}
+		get{ return GameplayController.speed ;}
 	}
 
 	public bool spike;

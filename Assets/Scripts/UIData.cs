@@ -6,53 +6,70 @@ using GameSparks.Core;
 
 public class UIData : MonoBehaviour {
 
+
+	[Header("Main Menu")]
+	public Text topScorerNameText;
+	public GameObject overlayPanel;
+
+	[Header("HUD Top of screen")]
+	public Text universalTopScore;
+	public Text zoinsText;
+
+	[Header("In Game")]
 	public Text scoreText;
+
+	[Header("Game Over")]
 	public Text gameOverScore;
-	public Text nextPrizeScore;
+	public Text topScoreGameOverText;
+
+	[Header("Profile")]
+	public Image signalImage;
+	public Text connectionText;
+	public Text usernameMainMenuText;
+
+	[Header("Welcome Menus")]
 	public Text usernameLoginText;
 	public Text passwordLoginText;
 	public Text usernameSignupText;
 	public Text passwordSignupText;
+	public Button loginButton;
 
-	public Text usernameMainMenuText;
-	public Text highScoreText;
-	public Text availabilityNotification;
-	public Text signedInNotification;
-	public Text connectionText;
+	[Header("Lists")]
+	public List<GameObject> welcomeUIPanels = new List<GameObject> ();
+	public List<Text> playerHighScore = new List<Text> ();
+	public List<Text> topScores = new List<Text> ();
 
-	public Text savedScoreText;
-	public Text lastDateText;
-	public Text todayDateText;
-	public Text lastGameText;
-
-	public Text popupTitleText;
-	public Text popupText;
-
-	public Image signalImage;
-
-	public Text zoinsText;
-
-	//public GameObject overlayPanel;
+	[Header("UI Containers")]
 	public GameObject uiViewsContainer;
-
 	public GameObject mainMenuUI;
-	public GameObject highScoresUI;
 	public GameObject topHUDUI;
 	public GameObject gameUI;
 	public GameObject welcomeMenuUI;
 
-	public List<GameObject> welcomeUIPanels = new List<GameObject> ();
-
+	[Header("Popup Container")]
 	public GameObject popupUI;
 	public GameObject popupPanel;
 	public GameObject popupHeader;
 	public GameObject closePopupButton;
+	public Text popupTitleText;
 
+	[Header("Popup Content")]
 	public GameObject rewardPopupContent;
 	public GameObject shopPopupContent;
 	public GameObject gameOverPopupContent;
 	public GameObject settingsPopupContent;
 	public GameObject textPopupContent;
+	public GameObject playGameContent;
+	public GameObject grandPrizeContent;
+	public GameObject profileContent;
+	public GameObject topScoreContent;
+	public GameObject topScorersContent;
+	public GameObject offlineWarningContent;
+	public GameObject winContent;
+	public Text popupText;
+
+
+
 
 	public float popupHeaderHeight{
 		get{ 
@@ -60,12 +77,16 @@ public class UIData : MonoBehaviour {
 			return popupHeaderRectTrans.rect.height;
 		}
 	}
-
-
+		
 
 	void Start () {
 
 		UIManager.uiData = this;
+
+		foreach (Text t in playerHighScore) {
+			t.text = " ";
+		}
+
 	}
 
 	//Accessible for buttons
@@ -85,25 +106,13 @@ public class UIData : MonoBehaviour {
 	public void Replay(){
 		UIManager.instance.ReplayBttn ();
 	}
-	/*
-	public void ActivateOverlayPanel(bool activate){
-		UIManager.instance.ActivateOverlayPanel (activate);
-	}
-*/
-	public void SignOut(){
-		UIManager.instance.SignOut ();
-	}
 
 	public void ClosePopup(){
-		popupUI.SetActive (false);
+		UIManager.instance.ClosePopup ();
 	}
 
 	public void ShowTopHUDUI(){
 		topHUDUI.SetActive (true);
-	}
-
-	public void ShowHighScores(){
-		UIManager.instance.ShowHighScores ();
 	}
 
 	public void ShowWelcomeUIPanel(GameObject panel){
@@ -117,12 +126,37 @@ public class UIData : MonoBehaviour {
 	public void ShowShopPopup(){
 		UIManager.instance.ShowPopup (shopPopupContent, "Buy Zoins", true);
 	}
-	/*
-	public void ShowGamoverPopup(){
-		UIManager.instance.ShowPopup (gameOverPopupContent, "Game Over", false );
-	}
-*/
+
 	public void ShowSettingsPopup(){
 		UIManager.instance.ShowPopup (settingsPopupContent, "Settings", true);
 	}
+
+	public void ShowProfilePopup(){
+		UIManager.instance.ShowPopup (profileContent, "Profile", true);
+	}
+
+	public void ShowTopscorePopup(){
+		UIManager.instance.ShowPopup (topScoreContent, "Top Score", true);
+	}
+
+	public void ShowGrandPrizePopup(){
+		UIManager.instance.ShowGrandPrizePopup ();
+	}
+
+	public void ActivateOverlayPanel(){
+		UIManager.instance.ActivateOverlayPanel (true);
+	}
+
+	public void EnableLoginButton(bool disable){
+		UIManager.instance.EnableLoginButton (disable);
+	}
+
+	public void PlayGame(){
+		UIManager.instance.PlayGame ();
+	}
+
+	public void ShowTopscorersPopup(){
+		UIManager.instance.ShowPopup (topScorersContent, "Top Score", true);
+	}
+		
 }

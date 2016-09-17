@@ -53,7 +53,7 @@ public class BallScript : MonoBehaviour
 	}
 
 	void Bounce(){
-		float forceTimesGameSpeed = force + (-GameManager.speed);
+		float forceTimesGameSpeed = force + (-GameplayController.speed);
 		energy -= Time.deltaTime * energyLoss;
 
 		transform.Translate (0, energy * forceTimesGameSpeed * Time.deltaTime, 0);
@@ -87,7 +87,7 @@ public class BallScript : MonoBehaviour
 	}
 
 	public void Dead(){
-		GameManager.instance.CurrentState (GameStates.GameOver);
+		GameplayController.instance.GameOver();
 		alive = false;
 		particles.CreateParticles ();
 		spriteRenderer.enabled = false;

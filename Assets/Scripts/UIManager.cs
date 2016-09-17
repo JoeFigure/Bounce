@@ -11,12 +11,6 @@ public class UIManager : MonoBehaviour {
 
 	public static UIData uiData;
 
-
-	public string highScoreString {
-		get{ return uiData.highScoreText.text; }
-		set{ uiData.highScoreText.text = value; }
-	}
-
 	public string usernameLoginString {
 		get{ return uiData.usernameLoginText.text; }
 	}
@@ -32,7 +26,6 @@ public class UIManager : MonoBehaviour {
 	}
 
 	public string usernameMainMenuString {
-		get { return uiData.usernameMainMenuText.text; }
 		set{ uiData.usernameMainMenuText.text = value; }
 	}
 
@@ -40,15 +33,11 @@ public class UIManager : MonoBehaviour {
 		get{ return 100 - GameManager.currentPoints; } 
 	}
 
-	void Awake (){
-		//Check if instance already exists
-		if (instance == null) {
-			instance = this;
-		} else if (instance != this) {
-			Destroy (gameObject);  
-		}
 
-		DontDestroyOnLoad (gameObject);
+
+	void Awake (){
+
+		instance = this;
 
 	}
 
@@ -65,37 +54,38 @@ public class UIManager : MonoBehaviour {
 	}
 
 	public void StartGame(){
-
 		if (GameManager.zoins > 0) {
-
-			GameManager.instance.CurrentState (GameStates.PlayGame);
-			GameManager.instance.RecordStartTime ();
-
-			ShowMenu (uiData.gameUI);
+		if (!GameManager.instance.online) {
+			ShowOfflineWarningPopup ();
+		} else {
+				PlayGame ();
+			}
 		}
+	}
+
+	public void PlayGame(){
+		GameManager.instance.CurrentState (GameStates.PlayGame);
 	}
 
 	public void ReplayBttn(){
 		GameManager.instance.ResetGame();
 	}
-		
 
 	public void MainMenuUI(){
 
 		ShowMenu (uiData.mainMenuUI);
 		uiData.topHUDUI.SetActive (true);
 
-		uiData.lastGameText.text = "Last game online: " + GameManager.instance.lastGameWasOnline.ToString ();
+		ShowPopup (uiData.playGameContent, "This months game", false);
 	}
 
 	public void ShowWelcome(){
 		ShowMenu (uiData.welcomeMenuUI);
+		ShowWelcomeUIPanel (uiData.welcomeUIPanels [2]);
 	}
 
-	public void ShowHighScores(){
-
-		GameSparksManager.instance.GetScores ();
-		ShowMenu (uiData.highScoresUI);
+	public void ShowGameUI(){
+		ShowMenu (uiData.gameUI);
 	}
 
 	public void ShowSettings(GameObject settingsUI, Text scoreText){
@@ -113,7 +103,6 @@ public class UIManager : MonoBehaviour {
 	public IEnumerator WaitAndDisplayScore() {
 		
 		uiData.gameOverScore.text = GameManager.currentPoints.ToString ();
-		uiData.nextPrizeScore.text = pointsToNextPrize.ToString ();
 		uiData.scoreText.gameObject.SetActive (false);
 
 		yield return new WaitForSeconds(1.2f);
@@ -121,18 +110,15 @@ public class UIManager : MonoBehaviour {
 
 	}
 
-	public void ZoinCount(int amount){
-		uiData.zoinsText.text = amount.ToString ();
+	public IEnumerator WaitAndDisplayWinningScore() {
+
+		yield return new WaitForSeconds(1.2f);
+		ShowPopup(uiData.winContent,"Win",false);
+
 	}
 
-
-	public void SignedIntoGameSparksNotification(bool connected){
-
-		if (connected) {
-			uiData.signedInNotification.text = "Signed in to GS";
-		} else {
-			uiData.signedInNotification.text = "GS not signed in";
-		}
+	public void ZoinCount(int amount){
+		uiData.zoinsText.text = amount.ToString ();
 	}
 
 	public void InternetAccessNotification(bool connected){
@@ -146,15 +132,6 @@ public class UIManager : MonoBehaviour {
 		}
 	}
 
-	public void AvailabilityOfGameSparksNotification(bool connected){
-
-		if (connected) {
-			uiData.availabilityNotification.text = "GS Availabble";
-		} else {
-			uiData.availabilityNotification.text = "GS not Available";
-		}
-	}
-
 	public void ShowWelcomeUIPanel(GameObject iPanel){
 		foreach(var panel in uiData.welcomeUIPanels){
 			panel.SetActive (false);
@@ -162,44 +139,35 @@ public class UIManager : MonoBehaviour {
 		iPanel.SetActive (true);
 	}
 
-	public void SignOut(){
-		GameManager.signedIn = false;
-		GameManager.instance.Save ();
-	}
-
 	public void DailyRewardPopup(){
 		ShowPopup (uiData.rewardPopupContent, "Daily Reward", true);
 	}
 
+	public void ShowGrandPrizePopup(){
+		ShowPopup (uiData.grandPrizeContent, "Prize", true);
+	}
+
 	public void ShowPopup(GameObject popupContent, string titleText, bool displayCloseButton){
-		uiData.popupUI.SetActive (true);
-
-		DeactivateAllChildren (uiData.popupPanel);
-
-		uiData.popupHeader.SetActive (true);
-		uiData.popupTitleText.text = titleText;
+		ActivatePopup (titleText); 
 		popupContent.SetActive (true);
-
 		uiData.closePopupButton.SetActive (displayCloseButton);
-
 	}
 
 	public void ShowTextPopup( string titleText, string innerText, bool displayCloseButton){
-		uiData.popupUI.SetActive (true);
-
-		DeactivateAllChildren (uiData.popupPanel);
-
-		uiData.popupHeader.SetActive (true);
-		uiData.popupTitleText.text = titleText;
+		ActivatePopup (titleText); 
 		uiData.textPopupContent.SetActive (true);
-
 		uiData.popupText.text = innerText;
 
 	}
-		
+
+	void ActivatePopup(string titleText){
+		uiData.popupUI.SetActive (true);
+		DeactivateAllChildren (uiData.popupPanel);
+		uiData.popupHeader.SetActive (true);
+		uiData.popupTitleText.text = titleText;
+	}
 
 	void DeactivateAllChildren(GameObject parent){
-		
 		Transform[] transforms = parent.GetComponentsInChildren<Transform> ();
 		foreach (Transform t in transforms) {
 			if (t.gameObject == parent) {
@@ -211,4 +179,43 @@ public class UIManager : MonoBehaviour {
 		}
 	}
 
+	public void ActivateOverlayPanel(bool activate){
+		uiData.overlayPanel.SetActive (activate);
+	}
+
+	public void SetPlayerTopScore(int score){
+		foreach (Text t in uiData.playerHighScore) {
+			t.text = score.ToString();
+		}
+	}
+
+
+	public void EnableLoginButton(bool disable){
+		uiData.loginButton.interactable = disable;
+	}
+
+	public void ShowLoadingScreen(){
+		ShowMenu (uiData.welcomeMenuUI);
+		ShowWelcomeUIPanel (uiData.welcomeUIPanels [3]);
+	}
+
+	public void ClosePopup(){
+		uiData.popupUI.SetActive (false);
+		if (GameManager.instance.currentState == GameStates.Mainmenu) {
+			MainMenuUI ();
+		}
+	}
+
+	public void ShowOfflineWarningPopup(){
+		ShowPopup (uiData.offlineWarningContent, "Warning", false);
+	}
+
+	public void SetTopScores(string topScore){
+		uiData.topScorerNameText.text = GameManager.instance.topPlayerNames [0];
+		//uiData.topScoreText.text = GameManager.instance.universalTopScore;
+
+		foreach (Text t in uiData.topScores) {
+			t.text = topScore;
+		}
+	}
 }

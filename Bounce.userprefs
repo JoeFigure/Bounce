@@ -1,14 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GameplayController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/TouchCustom.cs">
     <Files>
-      <File FileName="Assets/Scripts/UIManager.cs" Line="61" Column="1" />
-      <File FileName="Assets/Scripts/DebugMenu.cs" Line="49" Column="6" />
-      <File FileName="Assets/Scripts/DebugModifier.cs" Line="23" Column="2" />
-      <File FileName="Assets/Scripts/BallScript.cs" Line="55" Column="34" />
-      <File FileName="Assets/Scripts/GameManager.cs" Line="24" Column="32" NotebookId="1" />
-      <File FileName="Assets/Scripts/BackgroundScript.cs" Line="1" Column="1" NotebookId="1" />
-      <File FileName="Assets/Scripts/GameplayController.cs" Line="17" Column="5" NotebookId="1" />
+      <File FileName="Assets/Scripts/BallScript.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Initializer.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/UIData.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/TouchCustom.cs" Line="13" Column="14" />
+      <File FileName="Assets/Scripts/GameplayController.cs" Line="57" Column="23" NotebookId="1" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="1" Column="1" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

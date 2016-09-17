@@ -10,26 +10,14 @@ public class Initializer : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 	
-		Load ();
 		InitialiseGame ();
 
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
-	void Load(){
-		GameManager.instance.Load ();
 	}
 
 	void InitialiseGame(){
 
-		if (GameManager.signedIn) {
-			GameManager.instance.CurrentState (GameStates.Mainmenu);
-		} else {
-			GameManager.instance.CurrentState (GameStates.Welcome);
-		}
+		UIManager.instance.ShowLoadingScreen ();
+
+		GameSparksManager.instance.StartCoroutineCheckIfGamesparksAvailable ();
 	}
 }
