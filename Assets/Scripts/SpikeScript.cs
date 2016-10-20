@@ -5,45 +5,41 @@ public class SpikeScript : MonoBehaviour {
 
 
 	public bool pointSpike;
+			
+	float offScreen;
+
+	public GameObject spikeParticleSystem;
+
+	float spriteBounds;
 
 	float speed{
 		get{ return GameplayController.speed ;}
 	}
 
-	public bool spike;
-
-	public int offScreen;
-
-	public Camera camera;
-
-	public GameObject spikeParticleSystem;
-
 
 	// Use this for initialization
 	void Start () {
 
-		Vector3 particlePosition = camera.ScreenToWorldPoint (new Vector3(0,0,0));
-		spikeParticleSystem.transform.position = new Vector3 (particlePosition.x, transform.position.y, 0);
-	
+		spriteBounds = gameObject.GetComponent<SpriteRenderer> ().sprite.bounds.extents.x;
+
+		offScreen = GameplayController.zeroScreenX - spriteBounds;
+
+		spikeParticleSystem.transform.position = new Vector3 (GameplayController.zeroScreenX, transform.position.y, 0);
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-
 		transform.Translate (speed, 0, 0);
 
-		Vector3 place = camera.WorldToScreenPoint (transform.position);
-
-		if (place.x < offScreen) {
+		if (transform.position.x < offScreen) {
 			Destroy (gameObject);
 
-			if (spike) {
 				spikeParticleSystem.GetComponent<SpikeBurst> ().CreateParticles ();
 				if (pointSpike) {
 					GameManager.currentPoints++;
 				}
-			}
 		}
 	}
 }

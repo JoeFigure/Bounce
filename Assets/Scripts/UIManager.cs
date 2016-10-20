@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using GameSparks.Core;
 using System.Collections.Generic; 
+using Facebook;
 
 
 public class UIManager : MonoBehaviour {
@@ -34,11 +35,9 @@ public class UIManager : MonoBehaviour {
 	}
 
 
-
 	void Awake (){
 
 		instance = this;
-
 	}
 
 	// Use this for initialization
@@ -71,44 +70,6 @@ public class UIManager : MonoBehaviour {
 		GameManager.instance.ResetGame();
 	}
 
-	public void MainMenuUI(){
-
-		ShowMenu (uiData.mainMenuUI);
-		uiData.topHUDUI.SetActive (true);
-
-		ShowPopup (uiData.playGameContent, "This months game", false);
-	}
-
-	public void ShowWelcome(){
-		ShowMenu (uiData.welcomeMenuUI);
-		ShowWelcomeUIPanel (uiData.welcomeUIPanels [2]);
-	}
-
-	public void ShowGameUI(){
-		ShowMenu (uiData.gameUI);
-	}
-
-	public void ShowSettings(GameObject settingsUI, Text scoreText){
-
-		ShowMenu (settingsUI);
-	}
-
-	public void ShowIntroTutorial(){
-		ShowMenu (uiData.IntroTutorialUI);
-		/*
-		foreach(var slide in uiData.introUISlides){
-			slide.SetActive (false);
-		}
-		uiData.introUISlides [0].SetActive (true);
-		*/
-	}
-		
-	public void ShowMenu(GameObject showUI){
-
-		DeactivateAllChildren (uiData.uiViewsContainer);
-		showUI.SetActive (true);
-	}
-
 	public IEnumerator WaitAndDisplayScore() {
 		
 		uiData.gameOverScore.text = GameManager.currentPoints.ToString ();
@@ -133,11 +94,11 @@ public class UIManager : MonoBehaviour {
 	public void InternetAccessNotification(bool connected){
 
 		if (connected) {
-			uiData.signalImage.color = Color.green;
-			uiData.connectionText.text = "Online";
+			InternetAvailable.color = Color.green;
+			InternetAvailable.text = "Online";
 		} else {
-			uiData.signalImage.color = Color.red;
-			uiData.connectionText.text = "Offline - Prizes currently unavailable";
+			InternetAvailable.color = Color.red;
+			InternetAvailable.text = "Offline - Prizes currently unavailable";
 		}
 	}
 
@@ -146,34 +107,6 @@ public class UIManager : MonoBehaviour {
 			panel.SetActive (false);
 		}
 		iPanel.SetActive (true);
-	}
-
-	public void DailyRewardPopup(){
-		ShowPopup (uiData.rewardPopupContent, "Daily Reward", true);
-	}
-
-	public void ShowGrandPrizePopup(){
-		ShowPopup (uiData.grandPrizeContent, "Prize", true);
-	}
-
-	public void ShowPopup(GameObject popupContent, string titleText, bool displayCloseButton){
-		ActivatePopup (titleText); 
-		popupContent.SetActive (true);
-		uiData.closePopupButton.SetActive (displayCloseButton);
-	}
-
-	public void ShowTextPopup( string titleText, string innerText, bool displayCloseButton){
-		ActivatePopup (titleText); 
-		uiData.textPopupContent.SetActive (true);
-		uiData.popupText.text = innerText;
-
-	}
-
-	void ActivatePopup(string titleText){
-		uiData.popupUI.SetActive (true);
-		DeactivateAllChildren (uiData.popupPanel);
-		uiData.popupHeader.SetActive (true);
-		uiData.popupTitleText.text = titleText;
 	}
 
 	void DeactivateAllChildren(GameObject parent){
@@ -198,14 +131,78 @@ public class UIManager : MonoBehaviour {
 		}
 	}
 
-
 	public void EnableLoginButton(bool disable){
 		uiData.loginButton.interactable = disable;
+	}
+
+	public void SetTopScores(string topScore){
+		uiData.topScorerNameText.text = GameManager.instance.topPlayerNames [0];
+
+		foreach (Text t in uiData.topScores) {
+			t.text = topScore;
+		}
+	}
+
+
+
+	//Menu
+
+	public void ShowMenu(GameObject showUI){
+		DeactivateAllChildren (uiData.uiViewsContainer);
+		showUI.SetActive (true);
+	}
+
+	public void MainMenuUI(){
+		ShowMenu (uiData.mainMenuUI);
+		ShowPopup (uiData.playGameContent, "This months game", false);
+	}
+	public void ShowWelcome(){
+		ShowMenu (uiData.welcomeMenuUI);
+		ShowWelcomeUIPanel (uiData.welcomeUIPanels [2]);
+	}
+	public void ShowGameUI(){
+		ShowMenu (uiData.gameUI);
+	}
+	public void ShowSettings(GameObject settingsUI, Text scoreText){
+
+		ShowMenu (settingsUI);
+	}
+
+	public void ShowIntroTutorial(){
+		ShowMenu (uiData.IntroTutorialUI);
 	}
 
 	public void ShowLoadingScreen(){
 		ShowMenu (uiData.welcomeMenuUI);
 		ShowWelcomeUIPanel (uiData.welcomeUIPanels [3]);
+	}
+
+	//POPUP Creation
+
+	public void ShowPopup(GameObject popupContent, string titleText, bool displayCloseButton){
+		ActivatePopup (titleText); 
+		popupContent.SetActive (true);
+		uiData.closePopupButton.SetActive (displayCloseButton);
+	}
+		
+	void ActivatePopup(string titleText){
+		uiData.popupUI.SetActive (true);
+		DeactivateAllChildren (uiData.popupPanel);
+		uiData.popupHeader.SetActive (true);
+		uiData.popupTitleText.text = titleText;
+	}
+
+	//Show POPUP
+
+	public void ShowTextPopup( string titleText, string innerText, bool displayCloseButton){
+		ActivatePopup (titleText); 
+		uiData.textPopupContent.SetActive (true);
+		uiData.popupText.text = innerText;
+
+	}
+
+	public void ShowOfflineWarningPopup(){
+		ShowPopup (uiData.offlineWarningContent, "Warning", false);
 	}
 
 	public void ClosePopup(){
@@ -215,16 +212,45 @@ public class UIManager : MonoBehaviour {
 		}
 	}
 
-	public void ShowOfflineWarningPopup(){
-		ShowPopup (uiData.offlineWarningContent, "Warning", false);
+	public void DailyRewardPopup(){
+		ShowPopup (uiData.rewardPopupContent, "Daily Reward", true);
 	}
 
-	public void SetTopScores(string topScore){
-		uiData.topScorerNameText.text = GameManager.instance.topPlayerNames [0];
-		//uiData.topScoreText.text = GameManager.instance.universalTopScore;
+	public void ShowPreviousWinnerPopup(){
+		ShowPopup (uiData.previousWinnerContent, "Prize Winner", true);
+	}
 
-		foreach (Text t in uiData.topScores) {
-			t.text = topScore;
+	public void ShowGrandPrizePopup(){
+		ShowPopup (uiData.grandPrizeContent, "Prize", true);
+	}
+
+	public void ShowGameSparksActivityPopup(){
+		uiData.gsActivityText.text = GameSparksManager.gsActivity;
+		ShowPopup (uiData.gameSparksActivityContent, "Activity Monitor", true);
+	}
+
+	//Other
+
+	public void ShowRewardedAd(){
+		UnityAds.ShowRewardedAd ();
+	}
+
+	public void ShowAd(){
+		UnityAds.ShowAd ();
+	}
+
+	public void IndicateGameSparksAvailability(bool available){
+		if (available) {
+			GameSparksAvailablility.color = Color.green;
+			GameSparksAvailablility.text = "GS Available";
+		} else {
+			GameSparksAvailablility.color = Color.red;
+			GameSparksAvailablility.text = "GS Unvailable";
 		}
 	}
+
+	public void FacebookShare(){
+		FaceBookGamesparks.instance.Share ();
+	}
+
 }

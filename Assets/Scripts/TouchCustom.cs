@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TouchCustom : MonoBehaviour {
+
+public class TouchCustom {
 
 	public enum Swiped
 	{
+		None = 0,
 		Left,
-		Right,
-		None
+		Right
+
 	}
 
 	public static bool tapped;
@@ -17,18 +19,6 @@ public class TouchCustom : MonoBehaviour {
 	static Vector2 direction;
 	static bool directionChosen;
 	public static Swiped swiped;
-
-	// Use this for initialization
-	void Start () {
-	
-		swiped = Swiped.None;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		Tap ();
-
-	}
 
 	public static void Tap ()
 	{

@@ -21,24 +21,21 @@ public class GameManager : MonoBehaviour {
 	//Static instance of GameManager which allows it to be accessed by any other script
 
 	public static int currentPoints;
-
 	public GameStates currentState;
-
 	int _playerTopScore;
-
 	int _universalTopScore;
-
 	public string[] topPlayerNames = new string[3];
-
 	public DateTime dateLastPlayed;
-
 	public bool signedInLastSession;
-
+	bool previousPrizePopupShown;
 	public DateTime day;
-
 	public bool lastGameWasOnline;
-
 	static int _zoins;
+
+	//User
+	static public string userName;
+	static public string userID;
+
 
 	public List<int> playerScores = new List<int>();
 
@@ -137,14 +134,19 @@ public class GameManager : MonoBehaviour {
 
 			Load ();
 
-			//UIManager.instance.MainMenuUI ();
 
-			UIManager.instance.ShowIntroTutorial ();
+			UIManager.instance.MainMenuUI ();
 
+			if (!previousPrizePopupShown) {
+				UIManager.instance.ShowPreviousWinnerPopup ();
+				previousPrizePopupShown = true;
+			}
 
 			currentPoints = 0;
 			zoins = zoins;
-			GameSparksManager.instance.CheckConnected ();
+
+			GameSparksManager.instance.UpdateInformation ();
+
 			if (GameSparksManager.instance.gsAuthenticated) {
 				LoggedIn ();
 			}
@@ -175,7 +177,7 @@ public class GameManager : MonoBehaviour {
 			playerScores.Add (currentPoints);
 			if (GameSparksManager.instance.gsAuthenticated) {
 				GameSparksManager.SubmitScore (currentPoints);
-				GameSparksManager.SetTopScore (currentPoints);
+				//GameSparksManager.SetTopScore (currentPoints);
 				lastGameWasOnline = true;
 				GameSparksManager.GameOver ();
 			} else {
@@ -252,7 +254,7 @@ public class GameManager : MonoBehaviour {
 		int firstTimeFreeZoins = 10;
 		GameSparksManager.ManualReset(firstTimeFreeZoins);
 		zoins = firstTimeFreeZoins;
-		UIManager.instance.ShowTextPopup ("Welcome", "First play.", true);
+		UIManager.instance.ShowIntroTutorial ();
 		Save ();
 	}
 
@@ -264,7 +266,7 @@ public class GameManager : MonoBehaviour {
 			GameSparksManager.ManualReset(zoins);
 		}
 
-		GameSparksManager.SetTopScore(highestSavedScore);
+		//GameSparksManager.SetTopScore(highestSavedScore);
 		GameSparksManager.SubmitScore(highestSavedScore);
 
 	}

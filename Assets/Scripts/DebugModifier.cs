@@ -29,3 +29,4 @@ public class DebugModifier : MonoBehaviour {
 		DebugMenu.ModifyValue (type, input);
 	}
 }
+

@@ -148,9 +148,13 @@ namespace GameSparks.Platforms
                 if (message.Length < 1500)
                 {
                     Debug.Log("GS: " + message);
+
+				GameSparksManager.gsActivity = message;
                 } else
                 {
                     Debug.Log("GS: " + message.Substring(0, 1500) + "...");
+				string msg = message.Substring(0, 1500) + "...";
+				GameSparksManager.gsActivity = msg;
                 }
             });
 		}

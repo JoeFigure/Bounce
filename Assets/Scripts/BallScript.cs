@@ -14,6 +14,7 @@ public class BallScript : MonoBehaviour
 	public float force;
 
 	public BallParticles particles;
+	public SpikeGeneratorScript generatorScript;
 
 	float landHeight{
 		get { return generatorScript.LandHeight (xPos); }
@@ -22,23 +23,16 @@ public class BallScript : MonoBehaviour
 	float yPos{
 		get{return transform.position.y ;}
 	}
-
-	SpriteRenderer spriteRenderer {
-		get{ return GetComponent<SpriteRenderer> (); }
-	}
-
-	public SpikeGeneratorScript generatorScript;
-
+		
 	void Start (){
 		GameplayController.ball = this;
-
 		fullEnergy = energy;
 		transform.position = new Vector3 (xPos, 0);
 		alive = false;
 	}
 
 	void Update (){
-		
+
 		if (alive) {
 			if (!beenHit) {
 				Bounce ();
@@ -90,7 +84,7 @@ public class BallScript : MonoBehaviour
 		GameplayController.instance.GameOver();
 		alive = false;
 		particles.CreateParticles ();
-		spriteRenderer.enabled = false;
+		GetComponent<SpriteRenderer> ().enabled = false;
 	}
 
 }

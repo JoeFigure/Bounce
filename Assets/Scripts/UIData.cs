@@ -10,51 +10,38 @@ public class UIData : MonoBehaviour {
 	[Header("Main Menu")]
 	public Text topScorerNameText;
 	public GameObject overlayPanel;
-
 	[Header("HUD Top of screen")]
 	public Text universalTopScore;
 	public Text zoinsText;
-
 	[Header("In Game")]
 	public Text scoreText;
-
 	[Header("Game Over")]
 	public Text gameOverScore;
 	public Text topScoreGameOverText;
-
 	[Header("Profile")]
-	public Image signalImage;
-	public Text connectionText;
 	public Text usernameMainMenuText;
-
 	[Header("Welcome Menus")]
 	public Text usernameLoginText;
 	public Text passwordLoginText;
 	public Text usernameSignupText;
 	public Text passwordSignupText;
 	public Button loginButton;
-
 	[Header("Lists")]
 	public List<GameObject> welcomeUIPanels = new List<GameObject> ();
 	public List<Text> playerHighScore = new List<Text> ();
 	public List<Text> topScores = new List<Text> ();
-
-
 	[Header("UI Containers")]
 	public GameObject uiViewsContainer;
 	public GameObject mainMenuUI;
-	public GameObject topHUDUI;
 	public GameObject gameUI;
 	public GameObject welcomeMenuUI;
 	public GameObject IntroTutorialUI;
-
 	[Header("Popup Container")]
 	public GameObject popupUI;
 	public GameObject popupPanel;
 	public GameObject popupHeader;
 	public GameObject closePopupButton;
 	public Text popupTitleText;
-
 	[Header("Popup Content")]
 	public GameObject rewardPopupContent;
 	public GameObject shopPopupContent;
@@ -68,9 +55,10 @@ public class UIData : MonoBehaviour {
 	public GameObject topScorersContent;
 	public GameObject offlineWarningContent;
 	public GameObject winContent;
+	public GameObject previousWinnerContent;
+	public GameObject gameSparksActivityContent;
+	public Text gsActivityText;
 	public Text popupText;
-
-
 
 
 	public float popupHeaderHeight{
@@ -79,7 +67,6 @@ public class UIData : MonoBehaviour {
 			return popupHeaderRectTrans.rect.height;
 		}
 	}
-		
 
 	void Start () {
 
@@ -88,7 +75,6 @@ public class UIData : MonoBehaviour {
 		foreach (Text t in playerHighScore) {
 			t.text = " ";
 		}
-
 	}
 
 	//Accessible for buttons
@@ -113,11 +99,7 @@ public class UIData : MonoBehaviour {
 		UIManager.instance.ClosePopup ();
 	}
 
-	public void ShowTopHUDUI(){
-		topHUDUI.SetActive (true);
-	}
-
-	public void ShowWelcomeUIPanel(GameObject panel){
+	public void ShowWelcomeUIPanel(GameObject panel){ 
 		UIManager.instance.ShowWelcomeUIPanel (panel);
 	}
 
@@ -159,6 +141,30 @@ public class UIData : MonoBehaviour {
 
 	public void ShowTopscorersPopup(){
 		UIManager.instance.ShowPopup (topScorersContent, "Top Score", true);
+	}
+
+	public void ShowIntroTutorial(){
+		UIManager.instance.ShowIntroTutorial ();
+	}
+
+	public void ShowAd(){
+		UIManager.instance.ShowAd ();
+	}
+
+	public void ShowRewardedAd(){
+		UIManager.instance.ShowRewardedAd ();
+	}
+
+	public void ShowGameSparksActivityPopup(){
+		UIManager.instance.ShowGameSparksActivityPopup ();
+	}
+
+	public void FaceBookInit(){
+		FaceBookGamesparks.instance.CallFBLogin ();
+	}
+
+	public void FacebookShare(){
+		UIManager.instance.FacebookShare ();
 	}
 		
 }

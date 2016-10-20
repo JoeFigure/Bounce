@@ -19,19 +19,18 @@ public class IntroTutorial : MonoBehaviour {
 	public Color currentColor;
 
 	void Start(){
+		GeneratePageIndicators ();
+	}
+
+	void OnEnable(){
 
 		currentSlide = 0;
 		ShowSlide (currentSlide);
 
-		foreach (GameObject slide in slides) {
-			GameObject pImage = Instantiate (pageIndicator) as GameObject;
-			pImage.transform.SetParent(pageIndicatorParent.transform,false);
-			pageIndicators.Add(pImage.GetComponent<Image>());
-		}
 	}
 
 	void Update(){
-
+		
 		TouchCustom.Swipe ();
 
 		if (TouchCustom.swiped == TouchCustom.Swiped.Right && currentSlide > 0) {//&& currentSlide < (slides.Count - 1)) {
@@ -44,7 +43,6 @@ public class IntroTutorial : MonoBehaviour {
 		}
 
 		PageIndicatorColor ();
-
 	}
 
 	void ShowSlide(int currentSlide){
@@ -55,6 +53,14 @@ public class IntroTutorial : MonoBehaviour {
 	void ClearSlides(){
 		foreach (GameObject slide in slides) {
 			slide.SetActive (false);
+		}
+	}
+
+	void GeneratePageIndicators(){
+		foreach (GameObject slide in slides) {
+			GameObject pImage = Instantiate (pageIndicator) as GameObject;
+			pImage.transform.SetParent(pageIndicatorParent.transform,false);
+			pageIndicators.Add(pImage.GetComponent<Image>());
 		}
 	}
 

@@ -3,19 +3,15 @@ using System.Collections;
 
 public class HillScript : MonoBehaviour {
 
-	float levelHeight = 4.5f;
-
-	float platformHeightMultiplier = 0.4f;
-
-	public int lastHeight;
-
-	int height;
 
 	public int hillNumber;
 
-	public Camera camera;
-
+	public int lastHeight;
+	public GameObject hillParent;
+	float levelHeight = 4.5f;
+	float platformHeightMultiplier = 0.4f;
 	bool instantiated;
+	Collider2D coll;
 
 	float speed{
 		get{ return GameplayController.speed;}
@@ -27,62 +23,46 @@ public class HillScript : MonoBehaviour {
 		}
 	}
 
-	int widthInPixelsX2 {
-		get{ return ((int)sizeX * 100) * 2; }
-	}
-		
-
-	Vector2 positionInPixels {
-		get{ return camera.WorldToScreenPoint (transform.position); }
-	}
-
-	Collider2D coll;
-
-	public GameObject hillParent;
-
-	// Use this for initialization
 	void Start () {
 		instantiated = false;
-
 		coll = GetComponent<Collider2D> ();
+
 	}
 	
-	// Update is called once per frame
 	void Update () {
 
 		transform.Translate (speed, 0, 0);
 
 		CreateHill ();
-					
-		if(positionInPixels.x < (0 - widthInPixelsX2)){
-			Destroy (gameObject);
-		}
-
+		DestroyObject ();
 	}
 
 	void CreateHill(){
-		if (positionInPixels.x <= Screen.width) {
+
+		if(transform.position.x <= GameplayController.screenWidth){
 			if (!instantiated) {
 
 				GameObject newHill = Instantiate (gameObject) as GameObject;
 				float posX = transform.position.x;
-
-				height = NewHeight (lastHeight);
-
-				lastHeight = height;
+				int height = LevelDesign.HillHeight (hillNumber, NewHeight (lastHeight));
 
 				float finalHeight = (height * platformHeightMultiplier) - levelHeight;
 
-				HillScript newHillScript = newHill.GetComponent<HillScript> ();
-
-				newHillScript.lastHeight = height;
-				newHillScript.hillNumber = hillNumber + 1;
-
 				newHill.transform.position = new Vector2 (posX + sizeX, finalHeight);
+
+				newHill.GetComponent<HillScript> ().hillNumber =  hillNumber + 1;
 				newHill.name = "hill";
 				newHill.transform.parent = hillParent.transform;
 				instantiated = true;
+
+				lastHeight = height;
 			}
+		}
+	}
+
+	void DestroyObject(){
+		if(transform.position.x < (GameplayController.zeroScreenX - (sizeX*2))){
+			Destroy (gameObject);
 		}
 	}
 		

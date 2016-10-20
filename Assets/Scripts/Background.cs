@@ -10,7 +10,7 @@ public class Background : MonoBehaviour {
 
 	Sprite planetsSprite;
 
-	float speed{
+	protected float speed{
 		get{ return GameplayController.speed / 9 ;}
 	}
 
@@ -18,62 +18,39 @@ public class Background : MonoBehaviour {
 		get{ return planetsSprite.bounds.size.x * planets.transform.localScale.x; }
 	}
 
-	float screenHeight {
-		get{ return Camera.main.orthographicSize * 2; }
-	}
-
-	float screenWidth{
-		get{	
-			float worldScreenHeight = Camera.main.orthographicSize * 2;
-			float screenWidth = worldScreenHeight / Screen.height * Screen.width;
-			return screenWidth;
-		}
-	}
-
-	float zeroScreenX {
-		get{ return (screenWidth / 2) * -1; }
-	}
-		
 	// Use this for initialization
 	void Start () {
 	
 		PositionGradient ();
-
 		CreateNewBackground ();
-
-		planets.transform.position = new Vector2(-(screenWidth/2), screenHeight/2);
-
+		planets.transform.position = new Vector2(-(GameplayController.screenWidth/2), GameplayController.screenHeight/2);
 		mountains.transform.position = planets.transform.position;
-
 		planetsSprite = planets.GetComponent<SpriteRenderer> ().sprite;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		MoveSprites ();
+		if (GameplayController.ball.alive) {
+			MoveSprites ();
+		}
 
-		if (planets.transform.position.x <= (zeroScreenX - planetSpriteX) + screenWidth) {
+		if (planets.transform.position.x <= (GameplayController.zeroScreenX - planetSpriteX) + GameplayController.screenWidth) {
 				CreateNewBackground ();
 		}
 	}
 
 	void MoveSprites(){
-		if (GameplayController.ball.alive) {
-
+		
 			Transform[] transforms = movingSprites.GetComponentsInChildren<Transform> ();
 			foreach (Transform t in transforms) {
 				t.Translate (speed, 0, 0);
-				if (t.position.x < zeroScreenX - planetSpriteX) {
-					//Destroy (t.gameObject);
-				}
 			}
-		}
 	}
 
 	void CreateNewBackground(){
 		planets = Instantiate (planets) as GameObject;
-		planets.transform.position = new Vector2(screenWidth, screenHeight/2);
+		planets.transform.position = new Vector2(GameplayController.screenWidth, GameplayController.screenHeight/2);
 		planets.transform.SetParent(movingSprites.transform);
 
 		mountains = Instantiate (mountains) as GameObject;
@@ -94,7 +71,16 @@ public class Background : MonoBehaviour {
 
 		Transform gradientTrans = gradient.transform;
 
-		gradientTrans.localScale = new Vector2( screenWidth / width, height);
-		gradientTrans.position = new Vector2 (zeroScreenX, screenHeight/2);
+		gradientTrans.localScale = new Vector2( GameplayController.screenWidth / width, height);
+		gradientTrans.position = new Vector2 (GameplayController.zeroScreenX, GameplayController.screenHeight/2);
+	}
+
+	void DestroyObject(){
+		Transform[] transforms = movingSprites.GetComponentsInChildren<Transform> ();
+		foreach (Transform t in transforms) {
+			if (t.position.x < GameplayController.zeroScreenX - planetSpriteX) {
+				Destroy (t.gameObject);
+			}
+		}
 	}
 }

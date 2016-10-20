@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic; 
 using UnityEngine.UI;
 
+//Add a value for every modifier you want to create.
 public enum ModifierTypes{
 	Ball_Scale,
-	B,
+	Example_B,
 	C,
 	Modifier_Wordszzz
 }
@@ -22,6 +23,7 @@ public class DebugMenu : MonoBehaviour {
 
 	static List<DebugModifier> modifiers = new List<DebugModifier>();
 
+	//Generates modifier controls based on amount of ModifierTypes enum values
 	void Start() {
 
 		var valuesAsArray = ModifierTypes.GetNames(typeof(ModifierTypes));
@@ -40,10 +42,9 @@ public class DebugMenu : MonoBehaviour {
 		modifier.type = m; 
 	}
 
+	//Function of each modifier
 	public static void ModifyValue(ModifierTypes n, float value){
-
 		switch(n){
-
 		case ModifierTypes.Ball_Scale:
 			GameplayController.ball.gameObject.transform.localScale = new Vector2 (value, value);
 			break;

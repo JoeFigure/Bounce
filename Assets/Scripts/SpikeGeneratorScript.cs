@@ -4,20 +4,19 @@ using System.Collections;
 public class SpikeGeneratorScript : MonoBehaviour
 {
 
-
 	public float scaleMult;
+
+	[SerializeField]
+	public float spikeScale;
 
 	int lastSpikeAmount;
 	float timer;
-
 	public GameObject spike;
 	public GameObject spikesParent;
-
-	public Camera camera;
-
 	public GameObject hillsParent;
-
 	Transform[] hillsTransforms;
+
+	float spikeWidth;
 
 	public float inversePercFullSpeed {
 		get { 
@@ -28,46 +27,31 @@ public class SpikeGeneratorScript : MonoBehaviour
 	}
 
 	float spikeInitialXPos{
-		get{ 
-			float spikeWidth = spikeSize.x * 100;
-			Vector2 screenSpace = camera.ScreenToWorldPoint (new Vector2( Screen.width + spikeWidth, 0));
-			return screenSpace.x; 
-		}
+		get{ return GameplayController.screenWidth + spikeWidth;}
 	}
 
 	float doubleSpikeInitialXpos {
-		get { return spikeInitialXPos + spikeSize.x; }
+		get { return spikeInitialXPos + spikeWidth; }
 	}
 
 	float tripleSpikeInitialXpos {
-		get { return spikeInitialXPos + (spikeSize.x * 2); }
+		get { return spikeInitialXPos + (spikeWidth * 2); }
 	}
 
-	Vector3 spikeSize {
-		get {
-			float size = 0.35f;
-			float temp = scaleMult * size;
-			return new Vector3 (temp, temp, 0);
-		}
-	}
-		
-	// Use this for initialization
+
 	void Start ()
 	{
-		scaleMult = 1f;
-		Random.seed = 1;
-		timer = 3;
+		timer = 6;
+		spikeWidth = (spike.GetComponent<SpriteRenderer> ().sprite.bounds.size.x) * spikeScale;
 
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-
 		if (timer <= 0) {
 			CreateRandomSpike ();
 		}
-
 
 		if (GameplayController.ball.alive) {
 			timer -= Time.deltaTime;
@@ -80,7 +64,7 @@ public class SpikeGeneratorScript : MonoBehaviour
 
 		int spikeType = Random.Range (0, 100);
 
-		if (spikeType < 50 || GameplayController.gameTime < 7) {
+		if (spikeType < 50 || LevelDesign.FirstSpikes()) {
 			CreateSpike (spikeInitialXPos, true);
 			lastSpikeAmount = 1;
 			return;
@@ -106,7 +90,7 @@ public class SpikeGeneratorScript : MonoBehaviour
 
 		newSpike.transform.position = new Vector3 (spikeInitialXpos, LandHeight (spikeInitialXpos));
 		newSpike.transform.parent = spikesParent.transform;
-		newSpike.transform.localScale = spikeSize;
+		newSpike.transform.localScale = Vector3.one * spikeScale;
 		newSpike.GetComponent<SpikeScript> ().pointSpike = pointSpike;
 		ResetSpikeTimer ();
 	}
@@ -130,7 +114,6 @@ public class SpikeGeneratorScript : MonoBehaviour
 		GameObject currentHill = HillUnderneath (xPos);
 
 		float hillHeight = 0;
-
 		if (currentHill != null) {
 			hillHeight = currentHill.GetComponent<BoxCollider2D> ().bounds.max.y;
 		}
@@ -152,6 +135,5 @@ public class SpikeGeneratorScript : MonoBehaviour
 		}
 		return null;
 	}
-
 
 }
