@@ -166,5 +166,8 @@ public class UIData : MonoBehaviour {
 	public void FacebookShare(){
 		UIManager.instance.FacebookShare ();
 	}
-		
+
+	public void Logout(){
+		UIManager.instance.Logout ();
+	}
 }

@@ -45,22 +45,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Examples\Scripts\ConsoleBase.cs" />
-     <Compile Include="Assets\Examples\Scripts\GameGroupsConsole.cs" />
-     <Compile Include="Assets\Examples\Scripts\InteractiveConsole.cs" />
-     <Compile Include="Assets\Facebook\Scripts\AndroidFacebook.cs" />
-     <Compile Include="Assets\Facebook\Scripts\AndroidFacebookLoader.cs" />
-     <Compile Include="Assets\Facebook\Scripts\CanvasFacebookLoader.cs" />
-     <Compile Include="Assets\Facebook\Scripts\EditorFacebook.cs" />
-     <Compile Include="Assets\Facebook\Scripts\EditorFacebookAccessToken.cs" />
-     <Compile Include="Assets\Facebook\Scripts\EditorFacebookLoader.cs" />
-     <Compile Include="Assets\Facebook\Scripts\FB.cs" />
-     <Compile Include="Assets\Facebook\Scripts\FBAppRequestsFilterGroup.cs" />
-     <Compile Include="Assets\Facebook\Scripts\FBScreen.cs" />
-     <Compile Include="Assets\Facebook\Scripts\FBSettings.cs" />
-     <Compile Include="Assets\Facebook\Scripts\IOSFacebook.cs" />
-     <Compile Include="Assets\Facebook\Scripts\IOSFacebookLoader.cs" />
-     <Compile Include="Assets\Facebook\Scripts\NativeDialogModes.cs" />
+     <Compile Include="Assets\FacebookSDK\Examples\Scripts\ConsoleBase.cs" />
+     <Compile Include="Assets\FacebookSDK\Examples\Scripts\LogView.cs" />
+     <Compile Include="Assets\FacebookSDK\Examples\Scripts\MenuBase.cs" />
+     <Compile Include="Assets\FacebookSDK\Examples\Scripts\SubMenus\AccessTokenMenu.cs" />
+     <Compile Include="Assets\FacebookSDK\Examples\Scripts\SubMenus\AppEvents.cs" />
+     <Compile Include="Assets\FacebookSDK\Examples\Scripts\SubMenus\AppInvites.cs" />
+     <Compile Include="Assets\FacebookSDK\Examples\Scripts\SubMenus\AppLinks.cs" />
+     <Compile Include="Assets\FacebookSDK\Examples\Scripts\SubMenus\AppRequests.cs" />
+     <Compile Include="Assets\FacebookSDK\Examples\Scripts\SubMenus\DialogShare.cs" />
+     <Compile Include="Assets\FacebookSDK\Examples\Scripts\SubMenus\GameGroups.cs" />
+     <Compile Include="Assets\FacebookSDK\Examples\Scripts\SubMenus\GraphRequest.cs" />
+     <Compile Include="Assets\FacebookSDK\Examples\Scripts\SubMenus\MainMenu.cs" />
+     <Compile Include="Assets\FacebookSDK\Examples\Scripts\SubMenus\Pay.cs" />
      <Compile Include="Assets\GameSparks\GameSparksRTUnity.cs" />
      <Compile Include="Assets\GameSparks\GameSparksSettings.cs" />
      <Compile Include="Assets\GameSparks\GameSparksUnity.cs" />
@@ -167,8 +164,11 @@
  <Reference Include="UnityEngine.Purchasing">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityPurchasing/UnityEngine.Purchasing.dll</HintPath>
  </Reference>
- <Reference Include="IFacebook">
- <HintPath>/Users/joekletz/Projects Local/Bling/Bounce/Assets/Facebook/Scripts/IFacebook.dll</HintPath>
+ <Reference Include="Facebook.Unity">
+ <HintPath>/Users/joekletz/Projects Local/Bling/Bounce/Assets/FacebookSDK/Plugins/Facebook.Unity.dll</HintPath>
+ </Reference>
+ <Reference Include="Facebook.Unity.IOS">
+ <HintPath>/Users/joekletz/Projects Local/Bling/Bounce/Assets/FacebookSDK/Plugins/iOS/Facebook.Unity.IOS.dll</HintPath>
  </Reference>
  <Reference Include="GameSparks.Api">
  <HintPath>/Users/joekletz/Projects Local/Bling/Bounce/Assets/Plugins/GameSparks.Api.dll</HintPath>

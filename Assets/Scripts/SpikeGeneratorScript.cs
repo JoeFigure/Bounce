@@ -43,7 +43,7 @@ public class SpikeGeneratorScript : MonoBehaviour
 	{
 		timer = 6;
 		spikeWidth = (spike.GetComponent<SpriteRenderer> ().sprite.bounds.size.x) * spikeScale;
-
+		GameplayController.spikes = this;
 	}
 	
 	// Update is called once per frame

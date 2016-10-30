@@ -1,26 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
-public class InGameTutorial : Background {
+public class InGameTutorial : MonoBehaviour {
 
+	Text label;
 
-	new float speed {
-		get{ return base.speed * 4f; }
-	}
-
-	// Use this for initialization
 	void Start () {
-	
+		label = GetComponent<Text> ();
+		GameplayController.tutorial = this;
+		label.enabled = false;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-		transform.Translate(new Vector3( speed,0,0));
 
-		if (transform.position.x < -20) {
-			Destroy (gameObject);
-		}
+	public void Hide(){
+		label.enabled = false;
+	}
 
+	public void AvoidSpikes(){
+		label.enabled = true;
+		label.text = "Bounce now to avoid the spike!";
 	}
 }

@@ -114,8 +114,11 @@
  <Reference Include="UnityEngine.Purchasing">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityPurchasing/UnityEngine.Purchasing.dll</HintPath>
  </Reference>
- <Reference Include="IFacebook">
- <HintPath>/Users/joekletz/Projects Local/Bling/Bounce/Assets/Facebook/Scripts/IFacebook.dll</HintPath>
+ <Reference Include="Facebook.Unity">
+ <HintPath>/Users/joekletz/Projects Local/Bling/Bounce/Assets/FacebookSDK/Plugins/Facebook.Unity.dll</HintPath>
+ </Reference>
+ <Reference Include="Facebook.Unity.IOS">
+ <HintPath>/Users/joekletz/Projects Local/Bling/Bounce/Assets/FacebookSDK/Plugins/iOS/Facebook.Unity.IOS.dll</HintPath>
  </Reference>
  <Reference Include="GameSparks.Api">
  <HintPath>/Users/joekletz/Projects Local/Bling/Bounce/Assets/Plugins/GameSparks.Api.dll</HintPath>

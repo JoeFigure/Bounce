@@ -1,26 +1,31 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameplayController : MonoBehaviour {
+public class GameplayController : MonoBehaviour
+{
 
 	public static GameplayController instance;
 	public static BallScript ball;
+	public static SpikeGeneratorScript spikes;
+	public static InGameTutorial tutorial;
 
 	static float _speed = -3.8f;
 	public static float gameTimeStart;
 	static float _percentageOfFullSpeed;
 
+	bool showSpikeTutorial = true;
+
 	public static float gameTime {
 		get{ return Time.time - gameTimeStart; }
 	}
 
-	public static float speed{
-		get{ 
+	public static float speed {
+		get { 
 			float speedMult = (gameTimePercentOfFullSpeed * 2) + 1;
 
-			if(ball.alive){
+			if (ball.alive) {
 				return (_speed * speedMult) * Time.deltaTime;
-			} else{
+			} else {
 				return 0;
 			}
 		}
@@ -38,8 +43,8 @@ public class GameplayController : MonoBehaviour {
 		get{ return Camera.main.orthographicSize * 2; }
 	}
 
-	public static float screenWidth{
-		get{	
+	public static float screenWidth {
+		get {	
 			float worldScreenHeight = Camera.main.orthographicSize * 2;
 			float screenWidth = worldScreenHeight / Screen.height * Screen.width;
 			return screenWidth;
@@ -50,43 +55,77 @@ public class GameplayController : MonoBehaviour {
 		get{ return (screenWidth / 2) * -1; }
 	}
 
-	void Start () {
-
+	void Start (){
 		instance = this;
 	}
-	
-	void Update () {
 
-		TouchCustom.Tap();
-		TouchInput();
-
+	void Update (){
+		TouchCustom.Tap ();
+		TouchInput ();
 		KeyboardInput ();
+
+		Tutorial ();
 	}
 
-	public void StartGame(){
+	public void StartGame (){
 		ball.alive = true;
 		ball.ResetBounce ();
+		SpikeScript.spikeNumber = 0;
 	}
 
-	public void GameOver(){
-
+	public void GameOver (){
 		GameManager.instance.CurrentState (GameStates.GameOver);
 	}
 
-	void TouchInput ()
-	{
+	void TouchInput (){
 		if (TouchCustom.tapped) {
-			ball.beenHit = true;
+			HitBall ();
 		}
 	}
 
-	void KeyboardInput(){
+	void KeyboardInput (){
 		if (Input.GetButtonDown ("Jump")) {
-			ball.beenHit = true;
+			HitBall ();
 		}
 	}
 
-	public void RecordStartTime(){
+	void HitBall (){
+		ball.beenHit = true;
+	}
+
+	public void RecordStartTime (){
 		gameTimeStart = Time.time;
+	}
+
+	void Tutorial (){
+
+		if (showSpikeTutorial == true) {
+
+			if (GameManager.currentPoints == 0) {
+				Transform[] transforms = spikes.spikesParent.GetComponentsInChildren<Transform> ();
+				foreach (Transform t in transforms) {
+					if (ball.transform.position.x > (t.position.x - 1)) {
+						tutorial.AvoidSpikes ();
+
+						StartCoroutine (PauseCoroutine ()); 
+					}
+				}
+			}
+		}
+	}
+
+	IEnumerator PauseCoroutine (){
+
+		Time.timeScale = 0;
+
+		while (showSpikeTutorial) {
+			if (Input.GetButtonDown ("Jump") || TouchCustom.tapped) {
+				Time.timeScale = 1;
+				showSpikeTutorial = false;
+			} 
+
+			yield return null;  
+		}
+		tutorial.Hide ();
 	}
 }

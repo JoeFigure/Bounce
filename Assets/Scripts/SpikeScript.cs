@@ -12,6 +12,8 @@ public class SpikeScript : MonoBehaviour {
 
 	float spriteBounds;
 
+	public static int spikeNumber;
+
 	float speed{
 		get{ return GameplayController.speed ;}
 	}
@@ -26,6 +28,7 @@ public class SpikeScript : MonoBehaviour {
 
 		spikeParticleSystem.transform.position = new Vector3 (GameplayController.zeroScreenX, transform.position.y, 0);
 
+		spikeNumber++;
 	}
 	
 	// Update is called once per frame
