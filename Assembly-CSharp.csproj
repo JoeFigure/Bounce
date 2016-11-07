@@ -99,6 +99,7 @@
      <Compile Include="Assets\Scripts\SpikeGeneratorScript.cs" />
      <Compile Include="Assets\Scripts\SpikeScript.cs" />
      <Compile Include="Assets\Scripts\TouchCustom.cs" />
+     <Compile Include="Assets\Scripts\UIAnimator.cs" />
      <Compile Include="Assets\Scripts\UIData.cs" />
      <Compile Include="Assets\Scripts\UIManager.cs" />
      <Compile Include="Assets\Scripts\UnityAds.cs" />

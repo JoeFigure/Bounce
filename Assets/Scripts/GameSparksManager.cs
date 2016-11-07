@@ -79,21 +79,28 @@ public class GameSparksManager : MonoBehaviour {
 	}
 
 	public void RegistrationRequest(){
-		new GameSparks.Api.Requests.RegistrationRequest().
-		SetDisplayName(displaynameRegister).
-		SetPassword(passwordRegister).
-		SetUserName(usernameRegister).
-		Send((response) => {
-			if (!response.HasErrors){
-				GameManager.instance.ClearSavedData();
-				Login();
-			}else{
-				Debug.Log("Error Registering Player");
-				UIManager.instance.ShowTextPopup("Warning", "Username taken" , true);
-			}
-			//Records activity for in-game log
-			gsActivity = response.JSONString;
-		});
+
+		if (!UIManager.tAndCChecked) {
+			UIManager.instance.ShowTextPopup ("Warning", "Check Terms & Conditions", true);
+			return;
+			//Cancel Registration
+		}
+
+			new GameSparks.Api.Requests.RegistrationRequest ().
+		SetDisplayName (displaynameRegister).
+		SetPassword (passwordRegister).
+		SetUserName (usernameRegister).
+		Send ((response) => {
+				if (!response.HasErrors) {
+					GameManager.instance.ClearSavedData ();
+					Login ();
+				} else {
+					Debug.Log ("Error Registering Player");
+					UIManager.instance.ShowTextPopup ("Warning", "Username taken", true);
+				}
+				//Records activity for in-game log
+				gsActivity = response.JSONString;
+			});
 	}
 
 
@@ -104,7 +111,6 @@ public class GameSparksManager : MonoBehaviour {
 		Send((response) => {
 			if (!response.HasErrors) {
 				Login();
-				//UIManager.instance.EnableLoginButton(true);
 			} else {
 				ShowAuthWarning();
 				UIManager.instance.EnableLoginButton(true);
@@ -176,6 +182,8 @@ public class GameSparksManager : MonoBehaviour {
 	}
 
 	//Uses Cloudcode
+
+	/*
 	public static void SetTopScore(int amount){
 		new GameSparks.Api.Requests.LogEventRequest ().
 		SetEventKey ("SET_TOPSCORE").
@@ -186,7 +194,7 @@ public class GameSparksManager : MonoBehaviour {
 			}
 		});
 	}
-
+*/
 
 	public static void GetTopScore(){
 		new GameSparks.Api.Requests.LogEventRequest ().
@@ -196,6 +204,7 @@ public class GameSparksManager : MonoBehaviour {
 				var temp = response.ScriptData.GetInt("TOPSCORE");
 				int score = temp.HasValue ? (int)temp : 0;
 				GameManager.instance.playerTopScore = score;
+				//Debug.Log("THTHTHTHTHTHTHTHTH  " + temp);
 			} else {
 				Debug.Log ("Error Loading Player Data...");
 			}
@@ -220,6 +229,7 @@ public class GameSparksManager : MonoBehaviour {
 		SetDurable (true).
 		SetEventKey ("SUBMIT_SCORE").
 		SetEventAttribute ("SCORE", points.ToString()).
+		//SetEventAttribute ("TOPSCORE", points).
 		Send ((response) => {
 			if (!response.HasErrors) {
 				Debug.Log ("Score Posted Successfully...");

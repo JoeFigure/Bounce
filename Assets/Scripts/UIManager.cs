@@ -13,6 +13,8 @@ public class UIManager : MonoBehaviour
 
 	public static UIData uiData;
 
+	public static bool tAndCChecked = false;
+
 	public string usernameLoginString {
 		get{ return uiData.usernameLoginText.text; }
 	}
@@ -121,11 +123,12 @@ public class UIManager : MonoBehaviour
 		uiData.loginButton.interactable = disable;
 	}
 
+
 	public void SetTopScores (string topScore){
 		uiData.topScorerNameText.text = GameManager.instance.topPlayerNames [0];
 
 		foreach (Text t in uiData.topScores) {
-			t.text = topScore;
+			t.text = topScore.ToString();
 		}
 	}
 
@@ -157,7 +160,8 @@ public class UIManager : MonoBehaviour
 
 	public void MainMenuUI (){
 		ShowMenu (uiData.mainMenuUI);
-		ShowPopup (uiData.playGameContent, "This months game", false);
+		uiData.sidePanel.SetActive(true);
+		PreClosedSidePanel ();
 	}
 
 	public void ShowWelcome (){
@@ -213,9 +217,6 @@ public class UIManager : MonoBehaviour
 
 	public void ClosePopup (){
 		uiData.popupUI.SetActive (false);
-		if (GameManager.instance.currentState == GameStates.Mainmenu) {
-			MainMenuUI ();
-		}
 	}
 
 	public void DailyRewardPopup (){
@@ -261,6 +262,45 @@ public class UIManager : MonoBehaviour
 
 	public void Logout(){
 		GameSparksManager.instance.LogOut ();
+	}
+
+	public void OpenSidePanel(){
+		uiData.sidePanel.GetComponent<Animator> ().SetTrigger ("Open");
+		uiData.screenCoverButton.SetActive (true);
+	}
+
+	public void CloseSidePanel(){
+		uiData.sidePanel.GetComponent<Animator> ().SetTrigger ("Close");
+		uiData.screenCoverButton.SetActive (false);
+	}
+
+	public void PreClosedSidePanel(){
+		uiData.sidePanel.GetComponent<Animator> ().SetTrigger ("preClosed");
+		uiData.screenCoverButton.SetActive (false);
+	}
+
+	public void TandCTickBox(){
+		Image tImage = uiData.tAndCTickBox.gameObject.GetComponent<Image>();
+		Sprite ticked = Resources.Load<Sprite> ("tickBox_Ticked");
+		Sprite unticked = Resources.Load<Sprite> ("tickBox");
+
+
+
+		if (tImage.sprite == unticked) {
+			tImage.sprite = ticked;
+			tAndCChecked = true;
+		} else {
+			tImage.sprite = unticked;
+			tAndCChecked = false;
+		}
+	}
+
+	public void TandCPanel(){
+		if (uiData.tandCPanel.activeSelf) {
+			uiData.tandCPanel.SetActive (false);
+		} else {
+			uiData.tandCPanel.SetActive (true);
+		}
 	}
 
 }

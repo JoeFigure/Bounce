@@ -10,8 +10,11 @@ public class UIData : MonoBehaviour {
 	[Header("Main Menu")]
 	public Text topScorerNameText;
 	public GameObject overlayPanel;
+	[Header("Side Panel")]
+	public GameObject sidePanel;
+	public GameObject screenCoverButton;
 	[Header("HUD Top of screen")]
-	public Text universalTopScore;
+	//public Text universalTopScore;
 	public Text zoinsText;
 	[Header("In Game")]
 	public Text scoreText;
@@ -26,6 +29,8 @@ public class UIData : MonoBehaviour {
 	public Text usernameSignupText;
 	public Text passwordSignupText;
 	public Button loginButton;
+	public Button tAndCTickBox;
+	public GameObject tandCPanel;
 	[Header("Lists")]
 	public List<GameObject> welcomeUIPanels = new List<GameObject> ();
 	public List<Text> playerHighScore = new List<Text> ();
@@ -131,10 +136,11 @@ public class UIData : MonoBehaviour {
 		UIManager.instance.ActivateOverlayPanel (true);
 	}
 
+	/*
 	public void EnableLoginButton(bool disable){
 		UIManager.instance.EnableLoginButton (disable);
 	}
-
+*/
 	public void PlayGame(){
 		UIManager.instance.PlayGame ();
 	}
@@ -169,5 +175,22 @@ public class UIData : MonoBehaviour {
 
 	public void Logout(){
 		UIManager.instance.Logout ();
+		UIManager.instance.EnableLoginButton (true);
+	}
+
+	public void ShowSidePanel(){
+		UIManager.instance.OpenSidePanel ();
+	}
+
+	public void CloseSidePanel(){
+		UIManager.instance.CloseSidePanel ();
+	}
+
+	public void TandCBox(){
+		UIManager.instance.TandCTickBox ();
+	}
+
+	public void TandCPanel(){
+		UIManager.instance.TandCPanel ();
 	}
 }

@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
 			UIManager.instance.SetTopScores (value.ToString ());
 		}
 	}
-
+	/*
 	public int highestSavedScore {
 		get { 
 			int[] s = playerScores.ToArray ();
@@ -68,7 +68,8 @@ public class GameManager : MonoBehaviour
 			}
 		}
 	}
-
+*/
+	/*
 	public string playerScoresString {
 		get {
 			string scoreOut = "";
@@ -79,6 +80,7 @@ public class GameManager : MonoBehaviour
 			return scoreOut;
 		}
 	}
+	*/
 
 	public int playerTopScore {
 		get{ return _playerTopScore; }
@@ -150,6 +152,7 @@ public class GameManager : MonoBehaviour
 			if (GameSparksManager.instance.gsAuthenticated) {
 				LoggedIn ();
 			}
+
 			GameSparksManager.GetTopScore ();
 			GameSparksManager.instance.GetScores ();
 			CheckDailyReward (dateLastPlayed);
@@ -172,9 +175,8 @@ public class GameManager : MonoBehaviour
 			} else {
 				StartCoroutine (UIManager.instance.WaitAndDisplayWinningScore ());
 			}
-				
 
-			playerScores.Add (currentPoints);
+			//playerScores.Add (currentPoints);
 			if (GameSparksManager.instance.gsAuthenticated) {
 				GameSparksManager.SubmitScore (currentPoints);
 				//GameSparksManager.SetTopScore (currentPoints);
@@ -205,8 +207,8 @@ public class GameManager : MonoBehaviour
 		BinaryFormatter bf = new BinaryFormatter ();
 		FileStream file = File.Create (Application.persistentDataPath + "/playerInfo.dat");
 		SaveData saveData = new SaveData ();
-		playerScores.Clear ();
-		saveData.savedPlayerScores = playerScores;
+		//playerScores.Clear ();
+		//saveData.savedPlayerScores = playerScores;
 		saveData.savedZoins = zoins;
 		saveData.signedIn = signedInLastSession;
 		saveData.lastGameWasOnline = online;
@@ -219,8 +221,8 @@ public class GameManager : MonoBehaviour
 		BinaryFormatter bf = new BinaryFormatter ();
 		FileStream file = File.Create (Application.persistentDataPath + "/playerInfo.dat");
 		SaveData saveData = new SaveData ();
-		playerScores.Clear ();
-		saveData.savedPlayerScores = playerScores;
+		//playerScores.Clear ();
+		//saveData.savedPlayerScores = playerScores;
 		saveData.savedZoins = 0;
 		saveData.lastGameWasOnline = true;
 		saveData.dateLastPlayed = day;
@@ -234,7 +236,7 @@ public class GameManager : MonoBehaviour
 			FileStream file = File.Open (Application.persistentDataPath + "/playerInfo.dat", FileMode.Open);
 			SaveData saveData = (SaveData)bf.Deserialize (file);
 			file.Close ();
-			playerScores = saveData.savedPlayerScores;
+			//playerScores = saveData.savedPlayerScores;
 			zoins = saveData.savedZoins;
 			signedInLastSession = saveData.signedIn;
 			lastGameWasOnline = saveData.lastGameWasOnline;
@@ -267,8 +269,7 @@ public class GameManager : MonoBehaviour
 		}
 
 		//GameSparksManager.SetTopScore(highestSavedScore);
-		GameSparksManager.SubmitScore (highestSavedScore);
-
+		//GameSparksManager.SubmitScore (highestSavedScore);
 	}
 }
 
