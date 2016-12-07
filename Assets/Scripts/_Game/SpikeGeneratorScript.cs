@@ -4,14 +4,13 @@ using System.Collections;
 public class SpikeGeneratorScript : MonoBehaviour
 {
 
-	public float scaleMult;
+	float scaleMult = 0;
 
-	[SerializeField]
-	public float spikeScale;
+	float spikeScale = 0.35f;
 
 	int lastSpikeAmount;
 	float timer;
-	public GameObject spike, spikesParent, hillsParent;
+	public GameObject spikePrefab;
 	Transform[] hillsTransforms;
 
 	float spikeWidth;
@@ -39,22 +38,25 @@ public class SpikeGeneratorScript : MonoBehaviour
 
 	void Start ()
 	{
-		timer = LevelDesign.firstSpikeTime;
-		spikeWidth = (spike.GetComponent<SpriteRenderer> ().sprite.bounds.size.x) * spikeScale;
+		
+		spikeWidth = (spikePrefab.GetComponent<SpriteRenderer> ().sprite.bounds.size.x) * spikeScale;
 		GameplayController.spikes = this;
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
+
+		if (GameplayController.ball.alive) {
+			Timer ();
+		}
+	}
+
+	void Timer(){
+		timer -= Time.deltaTime;
 		if (timer <= 0) {
 			CreateRandomSpike ();
 		}
-
-		if (GameplayController.ball.alive) {
-			timer -= Time.deltaTime;
-		}
-
 	}
 
 	void CreateRandomSpike ()
@@ -83,13 +85,12 @@ public class SpikeGeneratorScript : MonoBehaviour
 
 	void CreateSpike (float spikeInitialXpos, bool pointSpike)
 	{
-		GameObject newSpike = Instantiate (spike) as GameObject;
+		GameObject newSpike = Instantiate (spikePrefab,transform) as GameObject;
 		newSpike.SetActive (true);
 
 		newSpike.transform.position = new Vector3 (spikeInitialXpos, GameplayController.hills.HillHeightAtX(spikeInitialXpos)); //LandHeight (spikeInitialXpos));
-		newSpike.transform.parent = spikesParent.transform;
 		newSpike.transform.localScale = Vector3.one * spikeScale;
-		newSpike.GetComponent<SpikeScript> ().pointSpike = pointSpike;
+		newSpike.GetComponent<Spike> ().pointSpike = pointSpike;//Gives the player a point if avoided
 		ResetSpikeTimer ();
 	}
 
@@ -104,36 +105,22 @@ public class SpikeGeneratorScript : MonoBehaviour
 		float higherExtra = 1.5f * inversePercFullSpeed;
 			
 		timer = Random.Range (smallestDist + lowerExtra, largestDist + higherExtra);
-
 	}
 
-	/*
-	public float LandHeight (float xPos)
-	{
-		GameObject currentHill = HillUnderneath (xPos);
+	public void Init(){
+		DestroyAllSpikes ();
+		timer = LevelDesign.firstSpikeTime;
+		Spike.spikeNumber = 0;
+	}
 
-		float hillHeight = 0;
-		if (currentHill != null) {
-			hillHeight = currentHill.GetComponent<BoxCollider2D> ().bounds.max.y;
+	public void DestroyAllSpikes(){
+		Transform[] spikes = GetComponentsInChildren<Transform> ();
+		foreach(Transform i in spikes){
+			if (i.gameObject == gameObject)
+				continue;
+
+			Destroy (i.gameObject);
 		}
-		return hillHeight;
 	}
-
-	public GameObject HillUnderneath (float xPos)
-	{
-		hillsTransforms = hillsParent.GetComponentsInChildren<Transform> ();
-		foreach (Transform trans in hillsTransforms) {
-
-			float hillCenter = trans.position.x;
-			float hillRight = hillCenter + (trans.localScale.x / 2);
-			float hillLeft = hillCenter - (trans.localScale.x / 2);
-
-			if (xPos < hillRight && xPos > hillLeft) {
-				return trans.gameObject;
-			}
-		}
-		return null;
-	}
-	*/
 
 }

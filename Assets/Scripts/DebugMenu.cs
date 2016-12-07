@@ -13,8 +13,8 @@ public enum ModifierTypes{
 
 public class DebugMenu : MonoBehaviour {
 
-	public SpikeScript spikes;
-	public SpikeScript hills;
+	public Spike spikes;
+	//public SpikeScript hills;
 	public SpikeGeneratorScript spikeGenerator;
 	public BallScript ball;
 

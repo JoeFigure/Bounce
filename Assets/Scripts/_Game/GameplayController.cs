@@ -7,10 +7,9 @@ public class GameplayController : MonoBehaviour
 	public static GameplayController instance;
 	public static BallScript ball;
 	public static SpikeGeneratorScript spikes;
-	public static InGameTutorial tutorial;
 	public static HillScript hills;
+	public static InGameTutorial tutorial;
 
-	//public GameObject hill, hillParent;
 
 	static float _speed = -3.8f;
 	public static float gameTimeStart;
@@ -67,25 +66,20 @@ public class GameplayController : MonoBehaviour
 		TouchInput ();
 		KeyboardInput ();
 
-		Tutorial ();
+
+			//Tutorial ();
+
 	}
 
 	public void StartGame (){
-		hills.DestroyAllHills ();
+		hills.Init ();
+		spikes.Init ();
 
 		Random.InitState (LevelDesign.randomSeed);
 		ball.InitialSetup ();
 		ball.alive = true;
-		ball.ResetBounce ();
-		//CreateFirstHill ();
-		SpikeScript.spikeNumber = 0;
+		//ball.ResetBounce ();
 	}
-
-	/*
-	void CreateFirstHill(){
-		GameObject firstHill = Instantiate (hill, hillParent.transform) as GameObject;
-	}
-	*/
 
 	public void GameOver (){
 		GameManager.instance.CurrentState (GameStates.GameOver);
@@ -115,13 +109,11 @@ public class GameplayController : MonoBehaviour
 	void Tutorial (){
 
 		if (showSpikeTutorial == true) {
-
 			if (GameManager.currentPoints == 0) {
-				Transform[] transforms = spikes.spikesParent.GetComponentsInChildren<Transform> ();
+				Transform[] transforms = spikes.transform.GetComponentsInChildren<Transform> ();
 				foreach (Transform t in transforms) {
 					if (ball.transform.position.x > (t.position.x - 1)) {
 						tutorial.AvoidSpikes ();
-
 						StartCoroutine (PauseCoroutine ()); 
 					}
 				}

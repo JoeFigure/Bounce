@@ -10,11 +10,11 @@ public class Hill : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//transform.Translate (GameplayController.speed * Vector3.right);
-		DestroyObject ();
+		//DestroyObject ();
 	}
 
 	void DestroyObject(){
-		if(transform.position.x < (GameplayController.zeroScreenX - (200/*CHANGE*/))){
+		if(transform.position.x < (GameplayController.zeroScreenX - (40/*CHANGE*/))){
 			Destroy (gameObject);
 		}
 	}

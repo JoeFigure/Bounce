@@ -98,9 +98,9 @@
      <Compile Include="Assets\Scripts\_Game\HillScript.cs" />
      <Compile Include="Assets\Scripts\_Game\InGameTutorial.cs" />
      <Compile Include="Assets\Scripts\_Game\LevelDesign.cs" />
+     <Compile Include="Assets\Scripts\_Game\Spike.cs" />
      <Compile Include="Assets\Scripts\_Game\SpikeBurst.cs" />
      <Compile Include="Assets\Scripts\_Game\SpikeGeneratorScript.cs" />
-     <Compile Include="Assets\Scripts\_Game\SpikeScript.cs" />
      <Compile Include="Assets\Scripts\_Game\TouchCustom.cs" />
      <Compile Include="Assets\Scripts\_Prefab\GameSparksAvailablility.cs" />
      <Compile Include="Assets\Scripts\_Prefab\InternetAvailable.cs" />

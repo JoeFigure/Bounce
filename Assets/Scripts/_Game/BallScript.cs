@@ -6,7 +6,7 @@ public class BallScript : MonoBehaviour
 
 	float hitPower = -15;
 	float xPos = -2;
-	float fullEnergy;
+	float fullEnergy = 0.7f;
 	public bool beenHit;
 	public bool alive;
 	public float energy;
@@ -14,7 +14,6 @@ public class BallScript : MonoBehaviour
 	public float force;
 
 	public BallParticles particles;
-	//public SpikeGeneratorScript generatorScript;
 
 	float landHeight{
 		get { return GameplayController.hills.HillHeightAtX (xPos); }//generatorScript.LandHeight (xPos); }
@@ -26,14 +25,13 @@ public class BallScript : MonoBehaviour
 		
 	void Start (){
 		GameplayController.ball = this;
-		InitialSetup ();
 		alive = false;
 	}
 
 	public void InitialSetup(){
-		fullEnergy = energy;
-		transform.position = new Vector3 (xPos, 0);
 		GetComponent<SpriteRenderer> ().enabled = true;
+		energy = fullEnergy;
+		transform.position = new Vector3 (xPos, 0);
 	}
 
 	void Update (){
@@ -44,11 +42,12 @@ public class BallScript : MonoBehaviour
 			} else {
 				HitBall ();
 			}
+
+			if (yPos <= landHeight) {
+				ResetBounce ();
+			}
 		}
 
-		if (yPos <= landHeight) {
-			ResetBounce ();
-		}
 	}
 
 	void Bounce(){

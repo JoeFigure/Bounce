@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class HillScript : MonoBehaviour {
 
@@ -15,12 +16,24 @@ public class HillScript : MonoBehaviour {
 	Sprite[] icehillSprites = new Sprite[4];
 
 	public GameObject hillPrefab;
-	public Transform[] hills = new Transform[0];
+
+	//public Transform[] hills = new Transform[0];
+	//Hills is old ver, hills1 is the new (pools gameobjects)
+	public Transform[] hills1 = new Transform[20];
 
 	float sizeX; 
 
 	float speed{
 		get{ return GameplayController.speed;}
+	}
+
+	float height{
+		get{
+			int temp = LevelDesign.HillHeight (hillNumber, NewHeight (lastHeight));
+			float finalHeight = (temp * platformHeightMultiplier) - levelHeight;
+			lastHeight = temp;
+			return finalHeight;
+		}
 	}
 
 
@@ -42,17 +55,20 @@ public class HillScript : MonoBehaviour {
 	}
 	
 	void Update () {
-		CreateNewHill ();
-		MoveHills ();
+		if (GameplayController.ball.alive) {
+			MoveHills ();
+		}
 	}
-
+	/*
 	void CreateNewHill(){
+
 
 		foreach (Transform hill in hills) {
 
 			if (hill == transform) {
 				continue;
 			}
+
 
 			Hill originalHill = hill.gameObject.GetComponent<Hill> ();
 
@@ -81,7 +97,7 @@ public class HillScript : MonoBehaviour {
 
 		FillHillsArrayWithChildren ();
 	}
-
+*/
 
 	int NewHeight(int lastHeight){
 
@@ -113,24 +129,72 @@ public class HillScript : MonoBehaviour {
 		}
 	}
 
+	public void DestroyHill(){
+		if(transform.position.x < (GameplayController.zeroScreenX - (40/*CHANGE*/))){
+			Destroy (gameObject);
+		}
+	}
+
+	public void Init(){
+		DestroyAllHills ();
+
+		PoolHills ();
+		InitialPosition ();
+
+		lastHeight = 0;
+		//GameObject newHill = Instantiate (hillPrefab,transform) as GameObject;
+		//FillHillsArrayWithChildren ();
+		//newHill.transform.position = new Vector2 (newHill.transform.position.x, -1);
+	}
+
+	//New Section
+
+	void PoolHills(){
+		hillNumber = 0;
+		for(int i = 0; i < 20 ; i++){
+			GameObject newHill = Instantiate (hillPrefab, transform) as GameObject;
+			hills1 [i] = newHill.transform;
+			hills1[i].gameObject.GetComponent<Hill> ().hillNumber = hillNumber;
+			hillNumber++;
+		}
+	}
+
+	void InitialPosition(){
+		for(int i = 0; i < hills1.Length ; i++){
+			hills1 [i].position = new Vector2( (i * sizeX )- 3/*CHANGE THIS*/,-1);
+		}
+	}
+
+	void MoveHills(){
+		for(int i = 0; i < hills1.Length ; i++){
+
+			//If in killzone (far offscreen)
+			if (hills1[i].position.x < (GameplayController.zeroScreenX - (20))) {
+
+				hillNumber++;
+				hills1 [i].gameObject.GetComponent<Hill> ().hillNumber = hillNumber;
+
+				int lastPos = i > 0 ? i-1 : hills1.Length - 1;
+				hills1[i].position = new Vector2( hills1[lastPos].position.x + sizeX,height);
+			}
+
+			hills1[i].Translate (GameplayController.speed * Vector3.right);
+
+		}
+	}
+
+	//End of new section
+
 	public void DestroyAllHills(){
 		Transform[] hills = GetComponentsInChildren<Transform> ();
 		foreach(Transform i in hills){
 			if (i.gameObject == gameObject)
 				continue;
-
-			Destroy (i.gameObject);
+				Destroy (i.gameObject);
 		}
-		InitialSetup ();
 	}
 
-	void InitialSetup(){
-		lastHeight = 0;
-		GameObject newHill = Instantiate (hillPrefab,transform) as GameObject;
-		FillHillsArrayWithChildren ();
-		newHill.transform.position = new Vector2 (newHill.transform.position.x, -1);
-	}
-
+	/*
 	void FillHillsArrayWithChildren(){
 			hills = GetComponentsInChildren<Transform> ();
 	}
@@ -140,11 +204,18 @@ public class HillScript : MonoBehaviour {
 			if (i.gameObject == gameObject) 
 				continue;
 			i.Translate (GameplayController.speed * Vector3.right);
+
+			if (i.position.x < (GameplayController.zeroScreenX - (20))) {
+				//hills [i] = null;
+				Destroy (i.gameObject);
+				FillHillsArrayWithChildren ();
 			}
 		}
+	}
+	*/
 
 	public float HillHeightAtX(float xPos){
-		foreach(Transform i in hills){
+		foreach(Transform i in hills1){
 
 			if (i.gameObject == gameObject) {
 				continue;
@@ -155,7 +226,6 @@ public class HillScript : MonoBehaviour {
 				return i.position.y;
 			}
 		}
-
 		return 0;
 	}
 }

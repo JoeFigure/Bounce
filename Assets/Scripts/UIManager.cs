@@ -180,6 +180,7 @@ public class UIManager : MonoBehaviour
 
 	public void ShowGameUI (){
 		ShowMenu (uiData.gameUI);
+		uiData.scoreText.gameObject.SetActive (true);
 	}
 
 	public void ShowIntroTutorial (){
@@ -328,6 +329,7 @@ public class UIManager : MonoBehaviour
 			uiData.zoinsPage.SetActive (true);
 			break;
 		}
+		uiData.zoinsPanel.SetActive (true);
 		CloseSidePanel ();
 	}
 

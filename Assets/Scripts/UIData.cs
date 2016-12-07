@@ -13,8 +13,8 @@ public class UIData : MonoBehaviour {
 	public GameObject sidePanel;
 	public GameObject screenCoverButton;
 	[Header("HUD Top of screen")]
-	//public Text universalTopScore;
 	public Text zoinsText;
+	public GameObject zoinsPanel;
 	[Header("In Game")]
 	public Text scoreText;
 	[Header("Game Over")]

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SpikeScript : MonoBehaviour {
+public class Spike : MonoBehaviour {
 
 
 	public static int spikeNumber;

@@ -130,6 +130,8 @@ public class GameManager : MonoBehaviour
 
 		case GameStates.PlayGame:
 
+			currentPoints = 0;
+
 			GameplayController.instance.StartGame ();
 			GameplayController.instance.RecordStartTime ();
 
