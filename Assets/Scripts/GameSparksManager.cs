@@ -180,21 +180,7 @@ public class GameSparksManager : MonoBehaviour {
 			}
 		});
 	}
-
-	//Uses Cloudcode
-
-	/*
-	public static void SetTopScore(int amount){
-		new GameSparks.Api.Requests.LogEventRequest ().
-		SetEventKey ("SET_TOPSCORE").
-		SetEventAttribute ("TOPSCORE", amount).
-		Send ((response) => {
-			if (response.HasErrors) {
-				Debug.Log("Error");
-			}
-		});
-	}
-*/
+		
 
 	public static void GetTopScore(){
 		new GameSparks.Api.Requests.LogEventRequest ().

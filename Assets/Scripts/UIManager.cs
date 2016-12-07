@@ -70,13 +70,20 @@ public class UIManager : MonoBehaviour
 	public void PlayGame (){
 		GameManager.instance.CurrentState (GameStates.PlayGame);
 	}
+	/*
+	public void ToMainMenu (){
+		GameManager.instance.CurrentState (GameStates.Mainmenu);
+	}
+	*/
 
 	public void ReplayBttn (){
 		GameManager.instance.ResetGame ();
 	}
 
 	public void ZoinCount (int amount){
-		uiData.zoinsText.text = amount.ToString ();
+		foreach (Text t in uiData.playerZoins) {
+			t.text = amount.ToString();
+		}
 	}
 
 	public void InternetAccessNotification (bool connected){
@@ -151,17 +158,19 @@ public class UIManager : MonoBehaviour
 
 	}
 
-	//Menu
+	//Menu ------------ THIS CAN BE CLEANED UP
 
+	//This is only ran the first time you open.
 	public void ShowMenu (GameObject showUI){
 		DeactivateAllChildren (uiData.uiViewsContainer);
 		showUI.SetActive (true);
+		PreClosedSidePanel ();
 	}
 
 	public void MainMenuUI (){
 		ShowMenu (uiData.mainMenuUI);
 		uiData.sidePanel.SetActive(true);
-		PreClosedSidePanel ();
+
 	}
 
 	public void ShowWelcome (){
@@ -171,11 +180,6 @@ public class UIManager : MonoBehaviour
 
 	public void ShowGameUI (){
 		ShowMenu (uiData.gameUI);
-	}
-
-	public void ShowSettings (GameObject settingsUI, Text scoreText){
-
-		ShowMenu (settingsUI);
 	}
 
 	public void ShowIntroTutorial (){
@@ -262,6 +266,7 @@ public class UIManager : MonoBehaviour
 
 	public void Logout(){
 		GameSparksManager.instance.LogOut ();
+		//PreClosedSidePanel ();
 	}
 
 	public void OpenSidePanel(){
@@ -284,8 +289,6 @@ public class UIManager : MonoBehaviour
 		Sprite ticked = Resources.Load<Sprite> ("tickBox_Ticked");
 		Sprite unticked = Resources.Load<Sprite> ("tickBox");
 
-
-
 		if (tImage.sprite == unticked) {
 			tImage.sprite = ticked;
 			tAndCChecked = true;
@@ -301,6 +304,31 @@ public class UIManager : MonoBehaviour
 		} else {
 			uiData.tandCPanel.SetActive (true);
 		}
+	}
+
+	public void ShowPage(string page){
+		DeactivateAllChildren (uiData.pagesContainer);
+		switch (page) {
+		case "home":
+			uiData.homePage.SetActive (true);
+			break;
+		case "profile":
+			uiData.profilePage.SetActive (true);
+			break;
+		case "rewind":
+			uiData.rewindPage.SetActive (true);
+			break;
+		case "settings":
+			uiData.settingsPage.SetActive (true);
+			break;
+		case "winners":
+			uiData.winnersPage.SetActive (true);
+			break;
+		case "zoins":
+			uiData.zoinsPage.SetActive (true);
+			break;
+		}
+		CloseSidePanel ();
 	}
 
 }

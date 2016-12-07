@@ -31,7 +31,7 @@ public class UnityAds : MonoBehaviour
 			Debug.Log ("The ad was successfully shown.");
 			// YOUR CODE TO REWARD THE GAMER
 			UIManager.instance.ShowTextPopup ("Reward", "You now have +1 Zoins!", true);
-			GameSparksManager.AddZoin (1);
+			GameSparksManager.AddZoin (20);
 			break;
 		case ShowResult.Skipped:
 			Debug.Log("The ad was skipped before reaching the end.");

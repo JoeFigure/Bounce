@@ -6,7 +6,6 @@ using GameSparks.Core;
 
 public class UIData : MonoBehaviour {
 
-
 	[Header("Main Menu")]
 	public Text topScorerNameText;
 	public GameObject overlayPanel;
@@ -35,6 +34,15 @@ public class UIData : MonoBehaviour {
 	public List<GameObject> welcomeUIPanels = new List<GameObject> ();
 	public List<Text> playerHighScore = new List<Text> ();
 	public List<Text> topScores = new List<Text> ();
+	public List<Text> playerZoins = new List<Text> ();
+	[Header("UI Pages")]
+	public GameObject pagesContainer;
+	public GameObject homePage;
+	public GameObject profilePage;
+	public GameObject winnersPage;
+	public GameObject zoinsPage;
+	public GameObject rewindPage;
+	public GameObject settingsPage;
 	[Header("UI Containers")]
 	public GameObject uiViewsContainer;
 	public GameObject mainMenuUI;
@@ -49,13 +57,13 @@ public class UIData : MonoBehaviour {
 	public Text popupTitleText;
 	[Header("Popup Content")]
 	public GameObject rewardPopupContent;
-	public GameObject shopPopupContent;
+	//public GameObject shopPopupContent;
 	public GameObject gameOverPopupContent;
-	public GameObject settingsPopupContent;
+	//public GameObject settingsPopupContent;
 	public GameObject textPopupContent;
 	public GameObject playGameContent;
 	public GameObject grandPrizeContent;
-	public GameObject profileContent;
+	//public GameObject profileContent;
 	public GameObject topScoreContent;
 	public GameObject topScorersContent;
 	public GameObject offlineWarningContent;
@@ -111,23 +119,11 @@ public class UIData : MonoBehaviour {
 	public void ShowPopup(){
 		UIManager.instance.ShowPopup (rewardPopupContent, "Daily Reward", true);
 	}
-
-	public void ShowShopPopup(){
-		UIManager.instance.ShowPopup (shopPopupContent, "Buy Zoins", true);
-	}
-
-	public void ShowSettingsPopup(){
-		UIManager.instance.ShowPopup (settingsPopupContent, "Settings", true);
-	}
-
-	public void ShowProfilePopup(){
-		UIManager.instance.ShowPopup (profileContent, "Profile", true);
-	}
-
+	/*
 	public void ShowTopscorePopup(){
 		UIManager.instance.ShowPopup (topScoreContent, "Top Score", true);
 	}
-
+*/
 	public void ShowGrandPrizePopup(){
 		UIManager.instance.ShowGrandPrizePopup ();
 	}
@@ -144,11 +140,11 @@ public class UIData : MonoBehaviour {
 	public void PlayGame(){
 		UIManager.instance.PlayGame ();
 	}
-
+	/*
 	public void ShowTopscorersPopup(){
 		UIManager.instance.ShowPopup (topScorersContent, "Top Score", true);
 	}
-
+*/
 	public void ShowIntroTutorial(){
 		UIManager.instance.ShowIntroTutorial ();
 	}
@@ -193,4 +189,9 @@ public class UIData : MonoBehaviour {
 	public void TandCPanel(){
 		UIManager.instance.TandCPanel ();
 	}
+
+	public void ShowPage(string page){
+		UIManager.instance.ShowPage (page);
+	}
+
 }
