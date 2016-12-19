@@ -10,7 +10,7 @@ public class SpikeGeneratorScript : MonoBehaviour
 
 	int lastSpikeAmount;
 	float timer;
-	public GameObject spikePrefab;
+	public GameObject spikePrefab, spikesContainer;
 	Transform[] hillsTransforms;
 
 	float spikeWidth;
@@ -36,17 +36,13 @@ public class SpikeGeneratorScript : MonoBehaviour
 	}
 
 
-	void Start ()
-	{
-		
+	void Start (){
+		spikesContainer = gameObject;
 		spikeWidth = (spikePrefab.GetComponent<SpriteRenderer> ().sprite.bounds.size.x) * spikeScale;
 		GameplayController.spikes = this;
 	}
 	
-	// Update is called once per frame
-	void Update ()
-	{
-
+	void Update (){
 		if (GameplayController.ball.alive) {
 			Timer ();
 		}
@@ -59,8 +55,7 @@ public class SpikeGeneratorScript : MonoBehaviour
 		}
 	}
 
-	void CreateRandomSpike ()
-	{
+	void CreateRandomSpike (){
 
 		int spikeType = Random.Range (0, 100);
 
@@ -83,8 +78,7 @@ public class SpikeGeneratorScript : MonoBehaviour
 		}
 	}
 
-	void CreateSpike (float spikeInitialXpos, bool pointSpike)
-	{
+	void CreateSpike (float spikeInitialXpos, bool pointSpike){
 		GameObject newSpike = Instantiate (spikePrefab,transform) as GameObject;
 		newSpike.SetActive (true);
 
@@ -94,10 +88,7 @@ public class SpikeGeneratorScript : MonoBehaviour
 		ResetSpikeTimer ();
 	}
 
-
-	void ResetSpikeTimer ()
-	{
-
+	void ResetSpikeTimer (){
 		const float smallestDist = 0.05f;
 		const float largestDist = 0.3f;
 
@@ -118,7 +109,6 @@ public class SpikeGeneratorScript : MonoBehaviour
 		foreach(Transform i in spikes){
 			if (i.gameObject == gameObject)
 				continue;
-
 			Destroy (i.gameObject);
 		}
 	}

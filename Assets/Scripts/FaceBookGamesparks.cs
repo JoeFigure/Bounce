@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Facebook.Unity;
@@ -56,7 +57,9 @@ public class FaceBookGamesparks : MonoBehaviour
 
 	public void Share (){
 
-		FB.ShareLink (contentTitle: "Mazoin");
+		Uri link = new Uri ("http://www.theverge.com/");
+
+		FB.ShareLink (contentTitle: "Mazoin", contentDescription: "Temporary Mazoin description", contentURL:link);
 	}
 
 }

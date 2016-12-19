@@ -51,53 +51,11 @@
      <Compile Include="Assets\GameSparks\Editor\GameSparksRestWindow.cs" />
      <Compile Include="Assets\GameSparks\Editor\GameSparksSettingsEditor.cs" />
      <Compile Include="Assets\GameSparks\Editor\GameSparksUnityInspector.cs" />
-     <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_usersettingsfragment.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_tooltip_bubble.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\drawable\com_facebook_picker_list_selector_background_transition.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_search_bar_layout.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_login_activity_layout.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\drawable\com_facebook_picker_item_background.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\drawable\com_facebook_top_button.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_friendpickerfragment.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\drawable\com_facebook_button_check.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\drawable\com_facebook_button_blue.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_picker_title_bar.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_picker_activity_circle_row.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_placepickerfragment.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\drawable\com_facebook_usersettingsfragment_background_gradient.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\drawable\com_facebook_picker_list_selector.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\drawable\com_facebook_top_background.xml" />
      <None Include="Assets\Plugins\Metro\GameSparksRT.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_placepickerfragment_list_row.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\values-mdpi\dimens.xml" />
-     <None Include="Assets\Plugins\Android\facebook\bin\R.txt" />
-     <None Include="Assets\Plugins\Android\facebook\res\values-he\strings.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\values-xhdpi\dimens.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\values-hdpi\dimens.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_picker_image.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_picker_title_bar_stub.xml" />
      <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\values\drawables.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\values-iw\strings.xml" />
-     <None Include="Assets\Plugins\Android\facebook\build.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\values\strings.xml" />
-     <None Include="Assets\Plugins\Android\facebook\proguard-project.txt" />
-     <None Include="Assets\Plugins\Android\facebook\res\values\styles.xml" />
-     <None Include="Assets\Plugins\Android\facebook\bin\AndroidManifest.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\values-es\strings.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\drawable\com_facebook_picker_top_button.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_picker_list_section_header.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\values\attrs.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_picker_checkbox.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\drawable\com_facebook_loginbutton_silver.xml" />
+     <None Include="Assets\FacebookSDK\link.xml" />
      <None Include="Assets\GameSparks\link.xml" />
-     <None Include="Assets\Plugins\Android\facebook\bin\proguard.txt" />
-     <None Include="Assets\Plugins\Android\facebook\res\values-ldpi\dimens.xml" />
-     <None Include="Assets\Plugins\Android\facebook\AndroidManifest.xml" />
      <None Include="Assets\Plugins\GameSparksRT.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\values\colors.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_picker_search_box.xml" />
-     <None Include="Assets\Plugins\Android\facebook\res\layout\com_facebook_picker_list_row.xml" />
  <Reference Include="UnityEngine.Advertisements">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
  </Reference>
@@ -137,8 +95,11 @@
  <Reference Include="Facebook.Unity.Editor">
  <HintPath>/Users/joekletz/Projects Local/Bling/Bounce/Assets/FacebookSDK/Plugins/Editor/Facebook.Unity.Editor.dll</HintPath>
  </Reference>
- <Reference Include="Facebook.Unity.IOS">
- <HintPath>/Users/joekletz/Projects Local/Bling/Bounce/Assets/FacebookSDK/Plugins/iOS/Facebook.Unity.IOS.dll</HintPath>
+ <Reference Include="Facebook.Unity.PlatformEditor">
+ <HintPath>/Users/joekletz/Projects Local/Bling/Bounce/Assets/FacebookSDK/Plugins/Editor/Facebook.Unity.PlatformEditor.dll</HintPath>
+ </Reference>
+ <Reference Include="Facebook.Unity.Settings">
+ <HintPath>/Users/joekletz/Projects Local/Bling/Bounce/Assets/FacebookSDK/Plugins/Settings/Facebook.Unity.Settings.dll</HintPath>
  </Reference>
  <Reference Include="GameSparks.Api">
  <HintPath>/Users/joekletz/Projects Local/Bling/Bounce/Assets/Plugins/GameSparks.Api.dll</HintPath>

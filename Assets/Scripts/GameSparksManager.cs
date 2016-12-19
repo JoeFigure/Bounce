@@ -49,11 +49,12 @@ public class GameSparksManager : MonoBehaviour {
 	void HandleGameSparksMessageReceived (bool available) {
 		UIManager.instance.IndicateGameSparksAvailability (available);
 	}
-
+	/*
 	public void StartCoroutineCheckIfGamesparksAvailable(){
 		StartCoroutine(CheckIfGamesparksAvailable());
 	}
-
+*/
+	/*
 	IEnumerator CheckIfGamesparksAvailable(){
 		if (GameManager.instance.online) {
 		while (!GS.Available) {
@@ -62,14 +63,18 @@ public class GameSparksManager : MonoBehaviour {
 			CheckIfAuthenticated ();
 		} else {
 			//No Connection route
-			if (GameManager.instance.signedInLastSession) {
+
+			//if (GameManager.instance.signedInLastSession) {
+			if (PlayerPrefs.GetString("Signed In") == "True") {
 				GameManager.instance.CurrentState (GameStates.Mainmenu);
 			} else {
 				UIManager.instance.ShowWelcome ();
 			}
 		}
 	}
+	*/
 
+	/*
 	void CheckIfAuthenticated(){
 		if (gsAuthenticated) {
 			GameManager.instance.CurrentState (GameStates.Mainmenu);
@@ -77,6 +82,7 @@ public class GameSparksManager : MonoBehaviour {
 			UIManager.instance.ShowWelcome ();
 		}
 	}
+	*/
 
 	public void RegistrationRequest(){
 
@@ -190,7 +196,6 @@ public class GameSparksManager : MonoBehaviour {
 				var temp = response.ScriptData.GetInt("TOPSCORE");
 				int score = temp.HasValue ? (int)temp : 0;
 				GameManager.instance.playerTopScore = score;
-				//Debug.Log("THTHTHTHTHTHTHTHTH  " + temp);
 			} else {
 				Debug.Log ("Error Loading Player Data...");
 			}
@@ -254,7 +259,8 @@ public class GameSparksManager : MonoBehaviour {
 		Send ((response) => {
 			if (!response.HasErrors) {
 				Debug.Log("Player Logged out...");
-				GameManager.instance.signedInLastSession = false;
+				//GameManager.instance.signedInLastSession = false;
+				GameManager.instance.SetSignedInPrefs(false);
 				GameManager.instance.Save();
 				GameManager.instance.CurrentState(GameStates.Welcome);
 				GS.Reset();
@@ -272,7 +278,7 @@ public class GameSparksManager : MonoBehaviour {
 		new GameSparks.Api.Requests.LogEventRequest ().SetEventKey ("GAME_OVER").
 		Send ((response) => {
 			if (!response.HasErrors) {
-				
+				GetZoins();
 			} else {
 				Debug.Log("Error");
 			}
@@ -281,7 +287,8 @@ public class GameSparksManager : MonoBehaviour {
 
 	public void Login(){
 		GameManager.instance.CurrentState(GameStates.Mainmenu);
-		GameManager.instance.signedInLastSession = true;
+		//GameManager.instance.signedInLastSession = true;
+		GameManager.instance.SetSignedInPrefs(true);
 	}
 		
 	public void UpdateInformation(){

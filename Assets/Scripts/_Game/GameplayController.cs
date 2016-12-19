@@ -66,19 +66,20 @@ public class GameplayController : MonoBehaviour
 		TouchInput ();
 		KeyboardInput ();
 
-
-			//Tutorial ();
-
+		if (ball.alive) {
+			Tutorial ();
+		}
 	}
 
 	public void StartGame (){
+
+		Random.InitState (LevelDesign.randomSeed);
+
 		hills.Init ();
 		spikes.Init ();
 
-		Random.InitState (LevelDesign.randomSeed);
 		ball.InitialSetup ();
 		ball.alive = true;
-		//ball.ResetBounce ();
 	}
 
 	public void GameOver (){
@@ -107,14 +108,15 @@ public class GameplayController : MonoBehaviour
 	}
 
 	void Tutorial (){
-
 		if (showSpikeTutorial == true) {
 			if (GameManager.currentPoints == 0) {
-				Transform[] transforms = spikes.transform.GetComponentsInChildren<Transform> ();
+				Transform[] transforms = spikes.spikesContainer.GetComponentsInChildren<Transform> ();
 				foreach (Transform t in transforms) {
-					if (ball.transform.position.x > (t.position.x - 1)) {
-						tutorial.AvoidSpikes ();
-						StartCoroutine (PauseCoroutine ()); 
+					if (t.gameObject.CompareTag("Spike")) {
+						if (ball.transform.position.x > (t.position.x - 1)) {
+							tutorial.AvoidSpikes ();
+							StartCoroutine (PauseCoroutine ()); 
+						}
 					}
 				}
 			}

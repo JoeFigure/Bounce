@@ -1,17 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/_Game/HillScript.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GameManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/GameSparksManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/_Game/BallScript.cs" Line="19" Column="1" />
-      <File FileName="Assets/Scripts/_Game/GameplayController.cs" Line="81" Column="5" />
-      <File FileName="Assets/Scripts/_Game/SpikeGeneratorScript.cs" Line="50" Column="3" />
-      <File FileName="Assets/Scripts/_Game/HillScript.cs" Line="94" Column="6" />
-      <File FileName="Assets/Scripts/_Game/Spike.cs" Line="42" Column="1" />
-      <File FileName="Assets/Scripts/_Game/Hill.cs" Line="14" Column="3" />
-      <File FileName="Assets/Scripts/UIManager.cs" Line="183" Column="46" />
-      <File FileName="Assets/Scripts/UIData.cs" Line="19" Column="23" />
-      <File FileName="Assets/Scripts/GameManager.cs" Line="133" Column="22" NotebookId="1" />
+      <File FileName="Assets/Scripts/UIData.cs" Line="93" Column="26" />
+      <File FileName="Assets/Scripts/UIManager.cs" Line="198" Column="29" />
+      <File FileName="Assets/Scripts/FaceBookGamesparks.cs" Line="62" Column="108" />
+      <File FileName="Assets/Scripts/GameSparksManager.cs" Line="85" Column="4" />
+      <File FileName="Assets/Scripts/Initializer.cs" Line="19" Column="5" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="152" Column="5" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

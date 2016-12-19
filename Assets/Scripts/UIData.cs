@@ -5,10 +5,16 @@ using UnityEngine.UI;
 using GameSparks.Core;
 
 public class UIData : MonoBehaviour {
-
+	[Header("2nd Canvas layer")]
+	public Canvas secondCanvas;
 	[Header("Main Menu")]
 	public Text topScorerNameText;
 	public GameObject overlayPanel;
+	public Text days, hours, minutes, seconds;
+	public Text days1, hours1, minutes1, seconds1;
+	public Image background;
+	public Text cashPrizeScore, winOrLoseText;
+	public Text playButtonText;
 	[Header("Side Panel")]
 	public GameObject sidePanel;
 	public GameObject screenCoverButton;
@@ -30,6 +36,8 @@ public class UIData : MonoBehaviour {
 	public Button loginButton;
 	public Button tAndCTickBox;
 	public GameObject tandCPanel;
+	public Toggle maleToggle;
+	public Toggle femaleToggle;
 	[Header("Lists")]
 	public List<GameObject> welcomeUIPanels = new List<GameObject> ();
 	public List<Text> playerHighScore = new List<Text> ();
@@ -43,6 +51,7 @@ public class UIData : MonoBehaviour {
 	public GameObject zoinsPage;
 	public GameObject rewindPage;
 	public GameObject settingsPage;
+	public GameObject gameOverPage;
 	[Header("UI Containers")]
 	public GameObject uiViewsContainer;
 	public GameObject mainMenuUI;
@@ -56,23 +65,14 @@ public class UIData : MonoBehaviour {
 	public GameObject closePopupButton;
 	public Text popupTitleText;
 	[Header("Popup Content")]
-	public GameObject rewardPopupContent;
-	//public GameObject shopPopupContent;
-	public GameObject gameOverPopupContent;
-	//public GameObject settingsPopupContent;
-	public GameObject textPopupContent;
-	public GameObject playGameContent;
-	public GameObject grandPrizeContent;
-	//public GameObject profileContent;
-	public GameObject topScoreContent;
-	public GameObject topScorersContent;
 	public GameObject offlineWarningContent;
 	public GameObject winContent;
-	public GameObject previousWinnerContent;
+	public GameObject winInstantContent;
+	public GameObject textPopupContent;
+	public GameObject playGameContent;
 	public GameObject gameSparksActivityContent;
 	public Text gsActivityText;
 	public Text popupText;
-
 
 	public float popupHeaderHeight{
 		get{ 
@@ -92,20 +92,12 @@ public class UIData : MonoBehaviour {
 
 	//Accessible for buttons
 
-	public void ShowMainMenu(){
-		UIManager.instance.MainMenuUI ();
-	}
-
 	public void ShowMenu(GameObject input){
 		UIManager.instance.ShowMenu (input);
 	}
 
 	public void StartGame(){
 		UIManager.instance.StartGame();
-	}
-
-	public void Replay(){
-		UIManager.instance.ReplayBttn ();
 	}
 
 	public void ClosePopup(){
@@ -116,35 +108,18 @@ public class UIData : MonoBehaviour {
 		UIManager.instance.ShowWelcomeUIPanel (panel);
 	}
 
-	public void ShowPopup(){
-		UIManager.instance.ShowPopup (rewardPopupContent, "Daily Reward", true);
-	}
-	/*
-	public void ShowTopscorePopup(){
-		UIManager.instance.ShowPopup (topScoreContent, "Top Score", true);
-	}
-*/
-	public void ShowGrandPrizePopup(){
-		UIManager.instance.ShowGrandPrizePopup ();
-	}
-
 	public void ActivateOverlayPanel(){
 		UIManager.instance.ActivateOverlayPanel (true);
 	}
 
-	/*
-	public void EnableLoginButton(bool disable){
-		UIManager.instance.EnableLoginButton (disable);
+	public void SexToggle(bool male){
+		UIManager.instance.SexToggle (male);
 	}
-*/
+
 	public void PlayGame(){
 		UIManager.instance.PlayGame ();
 	}
-	/*
-	public void ShowTopscorersPopup(){
-		UIManager.instance.ShowPopup (topScorersContent, "Top Score", true);
-	}
-*/
+
 	public void ShowIntroTutorial(){
 		UIManager.instance.ShowIntroTutorial ();
 	}
@@ -193,5 +168,13 @@ public class UIData : MonoBehaviour {
 	public void ShowPage(string page){
 		UIManager.instance.ShowPage (page);
 	}
+
+	public void ChangeTextColor(Text text){
+		UIManager.instance.ChangeTextColor (text);
+	}
+	public void EditTextColor(Text text){
+		UIManager.instance.EditTextColor (text);
+	}
+
 
 }

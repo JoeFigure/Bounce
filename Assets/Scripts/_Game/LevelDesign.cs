@@ -2,11 +2,7 @@
 using System.Collections;
 
 public class LevelDesign : MonoBehaviour {
-	/*
-	void Awake(){
-		Random.seed = 2;
-	}
-	*/
+
 
 	public static int randomSeed = 2;
 

@@ -18,8 +18,7 @@ public class IntroTutorial : MonoBehaviour {
 
 	Sprite mazoinIcon, prizeIcon, smallPrizeIcon, zoinIcon;
 
-	void Start(){
-		
+	void Awake(){
 		pageIndicators = new GameObject[amountOfSlides];
 		GeneratePageIndicators ();
 
@@ -30,7 +29,6 @@ public class IntroTutorial : MonoBehaviour {
 	}
 
 	void OnEnable(){
-		
 		currentSlide = 0;
 		ShowSlide ();
 	}
@@ -71,7 +69,7 @@ public class IntroTutorial : MonoBehaviour {
 			headingText.text = "NEW";
 			iconImage.sprite = mazoinIcon;
 			subheadingText.text = "GAME AND PRIZES";
-			subText.text = "ARE INTRODUCED\rAT THE START OF \rEVERY MONTH\rTO PLAY & WIN\r";
+			subText.text = "ARE INTRODUCED\r AT THE START OF\r EVERY MONTH\r TO PLAY & WIN";
 			break;
 
 		case 1:
@@ -79,7 +77,7 @@ public class IntroTutorial : MonoBehaviour {
 			headingText.text = "£10,000";
 			iconImage.sprite = prizeIcon;
 			subheadingText.text = "CASH PRIZE";
-			subText.text = "IS GIVEN TO THE\rPLAYER WITH THE \rHIGHEST SCORE AT THE \rEND OF THE MONTH";
+			subText.text = "IS GIVEN TO THE\r PLAYER WITH THE\r HIGHEST SCORE AT THE\r END OF THE MONTH";
 			break;
 
 		case 2:
@@ -87,7 +85,7 @@ public class IntroTutorial : MonoBehaviour {
 			headingText.text = "£50";
 			iconImage.sprite = smallPrizeIcon;
 			subheadingText.text = "CASH PRIZE";
-			subText.text = "IS INSTANTLY GIVEN \rTO THE FIRST \r100 PLAYERS THAT\rSCORE 80 OR ABOVE";
+			subText.text = "IS INSTANTLY GIVEN\r TO THE FIRST\r 100 PLAYERS THAT\r SCORE 80 OR ABOVE";
 			break;
 
 		case 3:
@@ -95,7 +93,7 @@ public class IntroTutorial : MonoBehaviour {
 			headingText.text = "PLAY";
 			iconImage.sprite = zoinIcon;
 			subheadingText.text = "WITH ZOINS";
-			subText.text = "EACH TIME YOU\rPLAY IT COSTS 1 ZOIN\rGET MORE ZOINS IN THE\rBANK OF ZOINS";
+			subText.text = "EACH TIME YOU\r PLAY IT COSTS 1 ZOIN\r GET MORE ZOINS IN THE\r BANK OF ZOINS";
 			break;
 		}
 	}

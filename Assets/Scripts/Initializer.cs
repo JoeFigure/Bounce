@@ -11,13 +11,12 @@ public class Initializer : MonoBehaviour {
 	void Start () {
 	
 		InitialiseGame ();
-
 	}
 
 	void InitialiseGame(){
 
 		UIManager.instance.ShowLoadingScreen ();
-
-		GameSparksManager.instance.StartCoroutineCheckIfGamesparksAvailable ();
+		//GameSparksManager.instance.StartCoroutineCheckIfGamesparksAvailable ();
+		GameManager.instance.CurrentState (GameStates.Init);
 	}
 }
