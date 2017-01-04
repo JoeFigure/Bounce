@@ -70,6 +70,7 @@ public class GameplayController : MonoBehaviour
 			Tutorial ();
 		}
 	}
+		
 
 	public void StartGame (){
 
@@ -83,6 +84,7 @@ public class GameplayController : MonoBehaviour
 	}
 
 	public void GameOver (){
+		KHD.FlurryAnalytics.Instance.LogEvent("GameOver");
 		GameManager.instance.CurrentState (GameStates.GameOver);
 
 	}

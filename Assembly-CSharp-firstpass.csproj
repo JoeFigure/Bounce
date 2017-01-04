@@ -45,15 +45,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Plugins\Crittercism\Crittercism.cs" />
-     <Compile Include="Assets\Plugins\Crittercism\Crittercism_Android_Scripts\CrittercismAndroid.cs" />
-     <Compile Include="Assets\Plugins\Crittercism\Crittercism_Android_Scripts\CrittercismConfig.cs" />
-     <Compile Include="Assets\Plugins\Crittercism\Crittercism_IOS_Scripts\CrittercismIOS.cs" />
      <Compile Include="Assets\Plugins\UnityPurchasing\script\ComboBox.cs" />
      <Compile Include="Assets\Plugins\UnityPurchasing\script\IAPDemo.cs" />
      <Compile Include="Assets\Plugins\UnityPurchasing\script\UnibillDemo.cs" />
+     <None Include="Assets\FlurryAnalytics\README.txt" />
+     <None Include="Assets\FlurryAnalytics\Plugins\Android\AndroidManifest.xml" />
      <None Include="Assets\Plugins\Metro\GameSparksRT.xml" />
      <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
+     <None Include="Assets\StreamingAssets\TermsAndConditions.xml" />
      <None Include="Assets\FacebookSDK\link.xml" />
      <None Include="Assets\GameSparks\link.xml" />
      <None Include="Assets\Plugins\GameSparksRT.xml" />

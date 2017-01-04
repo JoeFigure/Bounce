@@ -26,6 +26,11 @@ public class LevelDesign : MonoBehaviour {
 			return false;
 		}
 	}
+	/*
+	public static float Speed(){
+
+	}
+	*/
 
 }
 
