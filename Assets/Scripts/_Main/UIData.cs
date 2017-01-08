@@ -13,6 +13,7 @@ public class UIData : MonoBehaviour {
 	public Text days, hours, minutes, seconds;
 	public Text days1, hours1, minutes1, seconds1;
 	public Image background;
+	public Button playButton;
 	public Text cashPrizeScore, winOrLoseText;
 	public Text playButtonText;
 	public GameObject topScorePanel1, topScorePanel2, offlinePanel1, offlinePanel2;
@@ -145,7 +146,6 @@ public class UIData : MonoBehaviour {
 
 	public void Logout(){
 		UIManager.instance.Logout ();
-		UIManager.instance.EnableLoginButton (true);
 	}
 
 	public void ShowSidePanel(){

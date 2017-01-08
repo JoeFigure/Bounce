@@ -61,14 +61,14 @@ public class GameSparksManager : MonoBehaviour {
 		}
 			CheckIfAuthenticated ();
 			//CheckLastGameWasOffline ();
-		} else {
+		} /*else {
 			//No Internet Connection
 			string temp = PlayerPrefs.GetString ("Signed In");
 			yield return new WaitForSeconds(10);
 			OfflineLogin (temp);
-		}
+		}*/
 	}
-
+	/*
 	void OfflineLogin(string signedIn){
 		if (signedIn == "True") {
 				GameManager.instance.CurrentState (GameStates.Mainmenu);
@@ -76,7 +76,7 @@ public class GameSparksManager : MonoBehaviour {
 				GameManager.instance.CurrentState (GameStates.Welcome);
 			}
 	}
-
+*/
 	void CheckIfAuthenticated(){
 		if (gsAuthenticated) {
 			GameManager.instance.CurrentState (GameStates.Mainmenu);
@@ -85,7 +85,7 @@ public class GameSparksManager : MonoBehaviour {
 		}
 	}
 
-
+	/*
 	public void RegistrationRequest(){
 
 			new GameSparks.Api.Requests.RegistrationRequest ().
@@ -105,8 +105,9 @@ public class GameSparksManager : MonoBehaviour {
 				gsActivity = response.JSONString;
 			});
 	}
+	*/
 
-
+	/*
 	public void Authorise(){
 		new GameSparks.Api.Requests.AuthenticationRequest().
 		SetUserName(usernameLogin).
@@ -120,6 +121,7 @@ public class GameSparksManager : MonoBehaviour {
 			}
 		});
 	}
+	*/
 
 	void ShowAuthWarning(){
 		UIManager.instance.ShowTextPopup("Warning", "Username or Password unrecognized" , true);
@@ -254,10 +256,10 @@ public class GameSparksManager : MonoBehaviour {
 		Send ((response) => {
 			if (!response.HasErrors) {
 				Debug.Log("Player Logged out...");
-				GameManager.instance.DeleteSavedData();
-				PlayerPrefs.SetString ("Signed In", "False");
-				PlayerPrefs.Save ();
-				GameManager.instance.Save();
+				//GameManager.instance.DeleteSavedData();
+				//PlayerPrefs.SetString ("Signed In", "False");
+				//PlayerPrefs.Save ();
+				//GameManager.instance.Save();
 				GameManager.instance.CurrentState(GameStates.Welcome);
 				GS.Reset();
 			} else {
@@ -280,12 +282,13 @@ public class GameSparksManager : MonoBehaviour {
 			}
 		});
 	}
-
+	/*
 	public void Login(){
 		GameManager.instance.CurrentState(GameStates.Mainmenu);
-		PlayerPrefs.SetString ("Signed In", "True");
-		PlayerPrefs.Save ();
+		//PlayerPrefs.SetString ("Signed In", "True");
+		//PlayerPrefs.Save ();
 	}
+	*/
 		
 	public void UpdateInformation(){
 		new AccountDetailsRequest().Send((response) =>{
@@ -295,7 +298,7 @@ public class GameSparksManager : MonoBehaviour {
 			});
 	}
 
-
+	/*
 	public void SignupDetails(string sex, string email, int birthDay, int birthMonth, int birthYear){
 		new GameSparks.Api.Requests.LogEventRequest ().
 		SetEventKey ("SIGNUPFORM").
@@ -310,5 +313,5 @@ public class GameSparksManager : MonoBehaviour {
 			}
 		});
 	}
-
+	*/
 }

@@ -85,7 +85,7 @@ public class Signup : MonoBehaviour
 	bool TandCChecked (){
 		return uiData.tAndCToggle.isOn;
 	}
-
+	/*
 	public void SubmitRegistration (){
 
 		if (String.IsNullOrEmpty (email)) {
@@ -120,4 +120,5 @@ public class Signup : MonoBehaviour
 		GameSparksManager.instance.RegistrationRequest ();
 		GameSparksManager.instance.SignupDetails (sex, email, birthDay, birthMonth, birthYear);
 	}
+	*/
 }

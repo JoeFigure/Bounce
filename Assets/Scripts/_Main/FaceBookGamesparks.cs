@@ -49,8 +49,11 @@ public class FaceBookGamesparks : MonoBehaviour
 			if (response.HasErrors) {
 				Debug.Log ("Something failed when connecting with Facebook " + response.Errors);
 			} else {
+				if((bool)response.NewPlayer){
+					GameManager.instance.FirstPlay();
+				}
 				Debug.Log ("Gamesparks Facebook Login Successful");
-				GameSparksManager.instance.Login ();
+				Login ();
 			}
 		});
 	}
@@ -60,6 +63,12 @@ public class FaceBookGamesparks : MonoBehaviour
 		Uri link = new Uri ("http://www.theverge.com/");
 
 		FB.ShareLink (contentTitle: "Mazoin", contentDescription: "Temporary Mazoin description", contentURL:link);
+	}
+
+	void Login(){
+		GameManager.instance.CurrentState(GameStates.Mainmenu);
+		//PlayerPrefs.SetString ("Signed In", "True");
+		//PlayerPrefs.Save ();
 	}
 
 }

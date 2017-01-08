@@ -120,6 +120,15 @@ public class UIManager : MonoBehaviour
 		}
 	}
 
+	public void SwitchPlayBttnFunction(int zoins){
+		uiData.playButton.onClick.RemoveAllListeners ();
+		if (zoins > 0) {
+			uiData.playButton.onClick.AddListener(StartGame);
+		} else {
+			uiData.playButton.onClick.AddListener(ShowZoinShop);
+		}
+	}
+
 	public void ActivateOverlayPanel (bool activate){
 		uiData.overlayPanel.SetActive (activate);
 	}
@@ -129,15 +138,14 @@ public class UIManager : MonoBehaviour
 			t.text = score.ToString ();
 		}
 	}
-
+	/*
 	public void EnableLoginButton (bool disable){
 		uiData.loginButton.interactable = disable;
 	}
-
+*/
 
 	public void SetTopScores (string topScore){
 		//uiData.topScorerNameText.text = GameManager.instance.topPlayerNames [0];
-
 		foreach (Text t in uiData.topScores) {
 			t.text = topScore.ToString();
 		}
@@ -181,22 +189,30 @@ public class UIManager : MonoBehaviour
 
 	public void MainMenuUI (){
 		ShowMenu (uiData.mainMenuUI);
+		ShowPage ("home");
 		uiData.secondCanvas.enabled = true;
 		PreClosedSidePanel ();
 		uiData.zoinsPanel.SetActive (true);
 	}
-
+	/*
 	public void OfflineMainMenu(){
 		uiData.topScorePanel1.SetActive (false);
 		uiData.topScorePanel2.SetActive (false);
 		uiData.offlinePanel1.SetActive (true);
 		uiData.offlinePanel2.SetActive (true);
 	}
+	*/
 
 	void ShowGameOver(){
 		ShowMenu (uiData.mainMenuUI);
 		ShowPage ("gameOver");
 		uiData.background.color = new Color (1, 1, 1, 0.7f);
+	}
+
+	public void ShowZoinShop(){
+		//ShowMenu (uiData.mainMenuUI);
+		ShowPage ("zoins");
+		//uiData.background.color = new Color (1, 1, 1, 0.7f);
 	}
 
 	public void ShowWelcome (){

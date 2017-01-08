@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
 	void Start (){
 		day = DateTime.Now.Date;
 		prizeDay = new DateTime (2017, 2, 1, 1, 1, 1);
-		Load ();
+		//Load ();
 	}
 
 	void Update (){
@@ -117,20 +117,27 @@ public class GameManager : MonoBehaviour
 
 		case GameStates.Mainmenu:
 
-			Load ();
+			//Load ();
+			GameSparksManager.GetZoins();
 
 			UIManager.instance.MainMenuUI ();
 
 			zoins = zoins;
 
-			if (GameSparksManager.instance.gsAuthenticated) {
+			UIManager.instance.SwitchPlayBttnFunction (zoins);
+
+			//if (GameSparksManager.instance.gsAuthenticated) {
+			//Gets user name
 				GameSparksManager.instance.UpdateInformation ();
+			//Gets Player TopScore
 				GameSparksManager.GetTopScore ();
+			//Finds Leaderboard #1 score
 				GameSparksManager.instance.GetScores ();
-			} else {
+			//} 
+			/*else {
 				//Game checks on startup only if online.
 				UIManager.instance.OfflineMainMenu();
-			}
+			}*/
 			break;
 
 		case GameStates.PlayGame:
@@ -150,16 +157,17 @@ public class GameManager : MonoBehaviour
 
 			playerTopScore = currentPoints;
 
-			if (GameSparksManager.instance.gsAuthenticated) {
+			//if (GameSparksManager.instance.gsAuthenticated) {
 				cashPrizeScore = currentPoints;
 				GameSparksManager.SubmitScore (currentPoints);
 				GameSparksManager.GameOver ();
 				GameSparksManager.GetTopScore ();
-			} 
-
+			//} 
+			/*
 			if (!online){
 				zoins--;
 			}
+			*/
 			/*
 			if (currentPoints > playerTopScore) {
 				UIManager.instance.DisplayWinOrLose (true);
@@ -169,7 +177,7 @@ public class GameManager : MonoBehaviour
 			*/	
 
 			dateLastPlayed = day;
-			Save ();
+			//Save ();
 
 			break;
 
@@ -181,40 +189,9 @@ public class GameManager : MonoBehaviour
 	}
 
 
-	public void Save (){
-		BinaryFormatter bf = new BinaryFormatter ();
-		FileStream file = File.Create (Application.persistentDataPath + "/playerInfo.dat");
-		SaveData saveData = new SaveData ();
-		saveData.savedZoins = zoins;
-		saveData.personalHighScore = playerTopScore;
-		saveData.dateLastPlayed = day;//new DateTime (2000, 1, 1);
-		bf.Serialize (file, saveData);
-		file.Close ();
-	}
-
-	public void DeleteSavedData(){
-		File.Delete(Application.persistentDataPath + "/playerInfo.dat");
-	}
-
-	public void Load (){
-		if (File.Exists (Application.persistentDataPath + "/playerInfo.dat")) {
-			BinaryFormatter bf = new BinaryFormatter ();
-			FileStream file = File.Open (Application.persistentDataPath + "/playerInfo.dat", FileMode.Open);
-			SaveData saveData = (SaveData)bf.Deserialize (file);
-			file.Close ();
-			zoins = saveData.savedZoins;
-			playerTopScore = saveData.personalHighScore;
-			dateLastPlayed = saveData.dateLastPlayed;
-		}
-
-		if (GameSparksManager.instance.gsAuthenticated) {
-			GameSparksManager.SubmitScore (playerTopScore);
-			GameSparksManager.ManualReset (zoins);
-		}
-	}
 
 	public void FirstPlay (){
-		DeleteSavedData();
+		//DeleteSavedData();
 		int firstTimeFreeZoins = 10;
 		GameSparksManager.ManualReset (firstTimeFreeZoins);
 		zoins = firstTimeFreeZoins;
@@ -222,7 +199,7 @@ public class GameManager : MonoBehaviour
 		_playerTopScore = 0;
 		UIManager.instance.SetPlayerTopScore(0);
 		UIManager.instance.ShowIntroTutorial ();
-		Save ();
+		//Save ();
 	}
 
 	public void ResetGame (){
@@ -231,6 +208,7 @@ public class GameManager : MonoBehaviour
 
 }
 
+/*
 [Serializable]
 public class SaveData
 {
@@ -251,7 +229,7 @@ public class SaveData
 
 
 }
-
+*/
 
 
 /*
@@ -274,6 +252,40 @@ public void ClearSavedData (){
 	saveData.dateLastPlayed = day;
 	bf.Serialize (file, saveData);
 	file.Close ();
+}
+*/
+
+/*
+public void Save (){
+	BinaryFormatter bf = new BinaryFormatter ();
+	FileStream file = File.Create (Application.persistentDataPath + "/playerInfo.dat");
+	SaveData saveData = new SaveData ();
+	saveData.savedZoins = zoins;
+	saveData.personalHighScore = playerTopScore;
+	saveData.dateLastPlayed = day;//new DateTime (2000, 1, 1);
+	bf.Serialize (file, saveData);
+	file.Close ();
+}
+
+public void DeleteSavedData(){
+	File.Delete(Application.persistentDataPath + "/playerInfo.dat");
+}
+
+public void Load (){
+	if (File.Exists (Application.persistentDataPath + "/playerInfo.dat")) {
+		BinaryFormatter bf = new BinaryFormatter ();
+		FileStream file = File.Open (Application.persistentDataPath + "/playerInfo.dat", FileMode.Open);
+		SaveData saveData = (SaveData)bf.Deserialize (file);
+		file.Close ();
+		zoins = saveData.savedZoins;
+		playerTopScore = saveData.personalHighScore;
+		dateLastPlayed = saveData.dateLastPlayed;
+	}
+
+	if (GameSparksManager.instance.gsAuthenticated) {
+		GameSparksManager.SubmitScore (playerTopScore);
+		GameSparksManager.ManualReset (zoins);
+	}
 }
 */
 
