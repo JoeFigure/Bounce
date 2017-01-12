@@ -9,7 +9,11 @@ using UnityEngine.SceneManagement;
 
 public enum GameStates
 {
-	Init, Welcome, Mainmenu, PlayGame, GameOver
+	Init,
+	Welcome,
+	Mainmenu,
+	PlayGame,
+	GameOver
 }
 
 public class GameManager : MonoBehaviour
@@ -26,9 +30,9 @@ public class GameManager : MonoBehaviour
 
 	static int _zoins;
 
-	public static int daysUntilPrize,hrsUntilPrize,minsUntilPrize,secsUntilPrize;
+	public static int daysUntilPrize, hrsUntilPrize, minsUntilPrize, secsUntilPrize;
 
-	static public string userName, userID;
+	static public string userName, userID, email;
 
 	public int instantCashScore = 50;
 
@@ -56,14 +60,15 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	public int cashPrizeScore{
+	public int cashPrizeScore {
 		set {
 			if (value > instantCashScore) {
 				UIManager.instance.SetCashPrizeScore (0);
 			} else {
 				int temp = instantCashScore - value;
 				UIManager.instance.SetCashPrizeScore (temp);
-			}; 
+			}
+			; 
 		}
 	}
 
@@ -91,15 +96,14 @@ public class GameManager : MonoBehaviour
 	void Start (){
 		day = DateTime.Now.Date;
 		prizeDay = new DateTime (2017, 2, 1, 1, 1, 1);
-		//Load ();
 	}
 
 	void Update (){
 		UIManager.instance.InternetAccessNotification (online);
-		Countdown();
+		Countdown ();
 	}
 
-	void Countdown(){
+	void Countdown (){
 		TimeSpan timeLeft = prizeDay.Subtract (DateTime.Now);
 		daysUntilPrize = timeLeft.Days;
 		hrsUntilPrize = timeLeft.Hours;
@@ -117,67 +121,32 @@ public class GameManager : MonoBehaviour
 
 		case GameStates.Mainmenu:
 
-			//Load ();
-			GameSparksManager.GetZoins();
-
 			UIManager.instance.MainMenuUI ();
-
-			zoins = zoins;
-
 			UIManager.instance.SwitchPlayBttnFunction (zoins);
 
-			//if (GameSparksManager.instance.gsAuthenticated) {
 			//Gets user name
-				GameSparksManager.instance.UpdateInformation ();
-			//Gets Player TopScore
-				GameSparksManager.GetTopScore ();
+			GameSparksManager.instance.UpdateInformation ();
 			//Finds Leaderboard #1 score
-				GameSparksManager.instance.GetScores ();
-			//} 
-			/*else {
-				//Game checks on startup only if online.
-				UIManager.instance.OfflineMainMenu();
-			}*/
+			GameSparksManager.instance.GetScores ();
+
 			break;
 
 		case GameStates.PlayGame:
 
 			currentPoints = 0;
-
 			GameplayController.instance.StartGame ();
 			GameplayController.instance.RecordStartTime ();
-
 			UIManager.instance.ShowGameUI ();
 
 			break;
 
 		case GameStates.GameOver:
 
-			StartCoroutine (UIManager.instance.WaitAndDisplayGameOver ());
-
 			playerTopScore = currentPoints;
-
-			//if (GameSparksManager.instance.gsAuthenticated) {
-				cashPrizeScore = currentPoints;
-				GameSparksManager.SubmitScore (currentPoints);
-				GameSparksManager.GameOver ();
-				GameSparksManager.GetTopScore ();
-			//} 
-			/*
-			if (!online){
-				zoins--;
-			}
-			*/
-			/*
-			if (currentPoints > playerTopScore) {
-				UIManager.instance.DisplayWinOrLose (true);
-			} else {
-				UIManager.instance.DisplayWinOrLose (false);
-			}
-			*/	
+			cashPrizeScore = currentPoints;
+			GameSparksManager.instance.SubmitScore (currentPoints);
 
 			dateLastPlayed = day;
-			//Save ();
 
 			break;
 
@@ -188,18 +157,12 @@ public class GameManager : MonoBehaviour
 		this.currentState = currentState;
 	}
 
-
-
 	public void FirstPlay (){
-		//DeleteSavedData();
-		int firstTimeFreeZoins = 10;
-		GameSparksManager.ManualReset (firstTimeFreeZoins);
-		zoins = firstTimeFreeZoins;
-		GameSparksManager.SubmitScore (0);
+		int initialZoins = 10;
+		GameSparksManager.ManualReset (initialZoins);
+		zoins = initialZoins;
 		_playerTopScore = 0;
-		UIManager.instance.SetPlayerTopScore(0);
-		UIManager.instance.ShowIntroTutorial ();
-		//Save ();
+		UIManager.instance.ShowLoadingScreen ();
 	}
 
 	public void ResetGame (){
@@ -207,85 +170,3 @@ public class GameManager : MonoBehaviour
 	}
 
 }
-
-/*
-[Serializable]
-public class SaveData
-{
-	public bool lastGameWasOnline;
-
-	public DateTime dateLastPlayed;
-
-	public int savedZoins;
-
-	//For offline reference
-	public int personalHighScore;
-
-	//Useful?
-	[NonSerialized]//Delete this eventually
-	public bool signedIn;
-	[NonSerialized]
-	public List<int> savedPlayerScores = new List<int> ();
-
-
-}
-*/
-
-
-/*
-	void CheckDailyReward (DateTime datelastPlayed){
-		if (datelastPlayed != day) {
-			UIManager.instance.DailyRewardPopup ();
-			GameSparksManager.AddZoin (10);
-			Save ();
-		}
-	}
-	*/
-
-/*
-public void ClearSavedData (){
-	BinaryFormatter bf = new BinaryFormatter ();
-	FileStream file = File.Create (Application.persistentDataPath + "/playerInfo.dat");
-	SaveData saveData = new SaveData ();
-	saveData.savedZoins = 0;
-	saveData.personalHighScore = 0;
-	saveData.dateLastPlayed = day;
-	bf.Serialize (file, saveData);
-	file.Close ();
-}
-*/
-
-/*
-public void Save (){
-	BinaryFormatter bf = new BinaryFormatter ();
-	FileStream file = File.Create (Application.persistentDataPath + "/playerInfo.dat");
-	SaveData saveData = new SaveData ();
-	saveData.savedZoins = zoins;
-	saveData.personalHighScore = playerTopScore;
-	saveData.dateLastPlayed = day;//new DateTime (2000, 1, 1);
-	bf.Serialize (file, saveData);
-	file.Close ();
-}
-
-public void DeleteSavedData(){
-	File.Delete(Application.persistentDataPath + "/playerInfo.dat");
-}
-
-public void Load (){
-	if (File.Exists (Application.persistentDataPath + "/playerInfo.dat")) {
-		BinaryFormatter bf = new BinaryFormatter ();
-		FileStream file = File.Open (Application.persistentDataPath + "/playerInfo.dat", FileMode.Open);
-		SaveData saveData = (SaveData)bf.Deserialize (file);
-		file.Close ();
-		zoins = saveData.savedZoins;
-		playerTopScore = saveData.personalHighScore;
-		dateLastPlayed = saveData.dateLastPlayed;
-	}
-
-	if (GameSparksManager.instance.gsAuthenticated) {
-		GameSparksManager.SubmitScore (playerTopScore);
-		GameSparksManager.ManualReset (zoins);
-	}
-}
-*/
-

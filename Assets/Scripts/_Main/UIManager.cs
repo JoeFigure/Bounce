@@ -12,6 +12,8 @@ public class UIManager : MonoBehaviour
 
 	public static UIData uiData;
 
+	bool connectionLost = false;
+
 	public string usernameLoginString {
 		get{ return uiData.usernameLoginText.text; }
 	}
@@ -91,13 +93,12 @@ public class UIManager : MonoBehaviour
 	}
 
 	public void InternetAccessNotification (bool connected){
-
-		if (connected) {
-			InternetAvailable.color = Color.green;
-			InternetAvailable.text = "Online";
-		} else {
-			InternetAvailable.color = Color.red;
-			InternetAvailable.text = "Offline - Prizes currently unavailable";
+		if (!connected) {
+			ShowTextPopup ("Warning", "No internet access available", false);
+			connectionLost = true;
+		} else if(connectionLost){
+			ShowTextPopup ("Warning", "Connection found", true);
+			connectionLost = false;
 		}
 	}
 
@@ -108,7 +109,7 @@ public class UIManager : MonoBehaviour
 		iPanel.SetActive (true);
 	}
 
-	void DeactivateAllChildren (GameObject parent){
+	public void DeactivateAllChildren (GameObject parent){
 		Transform[] transforms = parent.GetComponentsInChildren<Transform> ();
 		foreach (Transform t in transforms) {
 			if (t.gameObject == parent) {
@@ -133,19 +134,14 @@ public class UIManager : MonoBehaviour
 		uiData.overlayPanel.SetActive (activate);
 	}
 
+
 	public void SetPlayerTopScore (int score){
 		foreach (Text t in uiData.playerHighScore) {
 			t.text = score.ToString ();
 		}
 	}
-	/*
-	public void EnableLoginButton (bool disable){
-		uiData.loginButton.interactable = disable;
-	}
-*/
 
 	public void SetTopScores (string topScore){
-		//uiData.topScorerNameText.text = GameManager.instance.topPlayerNames [0];
 		foreach (Text t in uiData.topScores) {
 			t.text = topScore.ToString();
 		}
@@ -155,29 +151,33 @@ public class UIManager : MonoBehaviour
 		uiData.cashPrizeScore.text = input.ToString();
 	}
 
-	public void DisplayWinOrLose(bool win){
-		if (win) {
-			uiData.winOrLoseText.text = "WELL DONE!";
-		} else {
-			uiData.winOrLoseText.text = "SOOO CLOSE!";
-		}
-	}
 
 	//In Game
 
-	public IEnumerator WaitAndDisplayGameOver (){
+	public IEnumerator WaitAndDisplayGameOver (bool universalWin, bool instantWin){
 
 		uiData.gameOverScore.text = GameManager.currentPoints.ToString ();
 		uiData.scoreText.gameObject.SetActive (false);
 
 		yield return new WaitForSeconds (1.2f);
 		ShowGameOver();
-
-		if (GameManager.currentPoints > GameManager.instance.universalTopScore) {
+		if (universalWin) {
 			ShowWinningScorePopup ();
-		} else if (GameManager.currentPoints > GameManager.instance.instantCashScore) {
-				ShowPopup (uiData.winInstantContent, "Instant Win", true);
-			}
+			DisplayWinOrLose (true);
+			yield return null;
+		}
+		if (instantWin) {
+			ShowPopup (uiData.winInstantContent, "Instant Win", true);
+			DisplayWinOrLose (true);
+		}
+	}
+
+	public void DisplayWinOrLose(bool win){
+		if (win) {
+			uiData.winOrLoseText.text = "WELL DONE!";
+		} else {
+			uiData.winOrLoseText.text = "SOOO CLOSE!";
+		}
 	}
 
 	//_______MAIN MENU
@@ -191,17 +191,8 @@ public class UIManager : MonoBehaviour
 		ShowMenu (uiData.mainMenuUI);
 		ShowPage ("home");
 		uiData.secondCanvas.enabled = true;
-		PreClosedSidePanel ();
 		uiData.zoinsPanel.SetActive (true);
 	}
-	/*
-	public void OfflineMainMenu(){
-		uiData.topScorePanel1.SetActive (false);
-		uiData.topScorePanel2.SetActive (false);
-		uiData.offlinePanel1.SetActive (true);
-		uiData.offlinePanel2.SetActive (true);
-	}
-	*/
 
 	void ShowGameOver(){
 		ShowMenu (uiData.mainMenuUI);
@@ -315,12 +306,6 @@ public class UIManager : MonoBehaviour
 		uiData.screenCoverButton.SetActive (true);
 	}
 
-	public void CloseSidePanel(){
-		uiData.sidePanel.GetComponent<Animator> ().SetTrigger ("Close");
-		uiData.screenCoverButton.SetActive (false);
-	}
-
-
 	public void PreClosedSidePanel(){
 		uiData.sidePanel.GetComponent<Animator> ().SetTrigger ("preClosed");
 		uiData.screenCoverButton.SetActive (false);
@@ -366,11 +351,10 @@ public class UIManager : MonoBehaviour
 			break;
 		case "gameOver":
 			uiData.gameOverPage.SetActive (true);
-			PreClosedSidePanel ();
 			return;
 		}
 
-		CloseSidePanel ();
+		PreClosedSidePanel();
 	}
 
 }

@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+
 
 public delegate void DoSummit();
 
@@ -20,8 +22,16 @@ public class Test : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//go.Invoke ();
-
 		//whu.Invoke ();
+
+	}
+
+	void Unused(){
+		string q = P ("aString").Replace('a','b');
+	}
+
+	string P(string input){
+		return input;
 	}
 
 	void PrintA(){

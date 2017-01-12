@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Facebook.Unity;
 using GameSparks.Api.Requests;
+using Facebook.MiniJSON;
 
 public class FaceBookGamesparks : MonoBehaviour
 {
@@ -26,6 +27,14 @@ public class FaceBookGamesparks : MonoBehaviour
 		FB.LogInWithReadPermissions (perms, AuthCallback);
 	}
 
+	void LoginCallback2(ILoginResult result){
+
+		IDictionary dict = Facebook.MiniJSON.Json.Deserialize(result.ToString()) as IDictionary;
+		string fbname = dict["first_name"].ToString();
+		print("your name is: " + fbname);
+		
+	}
+
 	private void AuthCallback (ILoginResult result){
 		if (FB.IsLoggedIn) {
 			// AccessToken class will have session details
@@ -37,11 +46,32 @@ public class FaceBookGamesparks : MonoBehaviour
 				Debug.Log (perm);
 			}
 
-			GameSparksLogin (aToken);
+			Debug.Log (result.RawResult);
+
+			FB.API("/me?fields=name,email", HttpMethod.GET, graphResult =>
+				{
+					if(result.Error == null){
+
+						Dictionary<string, object> poodle = (Dictionary<string,object>)graphResult.ResultDictionary;
+
+						string value = "";
+						if (poodle.TryGetValue("name",out value)){
+							string name = (string)poodle["name"];
+							GameManager.userName = name;
+						}
+						if(poodle.TryGetValue("email",out value)){
+							string email = (string)poodle["email"];
+							GameManager.email = email;
+						}
+						GameSparksLogin (aToken);
+					}
+				});
+			
 		} else {
 			Debug.Log ("User cancelled login");
 		}
 	}
+
 
 	void GameSparksLogin (AccessToken token){
 		new FacebookConnectRequest ().SetAccessToken (AccessToken.CurrentAccessToken.TokenString).Send ((response) => {
@@ -49,11 +79,12 @@ public class FaceBookGamesparks : MonoBehaviour
 			if (response.HasErrors) {
 				Debug.Log ("Something failed when connecting with Facebook " + response.Errors);
 			} else {
-				if((bool)response.NewPlayer){
-					GameManager.instance.FirstPlay();
+				if ((bool)response.NewPlayer) {
+					//GameManager.instance.FirstPlay ();
+					SignupUI.instance.ShowCheckEmailMenu();
+				} else {
+					GameManager.instance.CurrentState (GameStates.Mainmenu);
 				}
-				Debug.Log ("Gamesparks Facebook Login Successful");
-				Login ();
 			}
 		});
 	}
@@ -62,13 +93,7 @@ public class FaceBookGamesparks : MonoBehaviour
 
 		Uri link = new Uri ("http://www.theverge.com/");
 
-		FB.ShareLink (contentTitle: "Mazoin", contentDescription: "Temporary Mazoin description", contentURL:link);
-	}
-
-	void Login(){
-		GameManager.instance.CurrentState(GameStates.Mainmenu);
-		//PlayerPrefs.SetString ("Signed In", "True");
-		//PlayerPrefs.Save ();
+		FB.ShareLink (contentTitle: "Mazoin", contentDescription: "Temporary Mazoin description", contentURL: link);
 	}
 
 }

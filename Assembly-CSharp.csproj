@@ -106,13 +106,14 @@
      <Compile Include="Assets\Scripts\_Main\NotificationManager.cs" />
      <Compile Include="Assets\Scripts\_Main\Purchaser.cs" />
      <Compile Include="Assets\Scripts\_Main\Signup.cs" />
+     <Compile Include="Assets\Scripts\_Main\SignupUI.cs" />
      <Compile Include="Assets\Scripts\_Main\TandC.cs" />
      <Compile Include="Assets\Scripts\_Main\Test.cs" />
+     <Compile Include="Assets\Scripts\_Main\TestEmail.cs" />
      <Compile Include="Assets\Scripts\_Main\UIData.cs" />
      <Compile Include="Assets\Scripts\_Main\UIManager.cs" />
      <Compile Include="Assets\Scripts\_Main\UnityAds.cs" />
      <Compile Include="Assets\Scripts\_Prefab\GameSparksAvailablility.cs" />
-     <Compile Include="Assets\Scripts\_Prefab\InternetAvailable.cs" />
      <None Include="Assets\FlurryAnalytics\README.txt" />
      <None Include="Assets\FlurryAnalytics\Plugins\Android\AndroidManifest.xml" />
      <None Include="Assets\Plugins\Metro\GameSparksRT.xml" />

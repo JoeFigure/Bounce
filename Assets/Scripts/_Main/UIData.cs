@@ -153,7 +153,7 @@ public class UIData : MonoBehaviour {
 	}
 
 	public void CloseSidePanel(){
-		UIManager.instance.CloseSidePanel ();
+		UIManager.instance.PreClosedSidePanel ();
 	}
 
 	public void TandCPanel(){

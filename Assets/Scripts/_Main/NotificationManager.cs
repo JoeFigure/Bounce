@@ -17,7 +17,7 @@ public class NotificationManager : MonoBehaviour {
 	void ScheduleNotification(){
 
 		UnityEngine.iOS.LocalNotification notif = new UnityEngine.iOS.LocalNotification();
-		notif.fireDate = DateTime.Now.AddSeconds (5);
+		notif.fireDate = DateTime.Now.AddSeconds (5500);
 		notif.alertBody = "Come back and play!";
 		UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(notif);
 	}

@@ -13,6 +13,10 @@ public class TandC : MonoBehaviour {
 	void Start () {
 		LoadXML ();
 		FillPagesArray();
+		//tAndCs.text = tcPages [0];
+	}
+
+	void OnEnable(){
 		tAndCs.text = tcPages [0];
 	}
 
