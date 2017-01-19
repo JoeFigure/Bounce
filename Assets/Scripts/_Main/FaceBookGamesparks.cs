@@ -10,6 +10,8 @@ public class FaceBookGamesparks : MonoBehaviour
 {
 	public static FaceBookGamesparks instance = null;
 
+	Texture2D profilePic;
+
 	void Awake (){
 		instance = this;
 	}
@@ -43,35 +45,61 @@ public class FaceBookGamesparks : MonoBehaviour
 			Debug.Log (aToken.UserId);
 			// Print current access token's granted permissions
 			foreach (string perm in aToken.Permissions) {
-				Debug.Log (perm);
+				//Debug.Log (perm);
 			}
 
-			Debug.Log (result.RawResult);
+
 
 			FB.API("/me?fields=name,email", HttpMethod.GET, graphResult =>
 				{
 					if(result.Error == null){
 
-						Dictionary<string, object> poodle = (Dictionary<string,object>)graphResult.ResultDictionary;
+						Dictionary<string, object> aResult = (Dictionary<string,object>)graphResult.ResultDictionary;
 
 						string value = "";
-						if (poodle.TryGetValue("name",out value)){
-							string name = (string)poodle["name"];
+						if (aResult.TryGetValue("name",out value)){
+							string name = (string)aResult["name"];
 							GameManager.userName = name;
 						}
-						if(poodle.TryGetValue("email",out value)){
-							string email = (string)poodle["email"];
+						if(aResult.TryGetValue("email",out value)){
+							string email = (string)aResult["email"];
 							GameManager.email = email;
 						}
+
 						GameSparksLogin (aToken);
 					}
 				});
-			
+
+			FB.API ("/me?fields=picture", HttpMethod.GET, graphResult => {
+				Dictionary<string, object> aResult = (Dictionary<string,object>)graphResult.ResultDictionary;
+
+				Dictionary<string, object> bResult = (Dictionary<string,object>)aResult["picture"];
+
+				Debug.Log (bResult["data"]);
+
+				Dictionary<string, object> data = (Dictionary<string, object>)bResult["data"];
+
+				Debug.Log (data["url"]);
+
+				string photoURL = data["url"] as String;
+
+				GameManager.instance.fbPicUrl = photoURL;
+
+				//StartCoroutine(fetchProfilePic(photoURL));
+
+				});
+
 		} else {
 			Debug.Log ("User cancelled login");
 		}
 	}
-
+	/*
+	private IEnumerator fetchProfilePic (string url) {
+		WWW www = new WWW(url);
+		yield return www;
+		GameManager.profilePic = www.texture;
+	}
+*/
 
 	void GameSparksLogin (AccessToken token){
 		new FacebookConnectRequest ().SetAccessToken (AccessToken.CurrentAccessToken.TokenString).Send ((response) => {
@@ -80,7 +108,7 @@ public class FaceBookGamesparks : MonoBehaviour
 				Debug.Log ("Something failed when connecting with Facebook " + response.Errors);
 			} else {
 				if ((bool)response.NewPlayer) {
-					//GameManager.instance.FirstPlay ();
+					
 					SignupUI.instance.ShowCheckEmailMenu();
 				} else {
 					GameManager.instance.CurrentState (GameStates.Mainmenu);

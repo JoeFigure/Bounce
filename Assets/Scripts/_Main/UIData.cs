@@ -15,8 +15,9 @@ public class UIData : MonoBehaviour {
 	public Image background;
 	public Button playButton;
 	public Text cashPrizeScore, winOrLoseText;
-	public Text playButtonText;
+	public Text playButtonText , instantPrizeText, instantWinPrizeAmountText;
 	public GameObject topScorePanel1, topScorePanel2, offlinePanel1, offlinePanel2;
+	public GameObject instantAvailable, instantUnavailable;
 	[Header("Side Panel")]
 	public GameObject sidePanel;
 	public GameObject screenCoverButton;
@@ -28,8 +29,10 @@ public class UIData : MonoBehaviour {
 	[Header("Game Over")]
 	public Text gameOverScore;
 	public Text topScoreGameOverText;
+	public GameObject instantWinPanel;
 	[Header("Profile")]
 	public Text usernameMainMenuText;
+	public Image profilePic;
 	[Header("Welcome Menus")]
 	public Text usernameLoginText;
 	public Text passwordLoginText;
@@ -75,7 +78,7 @@ public class UIData : MonoBehaviour {
 	public GameObject playGameContent;
 	public GameObject gameSparksActivityContent;
 	public Text gsActivityText;
-	public Text popupText;
+	public Text popupText, instantCashPrizePopupText;
 
 	public float popupHeaderHeight{
 		get{ 

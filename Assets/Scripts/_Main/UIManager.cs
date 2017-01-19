@@ -47,12 +47,17 @@ public class UIManager : MonoBehaviour
 	void Start (){
 
 		uiData.zoinsText.text = GameManager.zoins.ToString ();
+
 	}
 	
 	void Update (){
 
 		uiData.scoreText.text = GameManager.currentPoints.ToString ();
 		PrizeCountdown ();
+	}
+
+	public void DisplayFBPic(Sprite input){
+		uiData.profilePic.sprite = input;
 	}
 
 	public void StartGame (){
@@ -82,13 +87,16 @@ public class UIManager : MonoBehaviour
 
 
 	public void ZoinCount (int amount){
+		uiData.playButton.onClick.RemoveAllListeners ();
 		foreach (Text t in uiData.playerZoins) {
 			t.text = amount.ToString();
 		}
 		if (amount < 1) {
-			uiData.playButtonText.text = "OUT OF ZOINS";
+			uiData.playButtonText.text = "GET MORE ZOINS";
+			uiData.playButton.onClick.AddListener(ShowZoinShop);
 		} else {
 			uiData.playButtonText.text = "PLAY";
+			uiData.playButton.onClick.AddListener(StartGame);
 		}
 	}
 
@@ -121,12 +129,15 @@ public class UIManager : MonoBehaviour
 		}
 	}
 
-	public void SwitchPlayBttnFunction(int zoins){
-		uiData.playButton.onClick.RemoveAllListeners ();
-		if (zoins > 0) {
-			uiData.playButton.onClick.AddListener(StartGame);
+	public void DisplayInstantWinPanel(bool available){
+		if (available) {
+			uiData.instantAvailable.SetActive (true);
+			uiData.instantUnavailable.SetActive (false);
+			uiData.instantWinPanel.SetActive (true);
 		} else {
-			uiData.playButton.onClick.AddListener(ShowZoinShop);
+			uiData.instantAvailable.SetActive (false);
+			uiData.instantUnavailable.SetActive (true);
+			uiData.instantWinPanel.SetActive (false);
 		}
 	}
 
@@ -151,6 +162,17 @@ public class UIManager : MonoBehaviour
 		uiData.cashPrizeScore.text = input.ToString();
 	}
 
+	public void SetInstantWinText(int prizesLeft){
+		uiData.instantPrizeText.text = "NEXT " +
+		prizesLeft.ToString () +
+		" PLAYERS TO SCORE " +
+		GameManager.instance.instantCashScore.ToString ();
+
+		uiData.instantWinPrizeAmountText.text = "WIN £" +
+		GameManager.instance.instantWinPrize.ToString () +
+		" CASH";
+	}
+
 
 	//In Game
 
@@ -159,16 +181,20 @@ public class UIManager : MonoBehaviour
 		uiData.gameOverScore.text = GameManager.currentPoints.ToString ();
 		uiData.scoreText.gameObject.SetActive (false);
 
+		DisplayWinOrLose (false);
+
 		yield return new WaitForSeconds (1.2f);
 		ShowGameOver();
 		if (universalWin) {
 			ShowWinningScorePopup ();
 			DisplayWinOrLose (true);
-			yield return null;
+			instantWin = false;
 		}
 		if (instantWin) {
 			ShowPopup (uiData.winInstantContent, "Instant Win", true);
 			DisplayWinOrLose (true);
+			uiData.instantCashPrizePopupText.text = "£ " + 
+				GameManager.instance.instantWinPrize.ToString ();
 		}
 	}
 
@@ -201,9 +227,7 @@ public class UIManager : MonoBehaviour
 	}
 
 	public void ShowZoinShop(){
-		//ShowMenu (uiData.mainMenuUI);
 		ShowPage ("zoins");
-		//uiData.background.color = new Color (1, 1, 1, 0.7f);
 	}
 
 	public void ShowWelcome (){
@@ -336,6 +360,7 @@ public class UIManager : MonoBehaviour
 			break;
 		case "profile":
 			uiData.profilePage.SetActive (true);
+			SetProfilePic ();
 			break;
 		case "rewind":
 			uiData.rewindPage.SetActive (true);
@@ -355,6 +380,14 @@ public class UIManager : MonoBehaviour
 		}
 
 		PreClosedSidePanel();
+	}
+
+	void SetProfilePic(){
+		Texture2D pic = GameManager.profilePic;
+		Rect rec = new Rect (0, 0, pic.width, pic.height);
+		Sprite fbSprite = Sprite.Create (pic, rec, new Vector2());
+
+		uiData.profilePic.sprite = fbSprite;
 	}
 
 }

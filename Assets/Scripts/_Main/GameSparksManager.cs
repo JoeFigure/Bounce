@@ -105,29 +105,24 @@ public class GameSparksManager : MonoBehaviour
 	}
 
 
-	public void SubmitScore (int points){
+	public void SubmitScore (int points, bool instantWin){
 		new GameSparks.Api.Requests.LogEventRequest ().
 		SetDurable (true).
 		SetEventKey ("SUBMIT_SCORE").
 		SetEventAttribute ("SCORE", points.ToString ()).
-		//SetEventAttribute ("TOPSCORE", points).
 		Send ((response) => {
 			if (!response.HasErrors) {
 
 				bool universalWin = false;
-				bool instantWin = false;
 
 				//Puts score in 1st if universal score beaten
-				if(points > GameManager.instance.universalTopScore){
+				if (points > GameManager.instance.universalTopScore) {
 					GameManager.instance.universalTopScore = points;
 					universalWin = true;
 				}
-				if(points > GameManager.instance.instantCashScore){
-					instantWin = true;
-				}
 
-				UpdateInformation();
-				StartCoroutine (UIManager.instance.WaitAndDisplayGameOver (universalWin,instantWin));
+				UpdateInformation ();
+				StartCoroutine (UIManager.instance.WaitAndDisplayGameOver (universalWin, instantWin));
 			} else {
 				Debug.Log ("Error Posting Score...");
 			}
@@ -173,7 +168,7 @@ public class GameSparksManager : MonoBehaviour
 			gsActivity = response.JSONString;
 		});
 	}
-		
+
 	public void UpdateInformation (){
 		new AccountDetailsRequest ().Send ((response) => {
 			
@@ -185,9 +180,81 @@ public class GameSparksManager : MonoBehaviour
 			int score = temp.HasValue ? (int)temp : 0;
 			GameManager.instance.playerTopScore = score;
 
+			var fbPic = response.ScriptData.GetString ("FBPIC");
+			GameManager.instance.fbPicUrl = fbPic;
+
 			string userName = response.DisplayName;
 			GameManager.userName = userName;
 			UIManager.instance.usernameMainMenuString = userName;
+		});
+	}
+
+	public void InstantWin (){
+		new GameSparks.Api.Requests.LogEventRequest ().
+		SetEventKey ("INSTANTWIN").
+		Send ((response) => {
+			if (!response.HasErrors) {
+				//Debug.Log ("ADDED");
+				GameManager.instantWinsAvailable = false;
+			}
+		});
+	}
+
+	public void GetInstantScore(int prizesLeft){
+		new GetPropertyRequest()
+			.SetPropertyShortCode("WINCOUNT")
+			.Send((response) => {
+				int score = (int)response.Property.GetInt("SCORE");
+				int prize = (int)response.Property.GetInt("PRIZE");
+				GameManager.instance.instantCashScore = score;
+				GameManager.instance.instantWinPrize = prize;
+
+				UIManager.instance.SetInstantWinText(prizesLeft);
+			});
+	}
+
+	public void GetInstantCount (int score, bool postGame){
+		new GameSparks.Api.Requests.LogEventRequest ().
+		SetEventKey ("GETINSTANTCOUNT").
+		Send ((response) => {
+			if (!response.HasErrors) {
+				string instantWinsAvailable = response.ScriptData.GetString ("INSTANTAVAILABLE");
+				//Check if there are instant wins available
+				bool available = false;
+				if (instantWinsAvailable == "TRUE")
+					available = true;
+				//Check if player has won already
+				var previousWinner = response.ScriptData.GetGSData("PREVIOUSWINNER");
+				if(previousWinner != null){
+					available = false;
+				}
+
+				GameManager.instantWinsAvailable = available;
+				UIManager.instance.DisplayInstantWinPanel (available);
+
+				//Invoke Get Instant Score
+				int prizesLeft = (int)response.ScriptData.GetInt("PRIZESLEFT");
+				GameManager.instance.instantWinsLeft = prizesLeft;
+				GetInstantScore(prizesLeft);
+
+				//Calculate if score is instantWinner
+				if(postGame)
+				GameManager.instance.CashPrizeScore(score);
+			}
+		});
+
+	}
+
+	public void InitSubmit (){
+		new GameSparks.Api.Requests.LogEventRequest ().
+		SetEventKey ("INIT_SUBMIT").
+		SetEventAttribute ("EMAIL", GameManager.email).
+		SetEventAttribute ("FB_PIC", GameManager.instance.fbPicUrl).
+		Send ((response) => {
+			if (!response.HasErrors) {
+				Debug.Log ("VICTORY");
+				GameManager.instance.FirstPlay ();
+			}
 		});
 	}
 

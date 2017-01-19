@@ -30,11 +30,38 @@ public class GameManager : MonoBehaviour
 
 	static int _zoins;
 
+	public int instantCashScore, instantWinsLeft, instantWinPrize;
+
+	public static bool instantWinsAvailable;
+
 	public static int daysUntilPrize, hrsUntilPrize, minsUntilPrize, secsUntilPrize;
 
-	static public string userName, userID, email;
+	static public string userName, userID;
 
-	public int instantCashScore = 50;
+	static string _email;
+
+	public static string email {
+		get { 
+			if (string.IsNullOrEmpty (_email)) {
+				return "No email provided";
+			}
+			return _email;
+		}
+		set{ _email = value; }
+	}
+
+	string _fbPicUrl;
+
+	public string fbPicUrl {
+		get{ return _fbPicUrl; }
+		set { 
+			_fbPicUrl = value;
+			StartCoroutine (FetchProfilePic (value)); 
+		}
+	}
+
+	static public Texture2D profilePic;
+
 
 	public static int zoins {
 		get{ return _zoins; }
@@ -60,10 +87,16 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
+
+
+	/*
 	public int cashPrizeScore {
 		set {
 			if (value > instantCashScore) {
 				UIManager.instance.SetCashPrizeScore (0);
+				if (instantWinsAvailable) {
+					GameSparksManager.instance.InstantWin ();
+				}
 			} else {
 				int temp = instantCashScore - value;
 				UIManager.instance.SetCashPrizeScore (temp);
@@ -71,6 +104,7 @@ public class GameManager : MonoBehaviour
 			; 
 		}
 	}
+	*/
 
 	public bool online {
 		get {
@@ -122,12 +156,13 @@ public class GameManager : MonoBehaviour
 		case GameStates.Mainmenu:
 
 			UIManager.instance.MainMenuUI ();
-			UIManager.instance.SwitchPlayBttnFunction (zoins);
 
 			//Gets user name
 			GameSparksManager.instance.UpdateInformation ();
 			//Finds Leaderboard #1 score
 			GameSparksManager.instance.GetScores ();
+			//Updates InstantWin data
+			GameSparksManager.instance.GetInstantCount (0,false);
 
 			break;
 
@@ -141,10 +176,12 @@ public class GameManager : MonoBehaviour
 			break;
 
 		case GameStates.GameOver:
-
+			
+			//Instant win check, then submits to leaderboard
+			GameSparksManager.instance.GetInstantCount (currentPoints, true);
+			//Set Top Score
 			playerTopScore = currentPoints;
-			cashPrizeScore = currentPoints;
-			GameSparksManager.instance.SubmitScore (currentPoints);
+
 
 			dateLastPlayed = day;
 
@@ -167,6 +204,30 @@ public class GameManager : MonoBehaviour
 
 	public void ResetGame (){
 		SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
+	}
+
+	IEnumerator FetchProfilePic (string url){
+		WWW www = new WWW (url);
+		yield return www;
+		profilePic = www.texture;
+	}
+
+	public void CashPrizeScore(int value) {
+
+		bool instantWin = false;
+
+		if (value > instantCashScore) {
+			UIManager.instance.SetCashPrizeScore (0);
+			if (instantWinsAvailable) {
+				GameSparksManager.instance.InstantWin ();
+				instantWin = true;
+			}
+		} else {
+			int temp = instantCashScore - value;
+			UIManager.instance.SetCashPrizeScore (temp);
+		}
+
+		GameSparksManager.instance.SubmitScore (value, instantWin);
 	}
 
 }

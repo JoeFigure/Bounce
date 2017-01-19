@@ -134,7 +134,6 @@ public class HillScript : MonoBehaviour {
 				hills1[i].position = new Vector2( hills1[lastPos].position.x + sizeX,height);
 				SwapSprite (hills1 [i].gameObject, lastHeight);
 
-				//GameplayController.instance.PrintHillTime ();
 			}
 
 			hills1[i].Translate (GameplayController.speed * Vector3.right);

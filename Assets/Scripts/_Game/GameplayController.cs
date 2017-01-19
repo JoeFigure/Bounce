@@ -9,6 +9,7 @@ public class GameplayController : MonoBehaviour
 	public static SpikeGeneratorScript spikes;
 	public static HillScript hills;
 	public static InGameTutorial tutorial;
+	public static BackgroundMountains bGMountains;
 
 
 	static float _speed = -3.8f;
@@ -78,6 +79,7 @@ public class GameplayController : MonoBehaviour
 
 		hills.Init ();
 		spikes.Init ();
+		bGMountains.Init ();
 
 		ball.InitialSetup ();
 		ball.alive = true;
