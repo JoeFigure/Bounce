@@ -4,6 +4,7 @@ using GameSparks.Core;
 using System.Collections.Generic;
 using GameSparks.Api.Messages;
 using GameSparks.Api.Requests;
+using GameSparks.Api.Responses;
 
 
 public class GameSparksManager : MonoBehaviour
@@ -40,7 +41,7 @@ public class GameSparksManager : MonoBehaviour
 	void Awake (){
 		if (instance == null) {
 			instance = this;
-			DontDestroyOnLoad (this.gameObject); 
+			//DontDestroyOnLoad (this.gameObject); 
 		} else {
 			Destroy (this.gameObject);
 		}
@@ -257,5 +258,20 @@ public class GameSparksManager : MonoBehaviour
 			}
 		});
 	}
+
+	/// <summary>
+	/// Push Notifications
+	/// </summary>
+	/// 
+	/*
+	public void PrepareForPushNotifications(){
+		new PushRegistrationRequest()
+			.SetPushId(pushId)
+			.Send((response) => {
+				string registrationId = response.RegistrationId; 
+				GSData scriptData = response.ScriptData; 
+			});
+	}
+	*/
 
 }

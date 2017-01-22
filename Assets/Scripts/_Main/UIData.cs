@@ -126,13 +126,14 @@ public class UIData : MonoBehaviour {
 	public void ShowIntroTutorial(){
 		UIManager.instance.ShowIntroTutorial ();
 	}
-
+	/*
 	public void ShowAd(){
 		UIManager.instance.ShowAd ();
 	}
+	*/
 
 	public void ShowRewardedAd(){
-		UIManager.instance.ShowRewardedAd ();
+		UnityAds.ShowRewardedAd ();
 	}
 
 	public void ShowGameSparksActivityPopup(){

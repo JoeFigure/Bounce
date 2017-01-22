@@ -1,25 +1,31 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.iOS;
 
 public class NotificationManager : MonoBehaviour {
 
 	void Start(){
-
+		Debug.Log("STARTED UPPPP");
+		#if UNITY_IOS
 		RegisterForNotif ();
+		Debug.Log("REACHED FIRST");
+		#endif
 	}
 
 	void RegisterForNotif(){
-		
+		#if UNITY_IOS
 		UnityEngine.iOS.NotificationServices.RegisterForNotifications(UnityEngine.iOS.NotificationType.Alert| UnityEngine.iOS.NotificationType.Badge |  UnityEngine.iOS.NotificationType.Sound);
+		#endif
 	}
 
 	void ScheduleNotification(){
-
+		#if UNITY_IOS
 		UnityEngine.iOS.LocalNotification notif = new UnityEngine.iOS.LocalNotification();
 		notif.fireDate = DateTime.Now.AddSeconds (5500);
 		notif.alertBody = "Come back and play!";
 		UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(notif);
+		#endif
 	}
 
 	void OnApplicationPause (bool isPause){
@@ -47,4 +53,16 @@ public class NotificationManager : MonoBehaviour {
 			#endif
 		}
 	}
+	/*
+	void GetDeviceTokeniOS(){
+		byte[] token = UnityEngine.iOS.NotificationServices.deviceToken;
+		if (token != null) {
+			// send token to a provider
+			string hexToken = System.BitConverter.ToString (token).Replace ("-", "");
+			Debug.Log ("push token: " + hexToken);
+		}
+
+		Debug.Log("TOKEN : " + token.ToString());
+	}
+	*/
 }

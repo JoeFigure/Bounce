@@ -6,16 +6,6 @@ using UnityEngine.UI;
 public class UnityAds : MonoBehaviour
 {
 
-	//public Image adStatus;
-
-	void Update(){
-		/*
-		if (Advertisement.IsReady("rewardedVideo")) {
-			adStatus.color = Color.green;
-		}
-		*/
-	}
-
 	public static void ShowRewardedAd()
 	{
 		if (Advertisement.IsReady("rewardedVideo"))

@@ -86,7 +86,7 @@ public class GameplayController : MonoBehaviour
 	}
 
 	public void GameOver (){
-		KHD.FlurryAnalytics.Instance.LogEvent("GameOver");
+		//KHD.FlurryAnalytics.Instance.LogEvent("GameOver");
 		GameManager.instance.CurrentState (GameStates.GameOver);
 
 	}

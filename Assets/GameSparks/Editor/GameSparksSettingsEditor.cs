@@ -18,6 +18,7 @@ namespace GameSparks.Editor
     {
         GUIContent apiSecretLabel = new GUIContent("Api Secret [?]:", "GameSparks Api Secret can be found at https://portal.gamesparks.net");
         GUIContent apiKeyLabel = new GUIContent("Api Key [?]:", "GameSparks Api Key can be found at https://portal.gamesparks.net");
+		GUIContent credentialLabel = new GUIContent("Credential [?]:", "GameSparks Credential can be found at https://portal.gamesparks.net");
     	GUIContent previewLabel = new GUIContent("Preview Build [?]:", "Run app against the preview service");
     	GUIContent debugLabel = new GUIContent("Debug Build [?]:", "Run app with extended debugging");
 
@@ -51,14 +52,202 @@ namespace GameSparks.Editor
         public static void Edit()
         {
             Selection.activeObject = GetOrCreateSettingsAsset();
-        }
 
+			UpdateSDK (true);
+        }
 
     	void OnDisable()
     	{
     		// make sure the runtime code will load the Asset from Resources when it next tries to access this. 
     		GameSparksSettings.SetInstance(null);
     	}
+
+		static GameSparksSettingsEditor()
+		{
+		}
+
+		private static void RecursiveDeleteFolders(DirectoryInfo baseDir)
+        {
+            if (!baseDir.Exists)
+                return;
+
+            foreach (var dir in baseDir.GetDirectories("*", SearchOption.AllDirectories))
+            {
+                RecursiveDeleteFolders(dir);
+            }
+
+            try
+            {
+                if (baseDir.GetFiles().Length == 0)
+                {
+                    baseDir.Delete(true);
+
+                    AssetDatabase.Refresh();
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        [InitializeOnLoadMethod]
+        private static void FixSDK()
+		{
+			if (UnityEditorInternal.InternalEditorUtility.inBatchMode)
+			{
+				return;
+			}
+			
+			try
+			{
+				string[] oldSDKFiles = {
+					"Assets/GameSparks/Platforms/IOS",
+
+                    "Assets/Plugins/GameSparks.Api.dll.mdb.meta",
+                    "Assets/Plugins/GameSparks.Api.dll.mdb",
+
+                    "Assets/Plugins/iOS/GameSparksWebSocket.h",
+					"Assets/Plugins/iOS/GameSparksWebSocket.m",
+					"Assets/Plugins/iOS/SRWebSocket.h",
+					"Assets/Plugins/iOS/SRWebSocket.m",
+					"Assets/Plugins/iOS/SocketController.h",
+					"Assets/Plugins/iOS/SocketController.m",
+
+					"Assets/GameSparks/Editor/GameSparksPostprocessScript.cs",
+					"Assets/GameSparks/Editor/mod_pbxproj.py",
+					"Assets/GameSparks/Editor/mod_pbxproj.pyc",
+					"Assets/GameSparks/Editor/post_process.py"
+				};
+
+				foreach (string oldSDKFile in oldSDKFiles) {
+					bool hasDeleted = false;
+
+					if (File.Exists(oldSDKFile))
+					{
+						File.Delete(oldSDKFile);
+
+						hasDeleted = true;
+					} else if (Directory.Exists(oldSDKFile)) {
+						Directory.Delete(oldSDKFile, true);
+
+						hasDeleted = true;
+					}
+
+					if (hasDeleted) {
+						//AssetDatabase.Refresh();
+					}
+				}
+			}
+			catch
+			{		
+			}
+
+            string[] oldFiles = {
+				"Assets/Plugins/gamesparksunityosx.bundle/Contents/_CodeSignature/CodeResources.meta",
+                "Assets/Plugins/gamesparksunityosx.bundle/Contents/_CodeSignature/CodeResources",
+				"Assets/Plugins/gamesparksunityosx.bundle/Contents/MacOS/gamesparksunityosx.meta",
+                "Assets/Plugins/gamesparksunityosx.bundle/Contents/MacOS/gamesparksunityosx",
+				"Assets/Plugins/gamesparksunityosx.bundle/Contents/Info.plist.meta",
+                "Assets/Plugins/gamesparksunityosx.bundle/Contents/Info.plist",
+				"Assets/Plugins/iOS/GSExternal.h.meta",
+                "Assets/Plugins/iOS/GSExternal.h",
+				"Assets/Plugins/iOS/GSExternal.m.meta",
+                "Assets/Plugins/iOS/GSExternal.m",
+				"Assets/Plugins/Metro/GameSparks.dll.meta",
+                "Assets/Plugins/Metro/GameSparks.dll",
+				"Assets/Plugins/Metro/GameSparks.pri.meta",
+                "Assets/Plugins/Metro/GameSparks.pri",
+				"Assets/Plugins/Metro/GameSparks.XML.meta",
+                "Assets/Plugins/Metro/GameSparks.XML",
+				"Assets/Plugins/Metro/GameSparksRT.dll.meta",
+                "Assets/Plugins/Metro/GameSparksRT.dll",
+				"Assets/Plugins/Metro/GameSparksRT.pri.meta",
+                "Assets/Plugins/Metro/GameSparksRT.pri",
+				"Assets/Plugins/Metro/GameSparksRT.xml.meta",
+                "Assets/Plugins/Metro/GameSparksRT.xml",
+				"Assets/Plugins/WebGL/GameSparks.jslib.meta",
+                "Assets/Plugins/WebGL/GameSparks.jslib",
+				"Assets/Plugins/WP8/GameSparks.dll.meta",
+                "Assets/Plugins/WP8/GameSparks.dll",
+				"Assets/Plugins/WP8/GameSparks.XML.meta",
+                "Assets/Plugins/WP8/GameSparks.XML",
+				"Assets/Plugins/x86_64/GameSparksNative.dll.meta",
+                "Assets/Plugins/x86_64/GameSparksNative.dll",
+				"Assets/Plugins/XboxOne/GameSparksNative.dll.meta",
+                "Assets/Plugins/XboxOne/GameSparksNative.dll",
+				"Assets/Plugins/BouncyCastle_GameSparks.dll.meta",
+                "Assets/Plugins/BouncyCastle_GameSparks.dll",
+				"Assets/Plugins/GameSparks.Api.dll.meta",
+                "Assets/Plugins/GameSparks.Api.dll",
+				"Assets/Plugins/GameSparks.Api.XML.meta",
+                "Assets/Plugins/GameSparks.Api.XML",
+				"Assets/Plugins/GameSparks.dll.meta",
+                "Assets/Plugins/GameSparks.dll",
+				"Assets/Plugins/GameSparks.XML.meta",
+                "Assets/Plugins/GameSparks.XML",
+				"Assets/Plugins/GameSparksRT.dll.meta",
+                "Assets/Plugins/GameSparksRT.dll",
+				"Assets/Plugins/GameSparksRT.xml.meta",
+                "Assets/Plugins/GameSparksRT.xml"
+            };
+     
+            string baseDir = "Plugins";
+            string targetDir = "Assets/GameSparks/Plugins";
+            DirectoryInfo dirInfo = new DirectoryInfo(targetDir);
+            DirectoryInfo dirInfo2 = new DirectoryInfo("Assets/" + baseDir);
+
+            if (!dirInfo.Exists)
+            {
+                Directory.CreateDirectory(dirInfo.ToString());
+            }
+
+            foreach (string file in oldFiles)
+            {
+                try
+                {
+                    FileInfo fileInfo = new FileInfo(file);
+
+                    string relativePath = fileInfo.DirectoryName;
+
+                    int index = relativePath.IndexOf(baseDir);
+
+                    if (index + baseDir.Length < relativePath.Length)
+                    {
+                        index++;
+                    }
+
+                    relativePath = relativePath.Substring(index + baseDir.Length);
+
+                    DirectoryInfo dirInfo3 = new DirectoryInfo(dirInfo + "/" + relativePath);
+
+                    if (!dirInfo3.Exists)
+                    {
+                        Directory.CreateDirectory(dirInfo3.ToString());
+                    }
+
+                    if ((new FileInfo(dirInfo3 + "/" + fileInfo.Name)).Exists)
+					{
+						fileInfo.Delete();
+					}
+					else
+                    {
+                        fileInfo.MoveTo(dirInfo3 + "/" + fileInfo.Name);
+                    }
+                }
+                catch
+                {             
+                }
+            }
+
+            AssetDatabase.Refresh();
+
+            RecursiveDeleteFolders(dirInfo2);
+
+            var assembly = Assembly.GetAssembly(typeof(UnityEditor.ActiveEditorTracker));
+            var type = assembly.GetType("UnityEditorInternal.LogEntries");
+            var method = type.GetMethod("Clear");
+            method.Invoke(new object(), null);
+        }
     	
     	public override void OnInspectorGUI()
     	{
@@ -70,13 +259,17 @@ namespace GameSparks.Editor
     		EditorGUILayout.HelpBox("Add the GameSparks Api Key and Secret associated with this game", MessageType.None);
     		
     		EditorGUILayout.BeginHorizontal();
-    		GameSparksSettings.ApiKey = EditorGUILayout.TextField(apiKeyLabel, GameSparksSettings.ApiKey);
+    		GameSparksSettings.ApiKey = EditorGUILayout.TextField(apiKeyLabel, GameSparksSettings.ApiKey).Trim();
             EditorGUILayout.EndHorizontal();
 
     		
             EditorGUILayout.BeginHorizontal();
-    		GameSparksSettings.ApiSecret = EditorGUILayout.TextField(apiSecretLabel, GameSparksSettings.ApiSecret);
+    		GameSparksSettings.ApiSecret = EditorGUILayout.TextField(apiSecretLabel, GameSparksSettings.ApiSecret).Trim();
             EditorGUILayout.EndHorizontal();
+
+			EditorGUILayout.BeginHorizontal();
+			GameSparksSettings.Credential = EditorGUILayout.TextField(credentialLabel, GameSparksSettings.Credential);
+			EditorGUILayout.EndHorizontal();
     		
     		
     		EditorGUILayout.BeginHorizontal();
@@ -116,37 +309,12 @@ namespace GameSparks.Editor
 
     			}
 
-    //			GUILayout.TextArea("Get the latest GameSparks SDK version.", EditorStyles.wordWrappedLabel);
-    //
-    //			if(GUILayout.Button("Update SDK")){
-    //				System.Xml.XmlReader sdkInfo = GameSparksRestApi.GetSDKInfo();
-    //				if(sdkInfo != null){
-    //					while(sdkInfo.Read()){
-    //
-    //						if((sdkInfo.NodeType == System.Xml.XmlNodeType.Element) && (sdkInfo.Name == "sdk"))
-    //						{
-    //							string serverVersion = sdkInfo.GetAttribute("version");
-    //							Debug.Log ("Server Version " + serverVersion);
-    //							if(GameSparksSettings.SdkVersion == null || !GameSparksSettings.SdkVersion.Equals(serverVersion)){
-    //								Debug.Log ("Updating GameSparks SDK");
-    //								System.Xml.XmlReader files = sdkInfo.ReadSubtree();
-    //								while(files.Read()){
-    //									if((files.NodeType == System.Xml.XmlNodeType.Element) && (files.Name == "file")){
-    //										GameSparksRestApi.UpdateSDKFile(files.GetAttribute("source"), files.GetAttribute("target"));
-    //									}
-    //								}
-    //								Debug.Log ("Updating GameSparks Version: from (" + GameSparksSettings.SdkVersion + ") to (" + serverVersion + ")");
-    //								GameSparksSettings.SdkVersion = serverVersion;
-    //								EditorUtility.SetDirty(instance);
-    //								AssetDatabase.Refresh();
-    //							} else {
-    //								break;
-    //							}
-    //						}
-    //					}
-    //				}
-    //
-    //			}
+    			GUILayout.TextArea("Get the latest GameSparks SDK version.", EditorStyles.wordWrappedLabel);
+    
+    			if(GUILayout.Button("Update SDK"))
+				{
+					UpdateSDK (false);
+    			}
     		}
 
     		GUILayout.TextArea("Run the GameSparks test harness in the editor. ", EditorStyles.wordWrappedLabel);
@@ -177,7 +345,32 @@ namespace GameSparks.Editor
             
         }
 
+		private static void UpdateSDK(Boolean silentMode)
+		{
+			string lastVersion = GameSparksRestApi.GetLastVersion ();
 
+			if (lastVersion != null) {
+				Debug.Log ("Latest version available: " + lastVersion);
+
+				if (GameSparksRestApi.CompareCurrentWithLastVersion (GameSparks.Core.GS.Version, lastVersion)) {
+					if (EditorUtility.DisplayDialog ("GameSparks SDK", "There is a new available SDK.\nWould you like to update it?", "Yes", "No")) {
+						Debug.Log ("Updating GameSparks SDK from " + GameSparks.Core.GS.Version + " to " + lastVersion + " version");
+
+						if (GameSparksRestApi.UpdateSDK (lastVersion)) {
+							Debug.Log ("Updated GameSparks SDK!");
+						}
+					}
+				} else {
+					if (!silentMode) {
+						EditorUtility.DisplayDialog ("GameSparks SDK", "Sorry, there is any new available SDK.", "OK");
+					}
+				}
+			} else {
+				if (!silentMode) {
+					EditorUtility.DisplayDialog ("GameSparks SDK", "Error occured during getting last version!", "OK");
+				}
+			}
+		}
         
     }
 }

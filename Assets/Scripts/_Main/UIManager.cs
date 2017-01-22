@@ -294,16 +294,7 @@ public class UIManager : MonoBehaviour
 		ShowPopup (uiData.winContent, "Win", true);
 	}
 
-
-	//Other
-
-	public void ShowRewardedAd (){
-		UnityAds.ShowRewardedAd ();
-	}
-
-	public void ShowAd (){
-		UnityAds.ShowAd ();
-	}
+	//OTHER
 
 	public void IndicateGameSparksAvailability (bool available){
 		if (available) {
