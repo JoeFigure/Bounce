@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Facebook.Unity;
 using GameSparks.Api.Requests;
 using Facebook.MiniJSON;
+using Dobro.Text.RegularExpressions;
 
 public class FaceBookGamesparks : MonoBehaviour
 {
@@ -29,11 +30,11 @@ public class FaceBookGamesparks : MonoBehaviour
 		FB.LogInWithReadPermissions (perms, AuthCallback);
 	}
 
-	void LoginCallback2(ILoginResult result){
+	void LoginCallback2 (ILoginResult result){
 
-		IDictionary dict = Facebook.MiniJSON.Json.Deserialize(result.ToString()) as IDictionary;
-		string fbname = dict["first_name"].ToString();
-		print("your name is: " + fbname);
+		IDictionary dict = Facebook.MiniJSON.Json.Deserialize (result.ToString ()) as IDictionary;
+		string fbname = dict ["first_name"].ToString ();
+		print ("your name is: " + fbname);
 		
 	}
 
@@ -45,61 +46,43 @@ public class FaceBookGamesparks : MonoBehaviour
 			Debug.Log (aToken.UserId);
 			// Print current access token's granted permissions
 			foreach (string perm in aToken.Permissions) {
-				//Debug.Log (perm);
+				Debug.Log (perm);
 			}
 
+			FB.API ("/me?fields=name,email", HttpMethod.GET, graphResult => {
+				if (result.Error == null) {
 
+					Dictionary<string, object> aResult = (Dictionary<string,object>)graphResult.ResultDictionary;
 
-			FB.API("/me?fields=name,email", HttpMethod.GET, graphResult =>
-				{
-					if(result.Error == null){
-
-						Dictionary<string, object> aResult = (Dictionary<string,object>)graphResult.ResultDictionary;
-
-						string value = "";
-						if (aResult.TryGetValue("name",out value)){
-							string name = (string)aResult["name"];
-							GameManager.userName = name;
-						}
-						if(aResult.TryGetValue("email",out value)){
-							string email = (string)aResult["email"];
-							GameManager.email = email;
-						}
-
-						GameSparksLogin (aToken);
+					string value = "";
+					if (aResult.TryGetValue ("name", out value)) {
+						string name = (string)aResult ["name"];
+						GameManager.userName = name;
 					}
-				});
+					if (aResult.TryGetValue ("email", out value)) {
+						string email = (string)aResult ["email"];
+						GameManager.email = email;
+					}
+
+					GameSparksLogin (aToken);
+				}
+			});
 
 			FB.API ("/me?fields=picture", HttpMethod.GET, graphResult => {
 				Dictionary<string, object> aResult = (Dictionary<string,object>)graphResult.ResultDictionary;
+				Dictionary<string, object> bResult = (Dictionary<string,object>)aResult ["picture"];
+				Dictionary<string, object> data = (Dictionary<string, object>)bResult ["data"];
 
-				Dictionary<string, object> bResult = (Dictionary<string,object>)aResult["picture"];
-
-				Debug.Log (bResult["data"]);
-
-				Dictionary<string, object> data = (Dictionary<string, object>)bResult["data"];
-
-				Debug.Log (data["url"]);
-
-				string photoURL = data["url"] as String;
+				string photoURL = data ["url"] as String;
 
 				GameManager.instance.fbPicUrl = photoURL;
 
-				//StartCoroutine(fetchProfilePic(photoURL));
-
-				});
+			});
 
 		} else {
 			Debug.Log ("User cancelled login");
 		}
 	}
-	/*
-	private IEnumerator fetchProfilePic (string url) {
-		WWW www = new WWW(url);
-		yield return www;
-		GameManager.profilePic = www.texture;
-	}
-*/
 
 	void GameSparksLogin (AccessToken token){
 		new FacebookConnectRequest ().SetAccessToken (AccessToken.CurrentAccessToken.TokenString).Send ((response) => {
@@ -108,8 +91,12 @@ public class FaceBookGamesparks : MonoBehaviour
 				Debug.Log ("Something failed when connecting with Facebook " + response.Errors);
 			} else {
 				if ((bool)response.NewPlayer) {
-					
-					SignupUI.instance.ShowCheckEmailMenu();
+					if (TestEmail.IsEmail (GameManager.email)) {
+						SignupUI.instance.ShowCheckEmailMenu ();
+					}else{
+						SignupUI.instance.ShowEmailPanel();
+					}
+
 				} else {
 					GameManager.instance.CurrentState (GameStates.Mainmenu);
 				}

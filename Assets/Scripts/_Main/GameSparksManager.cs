@@ -10,26 +10,6 @@ using GameSparks.Api.Responses;
 public class GameSparksManager : MonoBehaviour
 {
 
-	string usernameLogin {
-		get{ return UIManager.instance.usernameLoginString; }
-	}
-
-	string passwordLogin {
-		get{ return UIManager.instance.passwordLoginString; }
-	}
-
-	string usernameRegister {
-		get{ return UIManager.instance.usernameRegisterString; }
-	}
-
-	string passwordRegister {
-		get{ return UIManager.instance.passwordRegisterString; }
-	}
-
-	string displaynameRegister {
-		get{ return usernameRegister + "1"; }
-	}
-
 	public bool gsAuthenticated {
 		get { return GS.Authenticated; }
 	}
@@ -41,7 +21,6 @@ public class GameSparksManager : MonoBehaviour
 	void Awake (){
 		if (instance == null) {
 			instance = this;
-			//DontDestroyOnLoad (this.gameObject); 
 		} else {
 			Destroy (this.gameObject);
 		}
@@ -172,7 +151,7 @@ public class GameSparksManager : MonoBehaviour
 
 	public void UpdateInformation (){
 		new AccountDetailsRequest ().Send ((response) => {
-			
+
 			var zoinData = response.ScriptData.GetInt ("ZOIN");
 			int zoins = zoinData.HasValue ? (int)zoinData : 0;
 			GameManager.zoins = zoins;
@@ -181,12 +160,22 @@ public class GameSparksManager : MonoBehaviour
 			int score = temp.HasValue ? (int)temp : 0;
 			GameManager.instance.playerTopScore = score;
 
+			var temp2 = response.ScriptData.GetInt ("TOTAL_PLAYED");
+			int totalPlayed = temp2.HasValue ? (int)temp2 : 0;
+			GameManager.instance.totalGamesPlayed = totalPlayed;
+
+			var temp3 = response.ScriptData.GetInt ("TOTAL_SCORE");
+			int totalScore = temp3.HasValue ? (int)temp3 : 0;
+			GameManager.instance.totalScore = totalScore;
+
 			var fbPic = response.ScriptData.GetString ("FBPIC");
 			GameManager.instance.fbPicUrl = fbPic;
 
+			string tEmail = (string)response.ScriptData.GetString ("EMAIL");
+			GameManager.email = tEmail;
+
 			string userName = response.DisplayName;
 			GameManager.userName = userName;
-			UIManager.instance.usernameMainMenuString = userName;
 		});
 	}
 
@@ -253,25 +242,109 @@ public class GameSparksManager : MonoBehaviour
 		SetEventAttribute ("FB_PIC", GameManager.instance.fbPicUrl).
 		Send ((response) => {
 			if (!response.HasErrors) {
-				Debug.Log ("VICTORY");
 				GameManager.instance.FirstPlay ();
 			}
 		});
 	}
 
-	/// <summary>
-	/// Push Notifications
-	/// </summary>
-	/// 
-	/*
-	public void PrepareForPushNotifications(){
-		new PushRegistrationRequest()
-			.SetPushId(pushId)
-			.Send((response) => {
-				string registrationId = response.RegistrationId; 
-				GSData scriptData = response.ScriptData; 
-			});
+	public void LogPurchase (string type){
+		new GameSparks.Api.Requests.LogEventRequest ().
+		SetEventKey ("LOG_PURCHASE").
+		SetEventAttribute("TYPE",type).
+		Send((response) => {
+			if (!response.HasErrors) {
+			}
+		});
 	}
-	*/
+
+	public void GetInstantWinners (){
+
+		List<string> winners = new List<string>();
+
+		new GameSparks.Api.Requests.LogEventRequest ().
+		SetEventKey ("GETINSTANTWINNERS").
+		Send ((response) => {
+			if (!response.HasErrors) {
+				int totalWinners = (int)response.ScriptData.GetInt("WINNERBATCHAMOUNT");
+				for (int i = 0; i < totalWinners; i++){
+					winners.Add("Empty");
+				}
+
+				//Get images
+				var dump = response.ScriptData.GetGSDataList("DUMP");
+				List<GameSparks.Core.GSData> d = (List<GameSparks.Core.GSData>)dump;
+
+				int index = 0;
+				foreach(GSData i in d){
+					winners.RemoveAt(index);
+					winners.Insert(index,i.GetString("image"));
+					index ++;
+				}
+					
+				WinnerPageUI.instance.winners = winners;
+				StartCoroutine (WinnerPageUI.instance.Icons());
+
+			} else { Debug.Log("ERRRROR");}
+		});
+	}
+
+	public void GetInstantWinnerProfile (string url, Sprite profileImage){
+		new GameSparks.Api.Requests.LogEventRequest ().
+		SetDurable (true).
+		SetEventKey ("GETINSTANTDETAILS").
+		SetEventAttribute ("IMG_URL", url).
+		Send ((response) => {
+			if (!response.HasErrors) {
+
+				List<GSData>  aResult = response.ScriptData.GetGSDataList("PROFILE");
+				string displayName = "";
+				string location = "";
+				foreach(GSData i in aResult){
+					displayName = i.GetString("displayName");
+					location = i.GetString("location");
+				}
+
+				WinnerPageUI.instance.ShowWinnerProfile(displayName,location,profileImage);
+			}
+		});
+	}
+
+	public void GetGrandWinner (){
+		new GameSparks.Api.Requests.LeaderboardDataRequest ().
+		SetLeaderboardShortCode ("High_Score_Leaderboard").
+		SetEntryCount (1).
+		Send ((response) => {
+			if (!response.HasErrors) {
+				int i = 0;
+				string playerName;
+				string location;
+				foreach (GameSparks.Api.Responses.LeaderboardDataResponse._LeaderboardData entry in response.Data) {
+					playerName = entry.UserName;
+					location = entry.City;
+					GameManager.instance.topPlayerNames [i] = playerName;
+					string score = entry.JSONData ["SCORE"].ToString ();
+					if (i == 0) {
+						GameManager.instance.universalTopScore = int.Parse (score);
+					}
+					i++;
+
+					WinnerPageUI.instance.ShowGrandWinner(playerName, location);
+				}
+			} else {
+				Debug.Log ("Error");
+			}
+		});
+	}
+
+	public void SubmitNewEmail (string newEmail){
+		new GameSparks.Api.Requests.LogEventRequest ().
+		SetDurable (true).
+		SetEventKey ("CHANGEEMAIL").
+		SetEventAttribute ("NEWEMAIL", newEmail).
+		Send ((response) => {
+			if (!response.HasErrors) {
+			}
+		});
+	}
 
 }

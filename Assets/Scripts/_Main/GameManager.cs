@@ -30,13 +30,25 @@ public class GameManager : MonoBehaviour
 
 	static int _zoins;
 
-	public int instantCashScore, instantWinsLeft, instantWinPrize;
+	public int instantCashScore, instantWinsLeft, instantWinPrize, totalGamesPlayed, totalScore;
 
 	public static bool instantWinsAvailable;
 
 	public static int daysUntilPrize, hrsUntilPrize, minsUntilPrize, secsUntilPrize;
 
-	static public string userName, userID;
+	static public string userID;
+
+	static string _userName;
+
+	public static string userName {
+		get{return GetFirstName (_userName);}
+		set{ _userName = value;}
+	}
+
+	static public string GetFirstName(string wholeName){
+		string[] names = wholeName.Split(new char[] {' '});
+		return names[0].ToUpper() ;
+	}
 
 	static string _email;
 
@@ -87,25 +99,6 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-
-
-	/*
-	public int cashPrizeScore {
-		set {
-			if (value > instantCashScore) {
-				UIManager.instance.SetCashPrizeScore (0);
-				if (instantWinsAvailable) {
-					GameSparksManager.instance.InstantWin ();
-				}
-			} else {
-				int temp = instantCashScore - value;
-				UIManager.instance.SetCashPrizeScore (temp);
-			}
-			; 
-		}
-	}
-	*/
-
 	public bool online {
 		get {
 			if (Application.internetReachability != NetworkReachability.NotReachable) {
@@ -123,13 +116,11 @@ public class GameManager : MonoBehaviour
 		} else if (instance != this) {
 				Destroy (gameObject);  
 			}
-
-		//DontDestroyOnLoad (gameObject);
 	}
 
 	void Start (){
 		day = DateTime.Now.Date;
-		prizeDay = new DateTime (2017, 2, 1, 1, 1, 1);
+		prizeDay = new DateTime (2017, 3, 1, 1, 1, 1);
 	}
 
 	void Update (){
@@ -139,10 +130,17 @@ public class GameManager : MonoBehaviour
 
 	void Countdown (){
 		TimeSpan timeLeft = prizeDay.Subtract (DateTime.Now);
+
+		if (timeLeft < TimeSpan.Zero) {
+			timeLeft = TimeSpan.Zero;
+		}
+
 		daysUntilPrize = timeLeft.Days;
 		hrsUntilPrize = timeLeft.Hours;
 		minsUntilPrize = timeLeft.Minutes;
 		secsUntilPrize = timeLeft.Seconds;
+
+
 	}
 
 	public void CurrentState (GameStates currentState){
@@ -181,7 +179,6 @@ public class GameManager : MonoBehaviour
 			GameSparksManager.instance.GetInstantCount (currentPoints, true);
 			//Set Top Score
 			playerTopScore = currentPoints;
-
 
 			dateLastPlayed = day;
 

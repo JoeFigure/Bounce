@@ -186,28 +186,30 @@ public class Purchaser : MonoBehaviour, IStoreListener
 	public PurchaseProcessingResult ProcessPurchase (PurchaseEventArgs args){
 		// A consumable product has been purchased by this user.
 		if (String.Equals (args.purchasedProduct.definition.id, kProductIDConsumable, StringComparison.Ordinal)) {
-			//print ("10 Zoins");
-			GameSparksManager.AddZoin (10);
-			UIManager.instance.MainMenuUI ();
+			//Obsolete
 		}
 		if (String.Equals (args.purchasedProduct.definition.id, productA_IDConsumable, StringComparison.Ordinal)) {
 			//Debug.Log ("25 Zoins");
 			GameSparksManager.AddZoin (25);
+			GameSparksManager.instance.LogPurchase ("A");
 			UIManager.instance.MainMenuUI ();
 		}
 		if (String.Equals (args.purchasedProduct.definition.id, productB_IDConsumable, StringComparison.Ordinal)) {
 			//Debug.Log ("50 Zoins");
 			GameSparksManager.AddZoin (50);
+			GameSparksManager.instance.LogPurchase ("B");
 			UIManager.instance.MainMenuUI ();
 		}
 		if (String.Equals (args.purchasedProduct.definition.id, productC_IDConsumable, StringComparison.Ordinal)) {
 			//Debug.Log ("100 Zoins");
 			GameSparksManager.AddZoin (100);
+			GameSparksManager.instance.LogPurchase ("C");
 			UIManager.instance.MainMenuUI ();
 		}
 		if (String.Equals (args.purchasedProduct.definition.id, productD_IDConsumable, StringComparison.Ordinal)) {
 			//Debug.Log ("500 Zoins");
 			GameSparksManager.AddZoin (500);
+			GameSparksManager.instance.LogPurchase ("D");
 			UIManager.instance.MainMenuUI ();
 		}
 			// Or ... a non-consumable product has been purchased by this user.

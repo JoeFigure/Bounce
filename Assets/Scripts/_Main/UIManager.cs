@@ -14,26 +14,6 @@ public class UIManager : MonoBehaviour
 
 	bool connectionLost = false;
 
-	public string usernameLoginString {
-		get{ return uiData.usernameLoginText.text; }
-	}
-
-	public string passwordLoginString {
-		get{ return uiData.passwordLoginText.text; }
-	}
-
-	public string usernameRegisterString {
-		get{ return uiData.usernameSignupText.text; }
-	}
-
-	public string passwordRegisterString {
-		get{ return uiData.passwordSignupText.text; }
-	}
-
-	public string usernameMainMenuString {
-		set{ uiData.usernameMainMenuText.text = value; }
-	}
-
 	public int pointsToNextPrize {
 		get{ return 100 - GameManager.currentPoints; } 
 	}
@@ -49,14 +29,14 @@ public class UIManager : MonoBehaviour
 		uiData.zoinsText.text = GameManager.zoins.ToString ();
 
 	}
-	
+
 	void Update (){
 
 		uiData.scoreText.text = GameManager.currentPoints.ToString ();
 		PrizeCountdown ();
 	}
 
-	public void DisplayFBPic(Sprite input){
+	public void DisplayFBPic (Sprite input){
 		uiData.profilePic.sprite = input;
 	}
 
@@ -69,12 +49,13 @@ public class UIManager : MonoBehaviour
 			}
 		}
 	}
+		
 
 	public void PlayGame (){
 		GameManager.instance.CurrentState (GameStates.PlayGame);
 	}
 
-	void PrizeCountdown(){
+	void PrizeCountdown (){
 		uiData.days.text = GameManager.daysUntilPrize.ToString ();
 		uiData.hours.text = GameManager.hrsUntilPrize.ToString ();
 		uiData.minutes.text = GameManager.minsUntilPrize.ToString ();
@@ -89,14 +70,14 @@ public class UIManager : MonoBehaviour
 	public void ZoinCount (int amount){
 		uiData.playButton.onClick.RemoveAllListeners ();
 		foreach (Text t in uiData.playerZoins) {
-			t.text = amount.ToString();
+			t.text = amount.ToString ();
 		}
 		if (amount < 1) {
 			uiData.playButtonText.text = "GET MORE ZOINS";
-			uiData.playButton.onClick.AddListener(ShowZoinShop);
+			uiData.playButton.onClick.AddListener (ShowZoinShop);
 		} else {
 			uiData.playButtonText.text = "PLAY";
-			uiData.playButton.onClick.AddListener(StartGame);
+			uiData.playButton.onClick.AddListener (StartGame);
 		}
 	}
 
@@ -104,10 +85,10 @@ public class UIManager : MonoBehaviour
 		if (!connected) {
 			ShowTextPopup ("Warning", "No internet access available", false);
 			connectionLost = true;
-		} else if(connectionLost){
-			ShowTextPopup ("Warning", "Connection found", true);
-			connectionLost = false;
-		}
+		} else if (connectionLost) {
+				ShowTextPopup ("Warning", "Connection found", true);
+				connectionLost = false;
+			}
 	}
 
 	public void ShowWelcomeUIPanel (GameObject iPanel){
@@ -129,7 +110,7 @@ public class UIManager : MonoBehaviour
 		}
 	}
 
-	public void DisplayInstantWinPanel(bool available){
+	public void DisplayInstantWinPanel (bool available){
 		if (available) {
 			uiData.instantAvailable.SetActive (true);
 			uiData.instantUnavailable.SetActive (false);
@@ -141,11 +122,6 @@ public class UIManager : MonoBehaviour
 		}
 	}
 
-	public void ActivateOverlayPanel (bool activate){
-		uiData.overlayPanel.SetActive (activate);
-	}
-
-
 	public void SetPlayerTopScore (int score){
 		foreach (Text t in uiData.playerHighScore) {
 			t.text = score.ToString ();
@@ -154,15 +130,15 @@ public class UIManager : MonoBehaviour
 
 	public void SetTopScores (string topScore){
 		foreach (Text t in uiData.topScores) {
-			t.text = topScore.ToString();
+			t.text = topScore.ToString ();
 		}
 	}
 
-	public void SetCashPrizeScore(int input){
-		uiData.cashPrizeScore.text = input.ToString();
+	public void SetCashPrizeScore (int input){
+		uiData.cashPrizeScore.text = input.ToString ();
 	}
 
-	public void SetInstantWinText(int prizesLeft){
+	public void SetInstantWinText (int prizesLeft){
 		uiData.instantPrizeText.text = "NEXT " +
 		prizesLeft.ToString () +
 		" PLAYERS TO SCORE " +
@@ -184,21 +160,42 @@ public class UIManager : MonoBehaviour
 		DisplayWinOrLose (false);
 
 		yield return new WaitForSeconds (1.2f);
-		ShowGameOver();
+		ShowGameOver ();
 		if (universalWin) {
-			ShowWinningScorePopup ();
+			ShowWinningScorePopup (instantWin);
 			DisplayWinOrLose (true);
 			instantWin = false;
 		}
 		if (instantWin) {
-			ShowPopup (uiData.winInstantContent, "Instant Win", true);
-			DisplayWinOrLose (true);
-			uiData.instantCashPrizePopupText.text = "£ " + 
-				GameManager.instance.instantWinPrize.ToString ();
+			ShowInstantWinPopup ();
 		}
 	}
 
-	public void DisplayWinOrLose(bool win){
+	public void ShowWinningScorePopup (bool instantWin){
+		uiData.topScoreGameOverText.text = GameManager.currentPoints.ToString ();
+		ShowPopup (uiData.winContent, "Win", true);
+
+		if (instantWin) {
+			uiData.popupScreenCoverButton.onClick.RemoveAllListeners ();
+			uiData.popupScreenCoverButton.onClick.AddListener (ShowInstantWinPopup);
+			uiData.closePopupButton.GetComponent<Button>().onClick.RemoveAllListeners ();
+			uiData.closePopupButton.GetComponent<Button>().onClick.AddListener (ShowInstantWinPopup);
+		}
+	}
+
+	void ShowInstantWinPopup (){
+		ShowPopup (uiData.winInstantContent, "Instant Win", true);
+		DisplayWinOrLose (true);
+		uiData.instantCashPrizePopupText.text = "£ " +
+		GameManager.instance.instantWinPrize.ToString ();
+
+		uiData.popupScreenCoverButton.onClick.RemoveAllListeners ();
+		uiData.popupScreenCoverButton.onClick.AddListener (ClosePopup);
+		uiData.closePopupButton.GetComponent<Button>().onClick.RemoveAllListeners ();
+		uiData.closePopupButton.GetComponent<Button>().onClick.AddListener (ClosePopup);
+	}
+
+	public void DisplayWinOrLose (bool win){
 		if (win) {
 			uiData.winOrLoseText.text = "WELL DONE!";
 		} else {
@@ -220,13 +217,13 @@ public class UIManager : MonoBehaviour
 		uiData.zoinsPanel.SetActive (true);
 	}
 
-	void ShowGameOver(){
+	void ShowGameOver (){
 		ShowMenu (uiData.mainMenuUI);
 		ShowPage ("gameOver");
 		uiData.background.color = new Color (1, 1, 1, 0.7f);
 	}
 
-	public void ShowZoinShop(){
+	public void ShowZoinShop (){
 		ShowPage ("zoins");
 	}
 
@@ -244,7 +241,7 @@ public class UIManager : MonoBehaviour
 
 	public void ShowIntroTutorial (){
 		ShowMenu (uiData.IntroTutorialUI);
-		PreClosedSidePanel();
+		PreClosedSidePanel ();
 	}
 
 	public void ShowLoadingScreen (){
@@ -289,10 +286,7 @@ public class UIManager : MonoBehaviour
 		ShowPopup (uiData.gameSparksActivityContent, "Activity Monitor", true);
 	}
 
-	public void ShowWinningScorePopup (){
-		uiData.topScoreGameOverText.text = GameManager.currentPoints.ToString ();
-		ShowPopup (uiData.winContent, "Win", true);
-	}
+
 
 	//OTHER
 
@@ -310,40 +304,33 @@ public class UIManager : MonoBehaviour
 		FaceBookGamesparks.instance.Share ();
 	}
 
-	public void Logout(){
+	public void Logout (){
 		GameSparksManager.instance.LogOut ();
 	}
 
 	//_______SIDE PANEL
 
-	public void OpenSidePanel(){
+	public void OpenSidePanel (){
 		uiData.sidePanel.GetComponent<Animator> ().SetTrigger ("Open");
 		uiData.screenCoverButton.SetActive (true);
 	}
 
-	public void PreClosedSidePanel(){
+	public void PreClosedSidePanel (){
 		uiData.sidePanel.GetComponent<Animator> ().SetTrigger ("preClosed");
 		uiData.screenCoverButton.SetActive (false);
 	}
 
 	//_______SIGNUP MENU
 
-	public void TandCPanel(){
-		if (uiData.tandCPanel.activeSelf) {
-			uiData.tandCPanel.SetActive (false);
-		} else {
-			uiData.tandCPanel.SetActive (true);
-		}
-	}
-
-	public void ChangeTextColor(Text text){
+	public void ChangeTextColor (Text text){
 		text.color = Color.yellow;
 	}
-	public void EditTextColor(Text text){
+
+	public void EditTextColor (Text text){
 		text.color = Color.black;
 	}
 
-	public void ShowPage(string page){
+	public void ShowPage (string page){
 		DeactivateAllChildren (uiData.pagesContainer);
 		switch (page) {
 		case "home":
@@ -352,6 +339,14 @@ public class UIManager : MonoBehaviour
 		case "profile":
 			uiData.profilePage.SetActive (true);
 			SetProfilePic ();
+			uiData.emailText.text = GameManager.email;
+			uiData.usernameMainMenuText.text = GameManager.userName;
+			uiData.totalGamesText.text = GameManager.instance.totalGamesPlayed.ToString ();
+			if (GameManager.instance.totalGamesPlayed > 0) {
+				uiData.averageScoreText.text = (GameManager.instance.totalScore / GameManager.instance.totalGamesPlayed).ToString ();
+			} else {
+				uiData.averageScoreText.text = "0";
+			}
 			break;
 		case "rewind":
 			uiData.rewindPage.SetActive (true);
@@ -361,6 +356,7 @@ public class UIManager : MonoBehaviour
 			break;
 		case "winners":
 			uiData.winnersPage.SetActive (true);
+			WinnerPageUI.instance.Activate ();
 			break;
 		case "zoins":
 			uiData.zoinsPage.SetActive (true);
@@ -370,13 +366,13 @@ public class UIManager : MonoBehaviour
 			return;
 		}
 
-		PreClosedSidePanel();
+		PreClosedSidePanel ();
 	}
 
-	void SetProfilePic(){
+	void SetProfilePic (){
 		Texture2D pic = GameManager.profilePic;
 		Rect rec = new Rect (0, 0, pic.width, pic.height);
-		Sprite fbSprite = Sprite.Create (pic, rec, new Vector2());
+		Sprite fbSprite = Sprite.Create (pic, rec, new Vector2 ());
 
 		uiData.profilePic.sprite = fbSprite;
 	}

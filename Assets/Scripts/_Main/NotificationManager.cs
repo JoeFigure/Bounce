@@ -6,10 +6,8 @@ using UnityEngine.iOS;
 public class NotificationManager : MonoBehaviour {
 
 	void Start(){
-		Debug.Log("STARTED UPPPP");
 		#if UNITY_IOS
 		RegisterForNotif ();
-		Debug.Log("REACHED FIRST");
 		#endif
 	}
 

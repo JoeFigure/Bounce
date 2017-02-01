@@ -1,14 +1,11 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/_Main/Purchaser.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/_Main/WinnerPageUI.cs">
     <Files>
-      <File FileName="Assets/Scripts/_Main/NotificationManager.cs" Line="17" Column="15" />
-      <File FileName="Assets/Scripts/_Main/GameSparksManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/_Main/FaceBookGamesparks.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/_Main/UIManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/_Main/UIData.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/_Main/Purchaser.cs" Line="3" Column="19" />
-      <File FileName="Assets/Scripts/_Main/GameManager.cs" Line="1" Column="1" NotebookId="1" />
+      <File FileName="Assets/Scripts/_Main/WinnerPageUI.cs" Line="38" Column="58" />
+      <File FileName="Assets/Scripts/_Main/GameSparksManager.cs" Line="289" Column="42" />
+      <File FileName="Assets/Scripts/_Main/UIData.cs" Line="147" Column="32" />
+      <File FileName="Assets/Scripts/_Main/UIManager.cs" Line="3" Column="18" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

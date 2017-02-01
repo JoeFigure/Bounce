@@ -8,7 +8,6 @@ public class UIData : MonoBehaviour {
 	[Header("2nd Canvas layer")]
 	public Canvas secondCanvas;
 	[Header("Main Menu")]
-	//public Text topScorerNameText;
 	public GameObject overlayPanel;
 	public Text days, hours, minutes, seconds;
 	public Text days1, hours1, minutes1, seconds1;
@@ -32,7 +31,10 @@ public class UIData : MonoBehaviour {
 	public GameObject instantWinPanel;
 	[Header("Profile")]
 	public Text usernameMainMenuText;
+	public Text totalGamesText;
+	public Text averageScoreText;
 	public Image profilePic;
+	public Text emailText;
 	[Header("Welcome Menus")]
 	public Text usernameLoginText;
 	public Text passwordLoginText;
@@ -58,6 +60,7 @@ public class UIData : MonoBehaviour {
 	public GameObject rewindPage;
 	public GameObject settingsPage;
 	public GameObject gameOverPage;
+	//public GameObject winnerProfile;
 	[Header("UI Containers")]
 	public GameObject uiViewsContainer;
 	public GameObject mainMenuUI;
@@ -70,6 +73,7 @@ public class UIData : MonoBehaviour {
 	public GameObject popupHeader;
 	public GameObject closePopupButton;
 	public Text popupTitleText;
+	public Button popupScreenCoverButton;
 	[Header("Popup Content")]
 	public GameObject offlineWarningContent;
 	public GameObject winContent;
@@ -116,7 +120,8 @@ public class UIData : MonoBehaviour {
 	}
 
 	public void ActivateOverlayPanel(){
-		UIManager.instance.ActivateOverlayPanel (true);
+		//UIManager.instance.ActivateOverlayPanel (true);
+		overlayPanel.SetActive (true);
 	}
 
 	public void PlayGame(){
@@ -126,11 +131,6 @@ public class UIData : MonoBehaviour {
 	public void ShowIntroTutorial(){
 		UIManager.instance.ShowIntroTutorial ();
 	}
-	/*
-	public void ShowAd(){
-		UIManager.instance.ShowAd ();
-	}
-	*/
 
 	public void ShowRewardedAd(){
 		UnityAds.ShowRewardedAd ();
@@ -161,7 +161,7 @@ public class UIData : MonoBehaviour {
 	}
 
 	public void TandCPanel(){
-		UIManager.instance.TandCPanel ();
+		Application.OpenURL("http://mazoin.com/");
 	}
 
 	public void ShowPage(string page){
