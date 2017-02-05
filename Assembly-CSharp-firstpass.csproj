@@ -46,6 +46,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Plugins\Prime31\Etcetera\EtceteraBinding.cs" />
+     <Compile Include="Assets\Plugins\Prime31\Etcetera\EtceteraManager.cs" />
+     <Compile Include="Assets\Plugins\Prime31\Etcetera\demo\CubeRotator.cs" />
+     <Compile Include="Assets\Plugins\Prime31\Etcetera\demo\EtceteraEventListener.cs" />
+     <Compile Include="Assets\Plugins\Prime31\Etcetera\demo\EtceteraGUIManager.cs" />
+     <Compile Include="Assets\Plugins\Prime31\Etcetera\demo\EtceteraGUIManagerThree.cs" />
+     <Compile Include="Assets\Plugins\Prime31\Etcetera\demo\EtceteraGUIManagerTwo.cs" />
      <Compile Include="Assets\Plugins\UnityPurchasing\script\ComboBox.cs" />
      <Compile Include="Assets\Plugins\UnityPurchasing\script\Demo\DemoInventory.cs" />
      <Compile Include="Assets\Plugins\UnityPurchasing\script\IAPButton.cs" />
@@ -123,6 +130,9 @@
  </Reference>
  <Reference Include="winrt">
  <HintPath>/Users/joekletz/Projects Local/Bling/Bounce/Assets/Plugins/UnityPurchasing/winrt/winrt.dll</HintPath>
+ </Reference>
+ <Reference Include="P31RestKit">
+ <HintPath>/Users/joekletz/Projects Local/Bling/Bounce/Assets/Plugins/P31RestKit.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

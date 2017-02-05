@@ -4,14 +4,14 @@ using System.Collections;
 public class SpikeGeneratorScript : MonoBehaviour
 {
 
-	float scaleMult = 0;
-
 	float spikeScale = 0.35f;
 
-	int lastSpikeAmount;
 	float timer;
-	public GameObject spikePrefab, spikesContainer;
-	Transform[] hillsTransforms;
+	public GameObject spikePrefab;
+
+	public Transform[] spikes = new Transform[10];
+
+	int currentSpike;
 
 	float spikeWidth;
 
@@ -23,21 +23,7 @@ public class SpikeGeneratorScript : MonoBehaviour
 		}
 	}
 
-	float spikeInitialXPos{
-		get{ return GameplayController.screenWidth + spikeWidth;}
-	}
-
-	float doubleSpikeInitialXpos {
-		get { return spikeInitialXPos + spikeWidth; }
-	}
-
-	float tripleSpikeInitialXpos {
-		get { return spikeInitialXPos + (spikeWidth * 2); }
-	}
-
-
 	void Start (){
-		spikesContainer = gameObject;
 		spikeWidth = (spikePrefab.GetComponent<SpriteRenderer> ().sprite.bounds.size.x) * spikeScale;
 		GameplayController.spikes = this;
 	}
@@ -45,47 +31,15 @@ public class SpikeGeneratorScript : MonoBehaviour
 	void Update (){
 		if (GameplayController.ball.alive) {
 			Timer ();
+			MoveSpikes ();
 		}
 	}
 
 	void Timer(){
 		timer -= Time.deltaTime;
 		if (timer <= 0) {
-			CreateRandomSpike ();
+			LaunchSpike(true,false);
 		}
-	}
-
-	void CreateRandomSpike (){
-
-		int spikeType = Random.Range (0, 100);
-
-		if (spikeType < 50 || LevelDesign.FirstSpikes()) {
-			CreateSpike (spikeInitialXPos, true);
-			lastSpikeAmount = 1;
-			return;
-		} 
-		if (spikeType < 80) {
-			CreateSpike (spikeInitialXPos, false);
-			CreateSpike (doubleSpikeInitialXpos, true);
-			lastSpikeAmount = 2;
-			return;
-		} 
-		if (spikeType < 100) {
-			CreateSpike (spikeInitialXPos, false);
-			CreateSpike (doubleSpikeInitialXpos, false);
-			CreateSpike (tripleSpikeInitialXpos, true);
-			lastSpikeAmount = 3;
-		}
-	}
-
-	void CreateSpike (float spikeInitialXpos, bool pointSpike){
-		GameObject newSpike = Instantiate (spikePrefab,transform) as GameObject;
-		newSpike.SetActive (true);
-
-		newSpike.transform.position = new Vector3 (spikeInitialXpos, GameplayController.hills.HillHeightAtX(spikeInitialXpos)); //LandHeight (spikeInitialXpos));
-		newSpike.transform.localScale = Vector3.one * spikeScale;
-		newSpike.GetComponent<Spike> ().pointSpike = pointSpike;//Gives the player a point if avoided
-		ResetSpikeTimer ();
 	}
 
 	void ResetSpikeTimer (){
@@ -98,18 +52,63 @@ public class SpikeGeneratorScript : MonoBehaviour
 		timer = Random.Range (smallestDist + lowerExtra, largestDist + higherExtra);
 	}
 
-	public void Init(){
-		DestroyAllSpikes ();
-		timer = LevelDesign.firstSpikeTime;
-		Spike.spikeNumber = 0;
+	public void Init1(){
+		DestroySpikes ();
+		PoolSpikes ();
+		timer = 3;
 	}
 
-	public void DestroyAllSpikes(){
+	public void DestroySpikes(){
 		Transform[] spikes = GetComponentsInChildren<Transform> ();
-		foreach(Transform i in spikes){
+		foreach(Transform i in transform){
 			if (i.gameObject == gameObject)
 				continue;
 			Destroy (i.gameObject);
+		}
+	}
+
+	void PoolSpikes(){
+		for(int i = 0; i < spikes.Length ; i++){
+			GameObject newSpike = Instantiate (spikePrefab, transform) as GameObject;
+			spikes [i] = newSpike.transform;
+			spikes [i].localScale = Vector3.one * spikeScale;
+			spikes [i].position = new Vector2 (Screen.width + 100, 0);
+		}
+	}
+
+	float initialPosX =  3;
+	int spikeMultiple = 0;
+
+	void LaunchSpike (bool pointSpike, bool multiple){
+
+		if (multiple) {
+			initialPosX += spikeWidth;
+			spikes [currentSpike].GetComponent<Spike> ().pointSpike = false;
+		} else {
+			spikes [currentSpike].GetComponent<Spike> ().pointSpike = true;
+		}
+
+		spikes [currentSpike].transform.position = new Vector2 (initialPosX, GameplayController.hills.HillHeightAtX(initialPosX));
+		currentSpike++;
+		spikeMultiple++;
+
+		if (currentSpike >= (spikes.Length - 1))
+			currentSpike = 0;
+
+		int r = Random.Range (0, 100);
+		if (r > 60 && spikeMultiple < 4 && GameplayController.gameTime > 15) {
+			LaunchSpike (false, true);
+		}
+
+		ResetSpikeTimer ();
+		spikeMultiple = 0;
+		initialPosX = 3;
+
+	}
+		
+	void MoveSpikes(){
+		foreach (Transform spike in spikes) {
+			spike.Translate (GameplayController.speed * Vector3.right);
 		}
 	}
 

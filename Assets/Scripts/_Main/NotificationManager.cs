@@ -2,18 +2,21 @@
 using System.Collections;
 using System;
 using UnityEngine.iOS;
+using Prime31;
+
 
 public class NotificationManager : MonoBehaviour {
 
 	void Start(){
 		#if UNITY_IOS
 		RegisterForNotif ();
+		EtceteraBinding.setBadgeCount(0);
 		#endif
 	}
 
 	void RegisterForNotif(){
 		#if UNITY_IOS
-		UnityEngine.iOS.NotificationServices.RegisterForNotifications(UnityEngine.iOS.NotificationType.Alert| UnityEngine.iOS.NotificationType.Badge |  UnityEngine.iOS.NotificationType.Sound);
+		UnityEngine.iOS.NotificationServices.RegisterForNotifications(UnityEngine.iOS.NotificationType.Alert|  UnityEngine.iOS.NotificationType.Sound);
 		#endif
 	}
 
@@ -32,7 +35,9 @@ public class NotificationManager : MonoBehaviour {
 			#if UNITY_IOS
 			UnityEngine.iOS.NotificationServices.ClearLocalNotifications();
 			UnityEngine.iOS.NotificationServices.CancelAllLocalNotifications();
+
 			ScheduleNotification ();
+
 			#endif
 		}
 
@@ -51,16 +56,8 @@ public class NotificationManager : MonoBehaviour {
 			#endif
 		}
 	}
-	/*
-	void GetDeviceTokeniOS(){
-		byte[] token = UnityEngine.iOS.NotificationServices.deviceToken;
-		if (token != null) {
-			// send token to a provider
-			string hexToken = System.BitConverter.ToString (token).Replace ("-", "");
-			Debug.Log ("push token: " + hexToken);
-		}
-
-		Debug.Log("TOKEN : " + token.ToString());
-	}
-	*/
+		
 }
+
+
+

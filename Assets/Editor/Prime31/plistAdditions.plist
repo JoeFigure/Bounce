@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>NSCameraUsageDescription</key>
+    <string>Not really used in app, just in a plugin</string>
+    <key>plistKeys</key>
+    <array>
+      <string>MinimumOSVersion</string>
+      <string>UIFileSharingEnabled</string>
+      <string>UIViewControllerBasedStatusBarAppearance</string>
+      <string>UIBackgroundModes</string>
+      <string>NSLocationWhenInUseUsageDescription</string>
+      <string>LSApplicationQueriesSchemes</string>
+      <string>NSPhotoLibraryUsageDescription</string>
+      <string>NSCameraUsageDescription</string>
+      <string>NSMicrophoneUsageDescription</string>
+      <string>FacebookAppID</string>
+      <string>FacebookDisplayName</string>
+      <string>CFBundleURLTypes</string>
+      <string>GPGApplicationID</string>
+    </array>
+    <key>UIFileSharingEnabled</key>
+    <false />
+    <key>UIViewControllerBasedStatusBarAppearance</key>
+    <false />
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Not really used in app, just in a plugin</string>
+  </dict>
+</plist>

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public class Initializer : MonoBehaviour {
 
@@ -23,3 +24,4 @@ public class Initializer : MonoBehaviour {
 		GameSparksManager.instance.StartCoroutineCheckIfGamesparksAvailable ();
 	}
 }
+

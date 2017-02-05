@@ -10,6 +10,7 @@ public class GameplayController : MonoBehaviour
 	public static HillScript hills;
 	public static InGameTutorial tutorial;
 	public static BackgroundMountains bGMountains;
+	public GameObject spikeContainer;
 
 
 	static float _speed = -3.8f;
@@ -78,8 +79,10 @@ public class GameplayController : MonoBehaviour
 		Random.InitState (LevelDesign.randomSeed);
 
 		hills.Init ();
-		spikes.Init ();
+		//spikes.Init ();
 		bGMountains.Init ();
+
+		spikes.Init1 ();
 
 		ball.InitialSetup ();
 		ball.alive = true;
@@ -114,7 +117,7 @@ public class GameplayController : MonoBehaviour
 	void Tutorial (){
 		if (showSpikeTutorial == true) {
 			if (GameManager.currentPoints == 0) {
-				Transform[] transforms = spikes.spikesContainer.GetComponentsInChildren<Transform> ();
+				Transform[] transforms = spikeContainer.GetComponentsInChildren<Transform> ();
 				foreach (Transform t in transforms) {
 					if (t.gameObject.CompareTag("Spike")) {
 						if (ball.transform.position.x > (t.position.x - 1)) {

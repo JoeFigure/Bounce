@@ -189,6 +189,8 @@ public class UIManager : MonoBehaviour
 		uiData.instantCashPrizePopupText.text = "£ " +
 		GameManager.instance.instantWinPrize.ToString ();
 
+		DisplayInstantWinPanel (false);
+
 		uiData.popupScreenCoverButton.onClick.RemoveAllListeners ();
 		uiData.popupScreenCoverButton.onClick.AddListener (ClosePopup);
 		uiData.closePopupButton.GetComponent<Button>().onClick.RemoveAllListeners ();
@@ -375,6 +377,14 @@ public class UIManager : MonoBehaviour
 		Sprite fbSprite = Sprite.Create (pic, rec, new Vector2 ());
 
 		uiData.profilePic.sprite = fbSprite;
+	}
+
+	public void SetTopScoreMessage(bool top){
+		if (top) {
+			uiData.topScoreText.text = "YOU ARE CURRENTLY FIRST!";
+		} else {
+			uiData.topScoreText.text = "SCORE TO BEAT";
+		}
 	}
 
 }

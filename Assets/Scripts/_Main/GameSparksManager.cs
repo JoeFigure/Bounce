@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using GameSparks.Api.Messages;
 using GameSparks.Api.Requests;
 using GameSparks.Api.Responses;
+using System.Linq;
+using System.Collections.Specialized;
 
 
 public class GameSparksManager : MonoBehaviour
@@ -28,6 +30,8 @@ public class GameSparksManager : MonoBehaviour
 
 	void Start (){
 		GS.GameSparksAvailable += HandleGameSparksMessageReceived;
+
+
 	}
 
 
@@ -62,6 +66,7 @@ public class GameSparksManager : MonoBehaviour
 		new GameSparks.Api.Requests.LogEventRequest ().
 		SetEventKey ("SET_ZOIN").
 		SetEventAttribute ("ZOIN", amount).
+		SetDurable(true).
 		Send ((response) => {
 			if (response.HasErrors) {
 				Debug.Log ("Error");
@@ -77,6 +82,7 @@ public class GameSparksManager : MonoBehaviour
 		SetEventKey ("MANUAL_SET").
 		SetEventAttribute ("ZOIN", zoin).
 		SetEventAttribute ("TOPSCORE", 0).
+		SetDurable(true).
 		Send ((response) => {
 			if (!response.HasErrors) {
 				UIManager.instance.ShowIntroTutorial ();
@@ -90,6 +96,7 @@ public class GameSparksManager : MonoBehaviour
 		SetDurable (true).
 		SetEventKey ("SUBMIT_SCORE").
 		SetEventAttribute ("SCORE", points.ToString ()).
+		SetDurable(true).
 		Send ((response) => {
 			if (!response.HasErrors) {
 
@@ -114,6 +121,7 @@ public class GameSparksManager : MonoBehaviour
 		new GameSparks.Api.Requests.LeaderboardDataRequest ().
 		SetLeaderboardShortCode ("High_Score_Leaderboard").
 		SetEntryCount (3).
+		SetDurable(true).
 		Send ((response) => {
 			if (!response.HasErrors) {
 				int i = 0;
@@ -135,6 +143,7 @@ public class GameSparksManager : MonoBehaviour
 
 	public void LogOut (){
 		new GameSparks.Api.Requests.LogEventRequest ().SetEventKey ("LOGOUT").
+		SetDurable(true).
 		Send ((response) => {
 			if (!response.HasErrors) {
 				Debug.Log ("Player Logged out...");
@@ -150,7 +159,9 @@ public class GameSparksManager : MonoBehaviour
 	}
 
 	public void UpdateInformation (){
-		new AccountDetailsRequest ().Send ((response) => {
+		new AccountDetailsRequest ()
+		.SetDurable(true)
+			.Send ((response) => {
 
 			var zoinData = response.ScriptData.GetInt ("ZOIN");
 			int zoins = zoinData.HasValue ? (int)zoinData : 0;
@@ -181,6 +192,7 @@ public class GameSparksManager : MonoBehaviour
 
 	public void InstantWin (){
 		new GameSparks.Api.Requests.LogEventRequest ().
+		SetDurable(true).
 		SetEventKey ("INSTANTWIN").
 		Send ((response) => {
 			if (!response.HasErrors) {
@@ -193,6 +205,7 @@ public class GameSparksManager : MonoBehaviour
 	public void GetInstantScore(int prizesLeft){
 		new GetPropertyRequest()
 			.SetPropertyShortCode("WINCOUNT")
+			.SetDurable(true)
 			.Send((response) => {
 				int score = (int)response.Property.GetInt("SCORE");
 				int prize = (int)response.Property.GetInt("PRIZE");
@@ -206,6 +219,7 @@ public class GameSparksManager : MonoBehaviour
 	public void GetInstantCount (int score, bool postGame){
 		new GameSparks.Api.Requests.LogEventRequest ().
 		SetEventKey ("GETINSTANTCOUNT").
+		SetDurable(true).
 		Send ((response) => {
 			if (!response.HasErrors) {
 				string instantWinsAvailable = response.ScriptData.GetString ("INSTANTAVAILABLE");
@@ -240,6 +254,7 @@ public class GameSparksManager : MonoBehaviour
 		SetEventKey ("INIT_SUBMIT").
 		SetEventAttribute ("EMAIL", GameManager.email).
 		SetEventAttribute ("FB_PIC", GameManager.instance.fbPicUrl).
+		SetDurable(true).
 		Send ((response) => {
 			if (!response.HasErrors) {
 				GameManager.instance.FirstPlay ();
@@ -251,6 +266,7 @@ public class GameSparksManager : MonoBehaviour
 		new GameSparks.Api.Requests.LogEventRequest ().
 		SetEventKey ("LOG_PURCHASE").
 		SetEventAttribute("TYPE",type).
+		SetDurable(true).
 		Send((response) => {
 			if (!response.HasErrors) {
 			}
@@ -259,52 +275,54 @@ public class GameSparksManager : MonoBehaviour
 
 	public void GetInstantWinners (){
 
-		List<string> winners = new List<string>();
+		List<Data> profileData = new List<Data>();
 
 		new GameSparks.Api.Requests.LogEventRequest ().
 		SetEventKey ("GETINSTANTWINNERS").
+		SetDurable(true).
 		Send ((response) => {
 			if (!response.HasErrors) {
-				int totalWinners = (int)response.ScriptData.GetInt("WINNERBATCHAMOUNT");
-				for (int i = 0; i < totalWinners; i++){
-					winners.Add("Empty");
-				}
 
 				//Get images
 				var dump = response.ScriptData.GetGSDataList("DUMP");
 				List<GameSparks.Core.GSData> d = (List<GameSparks.Core.GSData>)dump;
 
-				int index = 0;
-				foreach(GSData i in d){
-					winners.RemoveAt(index);
-					winners.Insert(index,i.GetString("image"));
-					index ++;
+				int tot = (int)response.ScriptData.GetInt("WINNERBATCHAMOUNT");
+				for (int i = 0; i < tot; i++){
+					profileData.Add(new Data("Empty","Empty"));
 				}
-					
-				WinnerPageUI.instance.winners = winners;
-				StartCoroutine (WinnerPageUI.instance.Icons());
+
+				int x = 0;
+				foreach(GSData i in d){
+					profileData.Insert(x, new Data( i.GetString("playerID"),i.GetString("image")));
+					x++;
+				}
+
+				WinnerPageUI.instance.profileData = profileData;	
+
+				//StartCoroutine (WinnerPageUI.instance.Icons1());
+				WinnerPageUI.instance.page = 0;
+				StartCoroutine (WinnerPageUI.instance.ChangePage());
 
 			} else { Debug.Log("ERRRROR");}
 		});
 	}
 
-	public void GetInstantWinnerProfile (string url, Sprite profileImage){
+	public void GetInstantWinnerProfile (string playerID, Sprite profileImage){
 		new GameSparks.Api.Requests.LogEventRequest ().
 		SetDurable (true).
 		SetEventKey ("GETINSTANTDETAILS").
-		SetEventAttribute ("IMG_URL", url).
+		SetEventAttribute ("IMG_URL", playerID).
 		Send ((response) => {
 			if (!response.HasErrors) {
 
-				List<GSData>  aResult = response.ScriptData.GetGSDataList("PROFILE");
-				string displayName = "";
-				string location = "";
-				foreach(GSData i in aResult){
-					displayName = i.GetString("displayName");
-					location = i.GetString("location");
-				}
+				string totalPlays = response.ScriptData.GetInt("TOTALPLAYS").ToString();
+				string topScore = response.ScriptData.GetInt("TOPSCORE").ToString();
+				string averageScore = response.ScriptData.GetInt("AVERAGESCORE").ToString();
+				string location = response.ScriptData.GetString("LOCATION");
+				string displayName = response.ScriptData.GetString("DISPLAYNAME");
 
-				WinnerPageUI.instance.ShowWinnerProfile(displayName,location,profileImage);
+				WinnerPageUI.instance.ShowWinnerProfile(displayName,location,profileImage,totalPlays,topScore,averageScore);
 			}
 		});
 	}
@@ -313,6 +331,7 @@ public class GameSparksManager : MonoBehaviour
 		new GameSparks.Api.Requests.LeaderboardDataRequest ().
 		SetLeaderboardShortCode ("High_Score_Leaderboard").
 		SetEntryCount (1).
+		SetDurable(true).
 		Send ((response) => {
 			if (!response.HasErrors) {
 				int i = 0;
@@ -320,15 +339,21 @@ public class GameSparksManager : MonoBehaviour
 				string location;
 				foreach (GameSparks.Api.Responses.LeaderboardDataResponse._LeaderboardData entry in response.Data) {
 					playerName = entry.UserName;
-					location = entry.City;
-					GameManager.instance.topPlayerNames [i] = playerName;
-					string score = entry.JSONData ["SCORE"].ToString ();
-					if (i == 0) {
-						GameManager.instance.universalTopScore = int.Parse (score);
-					}
-					i++;
 
-					WinnerPageUI.instance.ShowGrandWinner(playerName, location);
+					if(!string.IsNullOrEmpty(entry.City)){
+						location = entry.City;
+					}else{
+						location = entry.Country;
+					}
+					string fbPic = response.ScriptData.GetString("FB_PIC");
+
+					WinnerPageUI.instance._grandWinnerLocation = location;
+					WinnerPageUI.instance._grandWinnerName = playerName;
+					WinnerPageUI.instance.grandWinnerTotalGames = (int)response.ScriptData.GetInt("TOTAL_PLAYED");
+					WinnerPageUI.instance.grandWinnerTopScore = (int)response.ScriptData.GetInt("TOPSCORE");
+					WinnerPageUI.instance.grandWinnerAverageScore = (int)response.ScriptData.GetInt("AVERAGESCORE");
+
+					WinnerPageUI.instance.ShowGrandWinner(playerName, location, fbPic);
 				}
 			} else {
 				Debug.Log ("Error");
@@ -339,12 +364,28 @@ public class GameSparksManager : MonoBehaviour
 	public void SubmitNewEmail (string newEmail){
 		new GameSparks.Api.Requests.LogEventRequest ().
 		SetDurable (true).
+
 		SetEventKey ("CHANGEEMAIL").
 		SetEventAttribute ("NEWEMAIL", newEmail).
 		Send ((response) => {
 			if (!response.HasErrors) {
 			}
 		});
+
+	}
+
+	public void ManagePushNotifications (string deviceToken){
+		new GameSparks.Api.Requests.PushRegistrationRequest ()
+			.SetPushId(deviceToken)
+			.SetDurable(true)
+			.Send((response) => {
+				if (response.HasErrors) {
+					Debug.Log("Push registration error");
+				}else{
+					string registrationId = response.RegistrationId; 
+					Debug.Log("ID: " + registrationId);
+				}
+			});
 	}
 
 }

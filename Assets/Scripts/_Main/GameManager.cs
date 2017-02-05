@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
 
 	public static int daysUntilPrize, hrsUntilPrize, minsUntilPrize, secsUntilPrize;
 
-	static public string userID;
+	static public string userID, deviceToken;
 
 	static string _userName;
 
@@ -88,6 +88,13 @@ public class GameManager : MonoBehaviour
 		set {
 			_universalTopScore = value;
 			UIManager.instance.SetTopScores (value.ToString ());
+
+			if (value == playerTopScore) {
+				UIManager.instance.SetTopScoreMessage (true);
+			} else {
+				UIManager.instance.SetTopScoreMessage (false);
+			}
+				
 		}
 	}
 
@@ -96,6 +103,7 @@ public class GameManager : MonoBehaviour
 		set {
 			_playerTopScore = value > _playerTopScore ? value : _playerTopScore;
 			UIManager.instance.SetPlayerTopScore (_playerTopScore); 
+
 		}
 	}
 
@@ -152,6 +160,8 @@ public class GameManager : MonoBehaviour
 			break;
 
 		case GameStates.Mainmenu:
+
+			GameSparksManager.instance.ManagePushNotifications (deviceToken);//iOS
 
 			UIManager.instance.MainMenuUI ();
 

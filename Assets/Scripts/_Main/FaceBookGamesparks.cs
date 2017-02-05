@@ -68,7 +68,7 @@ public class FaceBookGamesparks : MonoBehaviour
 				}
 			});
 
-			FB.API ("/me?fields=picture", HttpMethod.GET, graphResult => {
+			FB.API ("/me?fields=picture.height(128).width(128)", HttpMethod.GET, graphResult => {
 				Dictionary<string, object> aResult = (Dictionary<string,object>)graphResult.ResultDictionary;
 				Dictionary<string, object> bResult = (Dictionary<string,object>)aResult ["picture"];
 				Dictionary<string, object> data = (Dictionary<string, object>)bResult ["data"];

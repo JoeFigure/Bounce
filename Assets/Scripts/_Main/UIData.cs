@@ -14,6 +14,7 @@ public class UIData : MonoBehaviour {
 	public Image background;
 	public Button playButton;
 	public Text cashPrizeScore, winOrLoseText;
+	public Text topScoreText;
 	public Text playButtonText , instantPrizeText, instantWinPrizeAmountText;
 	public GameObject topScorePanel1, topScorePanel2, offlinePanel1, offlinePanel2;
 	public GameObject instantAvailable, instantUnavailable;
@@ -60,7 +61,6 @@ public class UIData : MonoBehaviour {
 	public GameObject rewindPage;
 	public GameObject settingsPage;
 	public GameObject gameOverPage;
-	//public GameObject winnerProfile;
 	[Header("UI Containers")]
 	public GameObject uiViewsContainer;
 	public GameObject mainMenuUI;
@@ -120,7 +120,6 @@ public class UIData : MonoBehaviour {
 	}
 
 	public void ActivateOverlayPanel(){
-		//UIManager.instance.ActivateOverlayPanel (true);
 		overlayPanel.SetActive (true);
 	}
 
@@ -178,5 +177,8 @@ public class UIData : MonoBehaviour {
 		GameManager.instance.ResetGame ();
 	}
 
+	public void Scroll(){
+		Debug.Log ("SCROLLING");
+	}
 
 }
