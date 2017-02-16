@@ -28,12 +28,15 @@ public class GameplayController : MonoBehaviour
 			float speedMult = (gameTimePercentOfFullSpeed * 2) + 1;
 
 			if (ball.alive) {
-				return (_speed * speedMult) * Time.deltaTime;
+				//Debug.Log("SPEED: " + ((_speed * speedMult) * Time.smoothDeltaTime).ToString());
+				return (_speed * speedMult) * Time.smoothDeltaTime;
+
 			} else {
 				return 0;
 			}
 		}
 	}
+
 
 	public static float gameTimePercentOfFullSpeed {
 		get {
@@ -42,6 +45,7 @@ public class GameplayController : MonoBehaviour
 			return _percentageOfFullSpeed;
 		}
 	}
+
 
 	public static float screenHeight {
 		get{ return Camera.main.orthographicSize * 2; }
@@ -79,10 +83,9 @@ public class GameplayController : MonoBehaviour
 		Random.InitState (LevelDesign.randomSeed);
 
 		hills.Init ();
-		//spikes.Init ();
 		bGMountains.Init ();
 
-		spikes.Init1 ();
+		spikes.Init ();
 
 		ball.InitialSetup ();
 		ball.alive = true;
@@ -120,7 +123,7 @@ public class GameplayController : MonoBehaviour
 				Transform[] transforms = spikeContainer.GetComponentsInChildren<Transform> ();
 				foreach (Transform t in transforms) {
 					if (t.gameObject.CompareTag("Spike")) {
-						if (ball.transform.position.x > (t.position.x - 1)) {
+						if (ball.transform.position.x > (t.position.x - 1.3f)) {
 							tutorial.AvoidSpikes ();
 							StartCoroutine (PauseCoroutine ()); 
 						}

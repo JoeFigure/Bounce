@@ -33,7 +33,7 @@ public class UIManager : MonoBehaviour
 	void Update (){
 
 		uiData.scoreText.text = GameManager.currentPoints.ToString ();
-		PrizeCountdown ();
+
 	}
 
 	public void DisplayFBPic (Sprite input){
@@ -55,7 +55,7 @@ public class UIManager : MonoBehaviour
 		GameManager.instance.CurrentState (GameStates.PlayGame);
 	}
 
-	void PrizeCountdown (){
+	public void PrizeCountdown (){
 		uiData.days.text = GameManager.daysUntilPrize.ToString ();
 		uiData.hours.text = GameManager.hrsUntilPrize.ToString ();
 		uiData.minutes.text = GameManager.minsUntilPrize.ToString ();
@@ -139,14 +139,17 @@ public class UIManager : MonoBehaviour
 	}
 
 	public void SetInstantWinText (int prizesLeft){
-		uiData.instantPrizeText.text = "NEXT " +
+		uiData.instantPrizeText.text = "<color=#ffffffff>NEXT </color>" +
 		prizesLeft.ToString () +
-		" PLAYERS TO SCORE " +
+			"<color=#ffffffff> PLAYERS TO SCORE </color>" +
 		GameManager.instance.instantCashScore.ToString ();
 
-		uiData.instantWinPrizeAmountText.text = "WIN £" +
+		uiData.instantWinPrizeAmountText.text = "<color=#ffffffff>WIN</color> £" +
 		GameManager.instance.instantWinPrize.ToString () +
-		" CASH";
+			"<color=#ffffffff> CASH</color>";
+
+		//Sets prizes unavailable Text
+		uiData.prizesWonText.text = "£" + GameManager.instance.instantWinPrize.ToString () + " PRIZES ALL WON";
 	}
 
 
@@ -217,6 +220,7 @@ public class UIManager : MonoBehaviour
 		ShowPage ("home");
 		uiData.secondCanvas.enabled = true;
 		uiData.zoinsPanel.SetActive (true);
+
 	}
 
 	void ShowGameOver (){
@@ -337,6 +341,7 @@ public class UIManager : MonoBehaviour
 		switch (page) {
 		case "home":
 			uiData.homePage.SetActive (true);
+			GameManager.instance.UpdateGamesparks ();
 			break;
 		case "profile":
 			uiData.profilePage.SetActive (true);
@@ -360,6 +365,10 @@ public class UIManager : MonoBehaviour
 			uiData.winnersPage.SetActive (true);
 			WinnerPageUI.instance.Activate ();
 			break;
+		case "winners2":
+			uiData.winnersPage2.SetActive (true);
+			WinnersPage2.instance.Init ();
+			break;
 		case "zoins":
 			uiData.zoinsPage.SetActive (true);
 			break;
@@ -379,12 +388,20 @@ public class UIManager : MonoBehaviour
 		uiData.profilePic.sprite = fbSprite;
 	}
 
-	public void SetTopScoreMessage(bool top){
+	public void SetTopScoreMessage(bool top, bool joint = false){
 		if (top) {
-			uiData.topScoreText.text = "YOU ARE CURRENTLY FIRST!";
+			if (joint) {
+				uiData.topScoreText.text = "YOU ARE JOINT FIRST!";
+			} else {
+				uiData.topScoreText.text = "YOU ARE CURRENTLY FIRST!";
+			}
 		} else {
 			uiData.topScoreText.text = "SCORE TO BEAT";
 		}
+	}
+
+	public void SetGrandPrize(string prize){
+		uiData.grandPrizeText.text = prize;
 	}
 
 }

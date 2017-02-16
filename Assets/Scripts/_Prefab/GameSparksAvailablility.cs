@@ -17,8 +17,8 @@ public class GameSparksAvailablility : MonoBehaviour {
 
 	void Update(){
 
-		availableText.color = color;
-		availableText.text = text;
+		//availableText.color = color;
+		//availableText.text = text;
 	}
 
 }

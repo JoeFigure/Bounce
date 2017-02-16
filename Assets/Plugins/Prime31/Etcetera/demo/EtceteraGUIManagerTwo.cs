@@ -26,7 +26,7 @@ namespace Prime31
 			EtceteraManager.imagePickerChoseImageEvent -= imagePickerChoseImage;
 		}
 
-
+		/*
 		void OnGUI()
 		{
 			beginColumn();
@@ -191,7 +191,7 @@ namespace Prime31
 				loadLevel( "EtceteraTestSceneThree" );
 			}
 		}
-
+		*/
 
 		void imagePickerChoseImage( string imagePath )
 		{

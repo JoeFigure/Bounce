@@ -15,6 +15,7 @@ public class SpikeGeneratorScript : MonoBehaviour
 
 	float spikeWidth;
 
+
 	public float inversePercFullSpeed {
 		get { 
 			float gameSpeed = GameplayController.gameTimePercentOfFullSpeed;
@@ -36,7 +37,7 @@ public class SpikeGeneratorScript : MonoBehaviour
 	}
 
 	void Timer(){
-		timer -= Time.deltaTime;
+		timer -= Time.smoothDeltaTime;
 		if (timer <= 0) {
 			LaunchSpike(true,false);
 		}
@@ -52,10 +53,11 @@ public class SpikeGeneratorScript : MonoBehaviour
 		timer = Random.Range (smallestDist + lowerExtra, largestDist + higherExtra);
 	}
 
-	public void Init1(){
+	public void Init(){
 		DestroySpikes ();
 		PoolSpikes ();
 		timer = 3;
+		currentSpike = 0;
 	}
 
 	public void DestroySpikes(){

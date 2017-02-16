@@ -6,6 +6,8 @@ using GameSparks.Api.Messages;
 using GameSparks.Api.Requests;
 using GameSparks.Api.Responses;
 using System.Linq;
+using System;
+
 using System.Collections.Specialized;
 
 
@@ -30,8 +32,6 @@ public class GameSparksManager : MonoBehaviour
 
 	void Start (){
 		GS.GameSparksAvailable += HandleGameSparksMessageReceived;
-
-
 	}
 
 
@@ -116,7 +116,6 @@ public class GameSparksManager : MonoBehaviour
 		});
 	}
 
-
 	public void GetScores (){
 		new GameSparks.Api.Requests.LeaderboardDataRequest ().
 		SetLeaderboardShortCode ("High_Score_Leaderboard").
@@ -131,6 +130,12 @@ public class GameSparksManager : MonoBehaviour
 					string score = entry.JSONData ["SCORE"].ToString ();
 					if (i == 0) {
 						GameManager.instance.universalTopScore = int.Parse (score);
+					}
+					//Check 2nd place to see if joint
+					if (i == 1) {
+						if(score == GameManager.instance.universalTopScore.ToString())
+						GameManager.instance.jointUniversalScore = true;
+						GameManager.instance.universalTopScore = GameManager.instance.universalTopScore;
 					}
 					i++;
 				}
@@ -163,6 +168,9 @@ public class GameSparksManager : MonoBehaviour
 		.SetDurable(true)
 			.Send ((response) => {
 
+				GameManager.grandPrize = (string)response.ScriptData.GetString("GRANDPRIZE");
+				Debug.Log(GameManager.grandPrize);
+
 			var zoinData = response.ScriptData.GetInt ("ZOIN");
 			int zoins = zoinData.HasValue ? (int)zoinData : 0;
 			GameManager.zoins = zoins;
@@ -194,6 +202,8 @@ public class GameSparksManager : MonoBehaviour
 		new GameSparks.Api.Requests.LogEventRequest ().
 		SetDurable(true).
 		SetEventKey ("INSTANTWIN").
+		SetEventAttribute ("MONTH", DateTime.Now.Month).
+		SetEventAttribute ("YEAR", DateTime.Now.Year).
 		Send ((response) => {
 			if (!response.HasErrors) {
 				//Debug.Log ("ADDED");
@@ -297,13 +307,50 @@ public class GameSparksManager : MonoBehaviour
 					profileData.Insert(x, new Data( i.GetString("playerID"),i.GetString("image")));
 					x++;
 				}
+				WinnerPageUI.instance.currBatchTotal = tot;
+				WinnerPageUI.instance.currBatchWinners = x;
 
 				WinnerPageUI.instance.profileData = profileData;	
 
-				//StartCoroutine (WinnerPageUI.instance.Icons1());
 				WinnerPageUI.instance.page = 0;
 				StartCoroutine (WinnerPageUI.instance.ChangePage());
 
+				int prize = (int)response.ScriptData.GetInt("PRIZE");
+				WinnerPageUI.instance.SetInstantPrizeText(prize);
+
+			} else { Debug.Log("ERRRROR");}
+		});
+	}
+
+	public void GetInstantWinnersLast (){
+
+		List<Data> profileData = new List<Data>();
+
+		new GameSparks.Api.Requests.LogEventRequest ().
+		SetEventKey ("GETINSTANTWINNERS_LAST").
+		SetDurable(true).
+		Send ((response) => {
+			if (!response.HasErrors) {
+
+				//Get images
+				var dump = response.ScriptData.GetGSDataList("DUMP");
+				List<GameSparks.Core.GSData> d = (List<GameSparks.Core.GSData>)dump;
+
+				int x = 0;
+				foreach(GSData i in d){
+					profileData.Insert(x, new Data( i.GetString("playerID"),i.GetString("image")));
+					x++;
+				}
+
+				WinnerPageUI.instance.profileData2 = profileData;	
+
+				WinnerPageUI.instance.pagePrev = 0;
+				StartCoroutine (WinnerPageUI.instance.ChangePage2());
+
+				int prize = (int)response.ScriptData.GetInt("PRIZE");
+				WinnerPageUI.instance.SetInstantPrizeText2(prize);
+
+				WinnerPageUI.instance.lastBatch.SetActive(true);
 			} else { Debug.Log("ERRRROR");}
 		});
 	}
@@ -319,7 +366,7 @@ public class GameSparksManager : MonoBehaviour
 				string totalPlays = response.ScriptData.GetInt("TOTALPLAYS").ToString();
 				string topScore = response.ScriptData.GetInt("TOPSCORE").ToString();
 				string averageScore = response.ScriptData.GetInt("AVERAGESCORE").ToString();
-				string location = response.ScriptData.GetString("LOCATION");
+				string location = response.ScriptData.GetString("LOCATION").ToString();
 				string displayName = response.ScriptData.GetString("DISPLAYNAME");
 
 				WinnerPageUI.instance.ShowWinnerProfile(displayName,location,profileImage,totalPlays,topScore,averageScore);
@@ -386,6 +433,23 @@ public class GameSparksManager : MonoBehaviour
 					Debug.Log("ID: " + registrationId);
 				}
 			});
+	}
+
+	public void MonthsInstantWins(){
+		new GameSparks.Api.Requests.LogEventRequest ().
+		SetDurable (true).
+		SetEventKey ("INSTANTWINS_CURRMONTH").
+		SetEventAttribute ("MONTH", DateTime.Now.Month).
+		SetEventAttribute ("YEAR", DateTime.Now.Year).
+		Send ((response) => {
+			if (!response.HasErrors) {
+				WinnersPage2.instance.batchArray = response.ScriptData.GetIntList("batchArray");
+				WinnersPage2.instance.prizeArray = response.ScriptData.GetIntList("prizeArray");
+				WinnersPage2.instance.batch = response.ScriptData.GetIntList("batch");
+				WinnersPage2.instance.PoolBatches();
+
+			}
+		});
 	}
 
 }

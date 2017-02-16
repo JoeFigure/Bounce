@@ -52,13 +52,15 @@ public class BallScript : MonoBehaviour
 
 	void Bounce(){
 		float forceTimesGameSpeed = force + (-GameplayController.speed);
-		energy -= Time.deltaTime * energyLoss;
+		energy -= Time.smoothDeltaTime * energyLoss;
 
-		transform.Translate (0, energy * forceTimesGameSpeed * Time.deltaTime, 0);
+		transform.Translate (0, energy * forceTimesGameSpeed * Time.smoothDeltaTime, 0);
+		//GetComponent<Rigidbody2D>().MovePosition(new Vector2( 0, energy * forceTimesGameSpeed * Time.smoothDeltaTime));
 	}
 		
 	void HitBall (){
-		transform.Translate (0, hitPower * Time.deltaTime, 0);
+		transform.Translate (0, hitPower * Time.smoothDeltaTime, 0);
+		//GetComponent<Rigidbody2D>().MovePosition(new Vector2(0, hitPower * Time.smoothDeltaTime));
 	}
 
 	public void ResetBounce(){

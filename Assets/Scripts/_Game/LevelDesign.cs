@@ -4,7 +4,7 @@ using System.Collections;
 public class LevelDesign : MonoBehaviour {
 
 
-	public static int randomSeed = 2;
+	public static int randomSeed = 1;
 
 	public static int HillHeight (int hillNumber, int originalHeight){
 		if (hillNumber < 22) {

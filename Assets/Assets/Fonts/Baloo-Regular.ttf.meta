@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: bb3d511d320c249babb1b8e31c421eb3
-timeCreated: 1487008282
+guid: a853767efdbec4053b574b6a003fa032
+timeCreated: 1486996372
 licenseType: Free
 TrueTypeFontImporter:
   serializedVersion: 4
@@ -9,9 +9,9 @@ TrueTypeFontImporter:
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: Montserrat
+  fontName: Baloo
   fontNames:
-  - Montserrat
+  - Baloo
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

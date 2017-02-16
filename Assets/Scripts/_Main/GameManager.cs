@@ -30,6 +30,16 @@ public class GameManager : MonoBehaviour
 
 	static int _zoins;
 
+	static string _grandPrize;
+	public static string grandPrize {
+		get{ return _grandPrize; }
+		set{ 
+			_grandPrize = value;
+			UIManager.instance.SetGrandPrize (value);
+			WinnerPageUI.instance.SetGrandPrizeText (value);
+			}
+	}
+
 	public int instantCashScore, instantWinsLeft, instantWinPrize, totalGamesPlayed, totalScore;
 
 	public static bool instantWinsAvailable;
@@ -39,6 +49,8 @@ public class GameManager : MonoBehaviour
 	static public string userID, deviceToken;
 
 	static string _userName;
+
+	public bool jointUniversalScore = false;
 
 	public static string userName {
 		get{return GetFirstName (_userName);}
@@ -90,7 +102,8 @@ public class GameManager : MonoBehaviour
 			UIManager.instance.SetTopScores (value.ToString ());
 
 			if (value == playerTopScore) {
-				UIManager.instance.SetTopScoreMessage (true);
+				UIManager.instance.SetTopScoreMessage (true, jointUniversalScore);
+
 			} else {
 				UIManager.instance.SetTopScoreMessage (false);
 			}
@@ -133,7 +146,10 @@ public class GameManager : MonoBehaviour
 
 	void Update (){
 		UIManager.instance.InternetAccessNotification (online);
-		Countdown ();
+		if (currentState != GameStates.PlayGame) {
+			Countdown ();
+			UIManager.instance.PrizeCountdown ();
+		}
 	}
 
 	void Countdown (){
@@ -165,20 +181,14 @@ public class GameManager : MonoBehaviour
 
 			UIManager.instance.MainMenuUI ();
 
-			//Gets user name
-			GameSparksManager.instance.UpdateInformation ();
-			//Finds Leaderboard #1 score
-			GameSparksManager.instance.GetScores ();
-			//Updates InstantWin data
-			GameSparksManager.instance.GetInstantCount (0,false);
-
 			break;
 
 		case GameStates.PlayGame:
 
 			currentPoints = 0;
-			GameplayController.instance.StartGame ();
 			GameplayController.instance.RecordStartTime ();
+			GameplayController.instance.StartGame ();
+
 			UIManager.instance.ShowGameUI ();
 
 			break;
@@ -235,6 +245,25 @@ public class GameManager : MonoBehaviour
 		}
 
 		GameSparksManager.instance.SubmitScore (value, instantWin);
+	}
+
+	public void UpdateGamesparks(){
+		
+		GameSparksManager.instance.UpdateInformation ();
+		//Finds Leaderboard #1 score
+		GameSparksManager.instance.GetScores ();
+		//Updates InstantWin data
+		GameSparksManager.instance.GetInstantCount (0,false);
+
+	}
+
+	static public void DestroyChildren(GameObject parent){
+		Transform[] children = parent.GetComponentsInChildren<Transform> ();
+		foreach(Transform i in parent.transform){
+			if (i.gameObject == parent.gameObject)
+				continue;
+			Destroy (i.gameObject);
+		}
 	}
 
 }

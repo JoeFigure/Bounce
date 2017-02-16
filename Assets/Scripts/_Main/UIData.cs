@@ -14,7 +14,9 @@ public class UIData : MonoBehaviour {
 	public Image background;
 	public Button playButton;
 	public Text cashPrizeScore, winOrLoseText;
+	public Text grandPrizeText;
 	public Text topScoreText;
+	public Text prizesWonText;
 	public Text playButtonText , instantPrizeText, instantWinPrizeAmountText;
 	public GameObject topScorePanel1, topScorePanel2, offlinePanel1, offlinePanel2;
 	public GameObject instantAvailable, instantUnavailable;
@@ -57,6 +59,7 @@ public class UIData : MonoBehaviour {
 	public GameObject homePage;
 	public GameObject profilePage;
 	public GameObject winnersPage;
+	public GameObject winnersPage2;
 	public GameObject zoinsPage;
 	public GameObject rewindPage;
 	public GameObject settingsPage;
@@ -160,7 +163,7 @@ public class UIData : MonoBehaviour {
 	}
 
 	public void TandCPanel(){
-		Application.OpenURL("http://mazoin.com/");
+		Application.OpenURL("http://mazoin.com/terms-conditions");
 	}
 
 	public void ShowPage(string page){

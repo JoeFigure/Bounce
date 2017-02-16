@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class SpikeBurst : MonoBehaviour {
-
+	/*
 	ParticleSystem aParticleSystem;
 	ParticleSystem.EmissionModule emit;
 
@@ -21,5 +21,6 @@ public class SpikeBurst : MonoBehaviour {
 		aParticleSystem.Clear();
 		aParticleSystem.Emit(amountInBurst);
 	}
+*/
 
 }

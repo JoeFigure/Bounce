@@ -10,7 +10,7 @@ public class NotificationManager : MonoBehaviour {
 	void Start(){
 		#if UNITY_IOS
 		RegisterForNotif ();
-		EtceteraBinding.setBadgeCount(0);
+
 		#endif
 	}
 
@@ -37,7 +37,7 @@ public class NotificationManager : MonoBehaviour {
 			UnityEngine.iOS.NotificationServices.CancelAllLocalNotifications();
 
 			ScheduleNotification ();
-
+			EtceteraBinding.setBadgeCount(0);
 			#endif
 		}
 
@@ -52,7 +52,7 @@ public class NotificationManager : MonoBehaviour {
 */
 			UnityEngine.iOS.NotificationServices.ClearLocalNotifications();
 			UnityEngine.iOS.NotificationServices.CancelAllLocalNotifications();
-
+			EtceteraBinding.setBadgeCount(0);
 			#endif
 		}
 	}

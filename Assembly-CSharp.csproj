@@ -110,6 +110,8 @@
      <Compile Include="Assets\Scripts\_Main\UIManager.cs" />
      <Compile Include="Assets\Scripts\_Main\UnityAds.cs" />
      <Compile Include="Assets\Scripts\_Main\WinnerPageUI.cs" />
+     <Compile Include="Assets\Scripts\_Main\WinnersPage2.cs" />
+     <Compile Include="Assets\Scripts\_Prefab\Batch.cs" />
      <Compile Include="Assets\Scripts\_Prefab\GameSparksAvailablility.cs" />
      <None Include="Assets\GameSparks\Plugins\GameSparksRT.xml" />
      <None Include="Assets\GameSparks\Plugins\Metro\GameSparksRT.xml" />
@@ -162,6 +164,9 @@
  <Reference Include="GameSparksRT">
  <HintPath>/Users/joekletz/Projects Local/Bling/Bounce/Assets/GameSparks/Plugins/GameSparksRT.dll</HintPath>
  </Reference>
+ <Reference Include="P31RestKit">
+ <HintPath>/Users/joekletz/Projects Local/Bling/Bounce/Assets/Plugins/P31RestKit.dll</HintPath>
+ </Reference>
  <Reference Include="Common">
  <HintPath>/Users/joekletz/Projects Local/Bling/Bounce/Assets/Plugins/UnityPurchasing/Bin/Common.dll</HintPath>
  </Reference>
@@ -182,9 +187,6 @@
  </Reference>
  <Reference Include="winrt">
  <HintPath>/Users/joekletz/Projects Local/Bling/Bounce/Assets/Plugins/UnityPurchasing/winrt/winrt.dll</HintPath>
- </Reference>
- <Reference Include="P31RestKit">
- <HintPath>/Users/joekletz/Projects Local/Bling/Bounce/Assets/Plugins/P31RestKit.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

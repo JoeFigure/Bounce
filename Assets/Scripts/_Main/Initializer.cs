@@ -16,6 +16,11 @@ public class Initializer : MonoBehaviour {
 		//KHD.FlurryAnalytics.Instance.StartSession(iOS_APIKey,"o",false);
 	
 		InitialiseGame ();
+
+		Time.maximumDeltaTime=0.03f; //<<just over your estimated average frame time.
+		//or alternatively:
+
+		//if(Time.deltaTime>0.03){Time.deltaTime=0.03;}//constrain it
 	}
 
 	void InitialiseGame(){

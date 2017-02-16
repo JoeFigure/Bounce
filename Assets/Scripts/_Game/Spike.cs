@@ -32,7 +32,7 @@ public class Spike : MonoBehaviour {
 
 	public void RewardPoint(){
 		if (transform.position.x < offScreen) {
-			spikeParticleSystem.GetComponent<SpikeBurst> ().CreateParticles ();
+			//spikeParticleSystem.GetComponent<SpikeBurst> ().CreateParticles ();
 			if (pointSpike) {
 				GameManager.currentPoints++;
 				pointSpike = false;

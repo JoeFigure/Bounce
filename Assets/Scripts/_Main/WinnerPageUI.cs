@@ -22,23 +22,28 @@ public class WinnerPageUI : MonoBehaviour
 	public static WinnerPageUI instance = null;
 
 	public GameObject instantPanel, burgerButton, backButton, winnerProfile;
-
+	public GameObject instantLastPanel;
 	public GameObject intantWinnerIcon, grandWinnerButton;
+	public GameObject lastBatch;
 
 	public Text winnerName, grandWinnerName, instantWinnerLocation, grandWinnerLocation;
 	public Text topScoreProfile, totalGamesProfile, averageScoreProfile;
+	public Text grandPrizeText;
+	public Text instantPrizeText, instantPrize2Text;
 
 	public Image profileImage;
 
-	//public Dictionary<string,string> wins = new Dictionary<string, string> ();
-	//public OrderedDictionary a = new OrderedDictionary ();
-
 	public List<Data> profileData = new List<Data> ();
+	public List<Data> profileData2 = new List<Data> ();
+
+	public int currBatchTotal, currBatchWinners;
 
 	//public Button next;
 
 	public int page;
-	int perPage = 10;
+	int perPage = 5;
+
+	public int pagePrev;
 
 	float instantIconHeight;
 
@@ -56,16 +61,28 @@ public class WinnerPageUI : MonoBehaviour
 	}
 
 	public void Activate (){
+
+		lastBatch.SetActive (false);
+
 		GameSparksManager.instance.GetInstantWinners ();
-		GameSparksManager.instance.GetGrandWinner ();
+		GrandWinnerHeader ();
+		page = 0;
+
+		GameSparksManager.instance.GetInstantWinnersLast ();
+		pagePrev = 0;
 	}
 
-	/*
-	void ResizePanel (){
-		int rows = (int)Mathf.Ceil ((float)wins.Count / 5) + 1;
-		instantPanel.GetComponent<RectTransform> ().sizeDelta = new Vector2 (0, instantIconHeight * rows);
+	void GrandWinnerHeader(){
+		if (GameManager.daysUntilPrize == 0 && GameManager.hrsUntilPrize == 0
+		   && GameManager.minsUntilPrize == 0 && GameManager.minsUntilPrize == 0) {
+			grandWinnerLocation.gameObject.SetActive (true);
+			GameSparksManager.instance.GetGrandWinner ();
+		} else {
+			grandWinnerLocation.gameObject.SetActive (false);
+			grandWinnerName.text = "TBC " + GameManager.instance.prizeDay.ToLongDateString();
+			//GameManager.instance.prizeDay.DayOfWeek + " " +
+		}
 	}
-	*/
 
 	public void ShowWinnerProfile (string name, string location, Sprite profileImage, string totalGames, string topScore, string averageScore){
 		ShowBurgerButton (false);
@@ -114,52 +131,20 @@ public class WinnerPageUI : MonoBehaviour
 		burgerButton.SetActive (hide);
 	}
 
-	//Instant winners
-	//public IEnumerator Icons1 (){
-		/*
-		foreach (KeyValuePair<string,string> i in wins) {
-			GameObject newButton = Instantiate (intantWinnerIcon);
-			newButton.transform.SetParent (instantPanel.GetComponent<Transform> (), false);
-
-			//Add URL image
-			if (i.Value != "Empty") {
-				WWW www = new WWW (i.Value);
-				yield return www;
-				Texture2D profilePic = www.texture;
-				Rect rec = new Rect (0, 0, profilePic.width, profilePic.height);
-				Sprite fbSprite = Sprite.Create (profilePic, rec, new Vector2 ());
-				newButton.GetComponent<Image> ().sprite = fbSprite;
-
-				//Makes Button name url
-				newButton.name = www.url;
-
-				//Add button action
-				newButton.GetComponent<Button> ().onClick.AddListener (() => {
-					GameSparksManager.instance.GetInstantWinnerProfile (newButton.name, newButton.GetComponent<Image> ().sprite);
-				});
-			}
-			
-
-
-
-
-		}
-	*/
-
-	//Data singleData = new Data (i.Key, i.Value);
-	//profileData.Add (singleData);
-		//ResizePanel ();
-		/*
-		for (int i = 0; i <= page + 10; i++) {
-
-			Debug.Log (profileData.ElementAt (i).image);
-		}
-*/
-		//yield return null;
-	//}
 
 	public void NextButton(){
 		page++;
+		if( page > (profileData.Count / perPage)){
+			page = 0;
+		}
+		StartCoroutine (ChangePage ());
+	}
+
+	public void PreviousButton(){
+		page--;
+		if( page < 0){
+			page = (profileData.Count / perPage);
+		}
 		StartCoroutine (ChangePage ());
 	}
 
@@ -169,13 +154,9 @@ public class WinnerPageUI : MonoBehaviour
 			Destroy(child.gameObject);
 		}
 
-		if( page > (profileData.Count / perPage)){
-			page = 0;
-		}
-
 		int pageNumber = page * perPage ;
 
-		for (int i = pageNumber ; i <= pageNumber + 9; i++) {
+		for (int i = pageNumber ; i <= pageNumber + (perPage -1); i++) {
 
 			if (i < profileData.Count) {
 				GameObject newButton = Instantiate (intantWinnerIcon);
@@ -198,6 +179,76 @@ public class WinnerPageUI : MonoBehaviour
 				}
 			}
 		}
+	}
+
+	public void SetGrandPrizeText(string prize){
+		grandPrizeText.text = prize;
+	}
+
+
+	//////////////REPEAT FOR LAST INSTANT WINNERS
+	/// 
+	/// 
+	/// 
+
+
+	public void NextButton2(){
+		pagePrev++;
+		if( pagePrev > (profileData2.Count / perPage)){
+			pagePrev = 0;
+		}
+		StartCoroutine (ChangePage2 ());
+	}
+
+	public void PreviousButton2(){
+		pagePrev--;
+		if( pagePrev < 0){
+			pagePrev = (profileData2.Count / perPage);
+		}
+		StartCoroutine (ChangePage2 ());
+	}
+
+
+	public IEnumerator ChangePage2(){
+
+		foreach(Transform child in instantLastPanel.transform) {
+			Destroy(child.gameObject);
+		}
+
+		int pageNumber = pagePrev * perPage ;
+
+		for (int i = pageNumber ; i <= pageNumber + (perPage -1); i++) {
+
+			if (i < profileData2.Count) {
+				GameObject newButton = Instantiate (intantWinnerIcon);
+				newButton.transform.SetParent (instantLastPanel.GetComponent<Transform> (), false);
+
+				if (profileData2.ElementAt (i).image != "Empty") {
+					WWW www = new WWW (profileData2.ElementAt (i).image);
+					yield return www;
+					Texture2D profilePic = www.texture;
+					Rect rec = new Rect (0, 0, profilePic.width, profilePic.height);
+					Sprite fbSprite = Sprite.Create (profilePic, rec, new Vector2 ());
+					newButton.GetComponent<Image> ().sprite = fbSprite;
+
+					string id = profileData2.ElementAt (i).id;
+
+					//Add button action
+					newButton.GetComponent<Button> ().onClick.AddListener (() => {
+						GameSparksManager.instance.GetInstantWinnerProfile (id, fbSprite);
+					});
+				}
+			}
+		}
+	}
+
+	public void SetInstantPrizeText(int prize){
+		instantPrizeText.text = "£" + prize.ToString () + " INSTANT WINNERS  " +
+			currBatchWinners.ToString() + "/" + currBatchTotal.ToString() + " LEFT";
+	}
+
+	public void SetInstantPrizeText2(int prize){
+		instantPrize2Text.text = "£" + prize.ToString () + " INSTANT WINNERS";
 	}
 
 }
