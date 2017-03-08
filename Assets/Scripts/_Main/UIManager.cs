@@ -30,6 +30,11 @@ public class UIManager : MonoBehaviour
 
 	}
 
+	public void SoundToggle(){
+		bool mute = PlayerPrefs.GetInt("mute") == 1?true:false;
+		uiData.soundToggle.isOn = !mute;
+	}
+
 	void Update (){
 
 		uiData.scoreText.text = GameManager.currentPoints.ToString ();
@@ -86,7 +91,7 @@ public class UIManager : MonoBehaviour
 			ShowTextPopup ("Warning", "No internet access available", false);
 			connectionLost = true;
 		} else if (connectionLost) {
-				ShowTextPopup ("Warning", "Connection found", true);
+			ShowTextPopup ("Warning", "Connection found", true);
 				connectionLost = false;
 			}
 	}
@@ -149,7 +154,9 @@ public class UIManager : MonoBehaviour
 			"<color=#ffffffff> CASH</color>";
 
 		//Sets prizes unavailable Text
-		uiData.prizesWonText.text = "£" + GameManager.instance.instantWinPrize.ToString () + " PRIZES ALL WON";
+		//uiData.prizesWonText.text = "£" + GameManager.instance.instantWinPrize.ToString () + " PRIZES ALL WON";
+
+		uiData.prizesWonText.text = "You are an instant prize winner";
 	}
 
 
@@ -237,6 +244,7 @@ public class UIManager : MonoBehaviour
 		ShowMenu (uiData.welcomeMenuUI);
 		ShowWelcomeUIPanel (uiData.welcomeUIPanels [2]);
 		uiData.secondCanvas.enabled = false;
+		uiData.welcomeLogo.SetActive (true);
 	}
 
 	public void ShowGameUI (){
@@ -275,6 +283,7 @@ public class UIManager : MonoBehaviour
 
 	public void ShowTextPopup (string titleText, string innerText, bool displayCloseButton){
 		ActivatePopup (titleText); 
+		uiData.closePopupButton.SetActive (displayCloseButton);
 		uiData.textPopupContent.SetActive (true);
 		uiData.popupText.text = innerText;
 	}
@@ -359,6 +368,7 @@ public class UIManager : MonoBehaviour
 			uiData.rewindPage.SetActive (true);
 			break;
 		case "settings":
+			SoundToggle ();
 			uiData.settingsPage.SetActive (true);
 			break;
 		case "winners":

@@ -77,6 +77,7 @@
      <Compile Include="Assets\GameSparks\Platforms\WebGL\WebGLWebSocket.cs" />
      <Compile Include="Assets\GameSparks\Platforms\WebSocketController.cs" />
      <Compile Include="Assets\GameSparks\TestUI\GameSparksTestUI.cs" />
+     <Compile Include="Assets\Scripts\OLD_UNUSED\Signup.cs" />
      <Compile Include="Assets\Scripts\PushNotification.cs" />
      <Compile Include="Assets\Scripts\_Game\BackgroundMountains.cs" />
      <Compile Include="Assets\Scripts\_Game\BallParticles.cs" />
@@ -101,7 +102,6 @@
      <Compile Include="Assets\Scripts\_Main\IntroTutorial.cs" />
      <Compile Include="Assets\Scripts\_Main\NotificationManager.cs" />
      <Compile Include="Assets\Scripts\_Main\Purchaser.cs" />
-     <Compile Include="Assets\Scripts\_Main\Signup.cs" />
      <Compile Include="Assets\Scripts\_Main\SignupUI.cs" />
      <Compile Include="Assets\Scripts\_Main\TandC.cs" />
      <Compile Include="Assets\Scripts\_Main\Test.cs" />

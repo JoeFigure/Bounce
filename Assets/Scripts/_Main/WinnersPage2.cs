@@ -32,6 +32,10 @@ public class WinnersPage2 : MonoBehaviour {
 	}
 
 	public void Init(){
+
+		nextButton.gameObject.SetActive (false);
+		prevButton.gameObject.SetActive (false);
+
 		page = 0;
 		GameManager.DestroyChildren (containerPanel);
 		GameSparksManager.instance.MonthsInstantWins ();
@@ -39,9 +43,11 @@ public class WinnersPage2 : MonoBehaviour {
 	}
 
 	public void PoolBatches(){
+		//Show Next / Previous
+		DisplayMainPageButtons ();
 
 		batchCount = batchArray.Count;
-		Debug.Log (batchCount);
+
 		int pageNumber = page * perPage ;
 
 		//Checks whether less than 4 on page
@@ -54,14 +60,26 @@ public class WinnersPage2 : MonoBehaviour {
 			newBatch.GetComponent<Batch> ().batchNumber = batch.ElementAt(i);
 			//Create Title
 			newBatch.GetComponent<Batch> ().batchTitle.text =
-				//"BATCH " +newBatch.GetComponent<Batch> ().batchNumber + "      " +
 				batchArray.ElementAt(i).ToString () +
-				" £" + prizeArray.ElementAt(i).ToString() + " winners";
+				" x £" + prizeArray.ElementAt(i).ToString() + " winners";
 
 			//Init batches
 			newBatch.GetComponent<Batch>().Init();
 		}
-			
+	}
+
+	void DisplayMainPageButtons(){
+		if (page == (batchCount / perPage)) {
+			nextButton.gameObject.SetActive (false);
+		} else {
+			nextButton.gameObject.SetActive (true);
+		}
+
+		if (page == 0) {
+			prevButton.gameObject.SetActive (false);
+		} else {
+			prevButton.gameObject.SetActive (true);
+		}
 	}
 
 	public void NextButton(){
@@ -83,7 +101,6 @@ public class WinnersPage2 : MonoBehaviour {
 
 		GameManager.DestroyChildren (containerPanel);
 		PoolBatches ();
-
 	}
 
 }

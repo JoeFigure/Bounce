@@ -15,6 +15,8 @@ public class BallScript : MonoBehaviour
 
 	public BallParticles particles;
 
+	public AudioClip bounceAudio, dieAudio;
+
 	float landHeight{
 		get { return GameplayController.hills.HillHeightAtX (xPos); }//generatorScript.LandHeight (xPos); }
 	}
@@ -67,6 +69,8 @@ public class BallScript : MonoBehaviour
 		transform.position = new Vector2 (xPos, landHeight);
 		beenHit = false;
 		energy = fullEnergy;
+
+		playSound (bounceAudio);
 	}
 		
 	void OnCollisionEnter2D(Collision2D coll) {
@@ -87,10 +91,23 @@ public class BallScript : MonoBehaviour
 	}
 
 	public void Dead(){
+
+		playSound (dieAudio);
+
 		GameplayController.instance.GameOver();
 		alive = false;
 		particles.CreateParticles ();
 		GetComponent<SpriteRenderer> ().enabled = false;
+	}
+
+	void playSound(AudioClip sound){
+
+		AudioSource a = GetComponent<AudioSource> ();
+
+		a.mute = GameManager.instance.sfxMuted;
+
+		a.clip = sound;
+		a.Play ();
 	}
 
 }

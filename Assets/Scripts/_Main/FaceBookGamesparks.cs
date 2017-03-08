@@ -13,12 +13,15 @@ public class FaceBookGamesparks : MonoBehaviour
 
 	Texture2D profilePic;
 
+	static public bool setupComplete;// = true;
+
 	void Awake (){
 		instance = this;
 	}
 
 	void Start (){
 		FB.Init (null, OnHideUnity);
+		setupComplete = true;
 	}
 
 	void OnHideUnity (bool isGameShown){
@@ -86,23 +89,31 @@ public class FaceBookGamesparks : MonoBehaviour
 
 	void GameSparksLogin (AccessToken token){
 		new FacebookConnectRequest ().SetAccessToken (AccessToken.CurrentAccessToken.TokenString).Send ((response) => {
-			//If our response has errors we can check what went wrong
 			if (response.HasErrors) {
 				Debug.Log ("Something failed when connecting with Facebook " + response.Errors);
 			} else {
-				if ((bool)response.NewPlayer) {
-					if (TestEmail.IsEmail (GameManager.email)) {
-						SignupUI.instance.ShowCheckEmailMenu ();
-					}else{
-						SignupUI.instance.ShowEmailPanel();
-					}
 
+				if ((bool)response.NewPlayer) {
+					SignupCreateScriptData();
 				} else {
+					if(setupComplete){
 					GameManager.instance.CurrentState (GameStates.Mainmenu);
+					}else{
+					SignupCreateScriptData();
+					}
 				}
 			}
 		});
 	}
+
+	public void SignupCreateScriptData(){
+		if (TestEmail.IsEmail (GameManager.email)) {
+			SignupUI.instance.ShowCheckEmailMenu ();
+		}else{
+			SignupUI.instance.ShowEmailPanel();
+		}
+	}
+
 
 	public void Share (){
 

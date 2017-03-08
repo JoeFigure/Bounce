@@ -49,6 +49,7 @@ public class UIData : MonoBehaviour {
 	public Button loginButton;
 	public GameObject tandCPanel;
 	public Toggle tAndCToggle, maleToggle, femaleToggle;
+	public GameObject welcomeLogo;
 	[Header("Lists")]
 	public List<GameObject> welcomeUIPanels = new List<GameObject> ();
 	public List<Text> playerHighScore = new List<Text> ();
@@ -86,6 +87,13 @@ public class UIData : MonoBehaviour {
 	public GameObject gameSparksActivityContent;
 	public Text gsActivityText;
 	public Text popupText, instantCashPrizePopupText;
+
+	[Header("Menu Sounds")]
+	public AudioClip startGameSfx;
+	public AudioClip buttonSfx;
+
+	[Header("Settings Menu")]
+	public Toggle soundToggle;
 
 	public float popupHeaderHeight{
 		get{ 
@@ -182,6 +190,25 @@ public class UIData : MonoBehaviour {
 
 	public void Scroll(){
 		Debug.Log ("SCROLLING");
+	}
+
+	public void StartGameSound(){
+		playSound (startGameSfx);
+	}
+	public void ButtonSound(){
+		playSound (buttonSfx);
+	}
+
+	void playSound(AudioClip sound){
+		AudioSource a = GetComponent<AudioSource> ();
+		a.mute = GameManager.instance.sfxMuted;
+
+		a.clip = sound;
+		a.Play ();
+	}
+
+	public void muteSfx(bool mute){
+		GameManager.instance.sfxMuted = !mute;
 	}
 
 }

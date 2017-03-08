@@ -130,6 +130,20 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
+
+	bool _sfxMuted;
+	public bool sfxMuted{
+		get { return _sfxMuted; }
+		set{ 
+			if(value == true){
+				PlayerPrefs.SetInt ("mute", 1);
+				_sfxMuted = true;
+			}else{
+				PlayerPrefs.SetInt ("mute", 0);
+				_sfxMuted = false;
+			};}
+	}
+
 	void Awake (){
 
 		if (instance == null) {
@@ -141,7 +155,13 @@ public class GameManager : MonoBehaviour
 
 	void Start (){
 		day = DateTime.Now.Date;
-		prizeDay = new DateTime (2017, 3, 1, 1, 1, 1);
+		//prizeDay = new DateTime (2017, 4, 1, 1, 1, 1);
+
+		//Universal time
+		Debug.Log (DateTime.UtcNow);
+		Debug.Log (prizeDay.ToUniversalTime());
+
+		GetPlayerPrefs ();
 	}
 
 	void Update (){
@@ -153,7 +173,9 @@ public class GameManager : MonoBehaviour
 	}
 
 	void Countdown (){
-		TimeSpan timeLeft = prizeDay.Subtract (DateTime.Now);
+		//TimeSpan timeLeft = prizeDay.Subtract (DateTime.Now);
+		//Universal ver..
+		TimeSpan timeLeft = prizeDay.Subtract (DateTime.UtcNow);
 
 		if (timeLeft < TimeSpan.Zero) {
 			timeLeft = TimeSpan.Zero;
@@ -163,7 +185,6 @@ public class GameManager : MonoBehaviour
 		hrsUntilPrize = timeLeft.Hours;
 		minsUntilPrize = timeLeft.Minutes;
 		secsUntilPrize = timeLeft.Seconds;
-
 
 	}
 
@@ -264,6 +285,22 @@ public class GameManager : MonoBehaviour
 				continue;
 			Destroy (i.gameObject);
 		}
+	}
+
+	void GetPlayerPrefs(){
+		//Unomment out below for testing
+		//PlayerPrefs.DeleteAll ();
+
+		int hasPlayed = PlayerPrefs.GetInt( "HasPlayed");
+		if( hasPlayed == 0 )
+		{
+			PlayerPrefs.SetInt ("mute", 1);
+			PlayerPrefs.SetInt( "HasPlayed", 1 );
+		}
+
+		bool mute = PlayerPrefs.GetInt("mute") == 1?true:false;
+		sfxMuted = mute;
+
 	}
 
 }

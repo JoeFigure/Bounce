@@ -56,10 +56,12 @@ public class GameSparksManager : MonoBehaviour
 	void CheckIfAuthenticated (){
 		if (gsAuthenticated) {
 			GameManager.instance.CurrentState (GameStates.Mainmenu);
+
 		} else {
 			UIManager.instance.ShowWelcome ();
 		}
 	}
+
 
 
 	public static void AddZoin (int amount){
@@ -168,8 +170,7 @@ public class GameSparksManager : MonoBehaviour
 		.SetDurable(true)
 			.Send ((response) => {
 
-				GameManager.grandPrize = (string)response.ScriptData.GetString("GRANDPRIZE");
-				Debug.Log(GameManager.grandPrize);
+			GameManager.grandPrize = (string)response.ScriptData.GetString("GRANDPRIZE");
 
 			var zoinData = response.ScriptData.GetInt ("ZOIN");
 			int zoins = zoinData.HasValue ? (int)zoinData : 0;
@@ -195,6 +196,21 @@ public class GameSparksManager : MonoBehaviour
 
 			string userName = response.DisplayName;
 			GameManager.userName = userName;
+
+
+			//Check if Setup is complete
+			var sDLength = response.ScriptData.GetInt ("scriptDataLength");
+			int scriptDataLength = sDLength.HasValue ? (int)sDLength : 0;
+			if(scriptDataLength == 0){
+					LogOut();
+					FaceBookGamesparks.setupComplete = false;
+			}else{
+					FaceBookGamesparks.setupComplete = true;
+			}
+
+			// Get UTC date of prizeday
+
+			
 		});
 	}
 
@@ -254,6 +270,20 @@ public class GameSparksManager : MonoBehaviour
 				//Calculate if score is instantWinner
 				if(postGame)
 				GameManager.instance.CashPrizeScore(score);
+
+				//Get prizeday UTC
+				var y = response.ScriptData.GetInt ("PRIZE_YEAR");
+				int year = y.HasValue ? (int)y : 0;
+
+				var m = response.ScriptData.GetInt ("PRIZE_MONTH");
+				int month = m.HasValue ? (int)m : 0;
+
+				var d = response.ScriptData.GetInt ("PRIZE_DAY");
+				int day = d.HasValue ? (int)d : 0;
+
+				DateTime a = new DateTime(year,month,day);
+				GameManager.instance.prizeDay = a;
+				Debug.Log(a);
 			}
 		});
 
@@ -299,7 +329,7 @@ public class GameSparksManager : MonoBehaviour
 
 				int tot = (int)response.ScriptData.GetInt("WINNERBATCHAMOUNT");
 				for (int i = 0; i < tot; i++){
-					profileData.Add(new Data("Empty","Empty"));
+					//profileData.Add(new Data("Empty","Empty"));
 				}
 
 				int x = 0;
@@ -322,6 +352,7 @@ public class GameSparksManager : MonoBehaviour
 		});
 	}
 
+	/*
 	public void GetInstantWinnersLast (){
 
 		List<Data> profileData = new List<Data>();
@@ -350,10 +381,17 @@ public class GameSparksManager : MonoBehaviour
 				int prize = (int)response.ScriptData.GetInt("PRIZE");
 				WinnerPageUI.instance.SetInstantPrizeText2(prize);
 
-				WinnerPageUI.instance.lastBatch.SetActive(true);
+				
+//				WinnerPageUI.instance.lastBatch.SetActive(true);
+//				WinnerPageUI.instance.prevWinnersButton.SetActive(true);
+//				WinnerPageUI.instance.nextLastButton.SetActive(true);
+//				WinnerPageUI.instance.prevLastButton.SetActive(true);
+
+
 			} else { Debug.Log("ERRRROR");}
 		});
 	}
+*/
 
 	public void GetInstantWinnerProfile (string playerID, Sprite profileImage){
 		new GameSparks.Api.Requests.LogEventRequest ().

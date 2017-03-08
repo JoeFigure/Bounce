@@ -26,6 +26,8 @@ public class WinnerPageUI : MonoBehaviour
 	public GameObject intantWinnerIcon, grandWinnerButton;
 	public GameObject lastBatch;
 
+	public GameObject prevWinnersButton;
+
 	public Text winnerName, grandWinnerName, instantWinnerLocation, grandWinnerLocation;
 	public Text topScoreProfile, totalGamesProfile, averageScoreProfile;
 	public Text grandPrizeText;
@@ -36,9 +38,11 @@ public class WinnerPageUI : MonoBehaviour
 	public List<Data> profileData = new List<Data> ();
 	public List<Data> profileData2 = new List<Data> ();
 
+	public GameObject nextLastButton, prevLastButton;
+
 	public int currBatchTotal, currBatchWinners;
 
-	//public Button next;
+	public Button currentBatchNextButton,currentBatchPrevButton;
 
 	public int page;
 	int perPage = 5;
@@ -63,12 +67,15 @@ public class WinnerPageUI : MonoBehaviour
 	public void Activate (){
 
 		lastBatch.SetActive (false);
+		prevWinnersButton.SetActive (false);
+		nextLastButton.SetActive (false);
+		prevLastButton.SetActive (false);
 
 		GameSparksManager.instance.GetInstantWinners ();
 		GrandWinnerHeader ();
 		page = 0;
 
-		GameSparksManager.instance.GetInstantWinnersLast ();
+		//GameSparksManager.instance.GetInstantWinnersLast ();
 		pagePrev = 0;
 	}
 
@@ -80,7 +87,6 @@ public class WinnerPageUI : MonoBehaviour
 		} else {
 			grandWinnerLocation.gameObject.SetActive (false);
 			grandWinnerName.text = "TBC " + GameManager.instance.prizeDay.ToLongDateString();
-			//GameManager.instance.prizeDay.DayOfWeek + " " +
 		}
 	}
 
@@ -148,11 +154,27 @@ public class WinnerPageUI : MonoBehaviour
 		StartCoroutine (ChangePage ());
 	}
 
+	void DisplayMainPageButtons(){
+		if (page == (profileData.Count / perPage)) {
+			currentBatchNextButton.gameObject.SetActive (false);
+		} else {
+			currentBatchNextButton.gameObject.SetActive (true);
+		}
+
+		if (page == 0) {
+			currentBatchPrevButton.gameObject.SetActive (false);
+		} else {
+			currentBatchPrevButton.gameObject.SetActive (true);
+		}
+	}
+
 	public IEnumerator ChangePage(){
 
 		foreach(Transform child in instantPanel.transform) {
 			Destroy(child.gameObject);
 		}
+
+		DisplayMainPageButtons ();
 
 		int pageNumber = page * perPage ;
 
