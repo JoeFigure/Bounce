@@ -267,6 +267,7 @@ public class GameSparksManager : MonoBehaviour
 				GameManager.instance.instantWinsLeft = prizesLeft;
 				GetInstantScore(prizesLeft);
 
+				//POST GAME
 				//Calculate if score is instantWinner
 				if(postGame)
 				GameManager.instance.CashPrizeScore(score);

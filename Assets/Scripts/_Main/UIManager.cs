@@ -151,12 +151,15 @@ public class UIManager : MonoBehaviour
 
 		uiData.instantWinPrizeAmountText.text = "<color=#ffffffff>WIN</color> £" +
 		GameManager.instance.instantWinPrize.ToString () +
-			"<color=#ffffffff> CASH</color>";
+			"<color=#ffffffff> PRIZE</color>";
 
 		//Sets prizes unavailable Text
 		//uiData.prizesWonText.text = "£" + GameManager.instance.instantWinPrize.ToString () + " PRIZES ALL WON";
 
 		uiData.prizesWonText.text = "You are an instant prize winner";
+
+		//In Game Over screen
+		uiData.instantWinScoreText.text = "AWAY FROM INSTANT £" + GameManager.instance.instantWinPrize.ToString ();
 	}
 
 
@@ -412,6 +415,7 @@ public class UIManager : MonoBehaviour
 
 	public void SetGrandPrize(string prize){
 		uiData.grandPrizeText.text = prize;
+		uiData.grandPrizeGameoverText.text = "TOP SCORE WINS " + prize + " IN";
 	}
 
 }

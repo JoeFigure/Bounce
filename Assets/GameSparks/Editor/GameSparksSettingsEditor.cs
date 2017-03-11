@@ -89,11 +89,13 @@ namespace GameSparks.Editor
             {
             }
         }
+      
+        static bool firstLaunch = true;
 
         [InitializeOnLoadMethod]
         private static void FixSDK()
 		{
-			if (UnityEditorInternal.InternalEditorUtility.inBatchMode)
+            if (UnityEditorInternal.InternalEditorUtility.inBatchMode)
 			{
 				return;
 			}
@@ -120,21 +122,11 @@ namespace GameSparks.Editor
 				};
 
 				foreach (string oldSDKFile in oldSDKFiles) {
-					bool hasDeleted = false;
-
 					if (File.Exists(oldSDKFile))
 					{
 						File.Delete(oldSDKFile);
-
-						hasDeleted = true;
 					} else if (Directory.Exists(oldSDKFile)) {
-						Directory.Delete(oldSDKFile, true);
-
-						hasDeleted = true;
-					}
-
-					if (hasDeleted) {
-						//AssetDatabase.Refresh();
+						Directory.Delete(oldSDKFile, true);                   
 					}
 				}
 			}
@@ -227,8 +219,11 @@ namespace GameSparks.Editor
 
                     if ((new FileInfo(dirInfo3 + "/" + fileInfo.Name)).Exists)
 					{
-						fileInfo.Delete();
-					}
+                        if (fileInfo.Exists)
+                        {
+                            fileInfo.Delete();                       
+                        }
+                    }
 					else
                     {
                         fileInfo.MoveTo(dirInfo3 + "/" + fileInfo.Name);
@@ -238,15 +233,20 @@ namespace GameSparks.Editor
                 {             
                 }
             }
-
+            
             AssetDatabase.Refresh();
 
             RecursiveDeleteFolders(dirInfo2);
 
-            var assembly = Assembly.GetAssembly(typeof(UnityEditor.ActiveEditorTracker));
-            var type = assembly.GetType("UnityEditorInternal.LogEntries");
-            var method = type.GetMethod("Clear");
-            method.Invoke(new object(), null);
+            if (firstLaunch)
+            {
+                firstLaunch = false;
+
+                var assembly = Assembly.GetAssembly(typeof(UnityEditor.ActiveEditorTracker));
+                var type = assembly.GetType("UnityEditorInternal.LogEntries");
+                var method = type.GetMethod("Clear");
+                method.Invoke(new object(), null);
+            }
         }
     	
     	public override void OnInspectorGUI()

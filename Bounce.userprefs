@@ -1,16 +1,15 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/_Main/UIManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/_Main/IntroTutorial.cs">
     <Files>
-      <File FileName="Assets/Scripts/_Main/UIData.cs" Line="52" Column="32" />
-      <File FileName="Assets/Scripts/_Main/WinnersPage2.cs" Line="71" Column="1" />
-      <File FileName="Assets/Scripts/_Main/WinnerPageUI.cs" Line="90" Column="1" />
-      <File FileName="Assets/Scripts/_Main/UIManager.cs" Line="247" Column="39" />
-      <File FileName="Assets/Scripts/_Main/SignupUI.cs" Line="73" Column="2" />
-      <File FileName="Assets/Scripts/_Main/GameSparksManager.cs" Line="286" Column="16" />
-      <File FileName="Assets/Scripts/_Main/FaceBookGamesparks.cs" Line="102" Column="6" />
-      <File FileName="Assets/Scripts/_Main/Initializer.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/_Main/GameManager.cs" Line="158" Column="5" NotebookId="1" />
+      <File FileName="Assets/Scripts/_Main/UIData.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/_Main/WinnerPageUI.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/_Main/UIManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/_Main/SignupUI.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/_Main/GameSparksManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/_Main/IntroTutorial.cs" Line="88" Column="33" />
+      <File FileName="Assets/Scripts/_Game/BallScript.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/_Main/GameManager.cs" Line="37" Column="24" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

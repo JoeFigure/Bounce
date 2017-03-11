@@ -40,8 +40,6 @@ public class GameSparksUnity : MonoBehaviour
     /// <summary>
     /// You can comment the method below if you have a performance drop on slow devices
     /// </summary>
-	/// 
-	/*
 	void OnGUI () {
 		if (GameSparksSettings.PreviewBuild == true) {
 			GUILayout.BeginArea(new Rect(0, 0, Screen.width, Screen.height));
@@ -63,7 +61,6 @@ public class GameSparksUnity : MonoBehaviour
 			GUILayout.EndArea ();
 		}
 	}
-	*/
 
 	#if UNITY_IOS && !UNITY_EDITOR
 	public void GSSetProxySettings(String proxyString){

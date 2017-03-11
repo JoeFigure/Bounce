@@ -155,11 +155,6 @@ public class GameManager : MonoBehaviour
 
 	void Start (){
 		day = DateTime.Now.Date;
-		//prizeDay = new DateTime (2017, 4, 1, 1, 1, 1);
-
-		//Universal time
-		Debug.Log (DateTime.UtcNow);
-		Debug.Log (prizeDay.ToUniversalTime());
 
 		GetPlayerPrefs ();
 	}

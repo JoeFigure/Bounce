@@ -34,6 +34,7 @@ public class BallScript : MonoBehaviour
 		GetComponent<SpriteRenderer> ().enabled = true;
 		energy = fullEnergy;
 		transform.position = new Vector3 (xPos, 0);
+		GetComponent<CircleCollider2D> ().enabled = true;
 	}
 
 	void Update (){
@@ -75,29 +76,35 @@ public class BallScript : MonoBehaviour
 		
 	void OnCollisionEnter2D(Collision2D coll) {
 
-		if (coll.gameObject.tag == "Spike") {
-			Dead();
-		}
+		if (alive) {
 
-		if (coll.gameObject.tag == "Hill") {
-			if (transform.position.x < coll.collider.bounds.min.x
-				&& coll.collider.bounds.max.y > landHeight) {
-
+			if (coll.gameObject.tag == "Spike") {
 				Dead ();
-			} else {
-				ResetBounce ();
+			}
+
+			if (coll.gameObject.tag == "Hill") {
+				if (transform.position.x < coll.collider.bounds.min.x
+				   && coll.collider.bounds.max.y > landHeight) {
+
+					Dead ();
+				} else {
+					ResetBounce ();
+				}
 			}
 		}
 	}
 
 	public void Dead(){
 
+		alive = false;
+		GetComponent<CircleCollider2D> ().enabled = false;
+		GetComponent<SpriteRenderer> ().enabled = false;
+
+		particles.CreateParticles ();
+
 		playSound (dieAudio);
 
 		GameplayController.instance.GameOver();
-		alive = false;
-		particles.CreateParticles ();
-		GetComponent<SpriteRenderer> ().enabled = false;
 	}
 
 	void playSound(AudioClip sound){

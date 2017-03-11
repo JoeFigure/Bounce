@@ -265,8 +265,13 @@ public class WinnerPageUI : MonoBehaviour
 	}
 
 	public void SetInstantPrizeText(int prize){
-		instantPrizeText.text = "£" + prize.ToString () + " INSTANT WINNERS  " +
-			currBatchWinners.ToString() + "/" + currBatchTotal.ToString() + " LEFT";
+
+		int prizesRemaning = currBatchTotal - currBatchWinners;
+
+		instantPrizeText.text = "£" + prize.ToString () + " WINNERS  " +
+			prizesRemaning.ToString() + "/" + currBatchTotal.ToString() + " REMAINING";
+		
+
 	}
 
 	public void SetInstantPrizeText2(int prize){

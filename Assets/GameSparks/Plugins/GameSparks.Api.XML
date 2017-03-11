@@ -754,26 +754,6 @@
             Each turn count is a Long keyed on a String that represents the player's id
             </summary>
         </member>
-        <member name="T:GameSparks.Api.Messages.ChallengeAcceptedMessage._Challenge._PlayerTurnCount">
-            <summary>
-            Represents the number of turns a player has taken in a turn based challenge.
-            </summary>
-        </member>
-        <member name="M:GameSparks.Api.Messages.ChallengeAcceptedMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeAcceptedMessage._Challenge._PlayerTurnCount.Count">
-            <summary>
-            The number of turns that the player has taken so far during this challenge.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeAcceptedMessage._Challenge._PlayerTurnCount.PlayerId">
-            <summary>
-            The unique player id.
-            </summary>
-        </member>
         <member name="T:GameSparks.Api.Messages.ChallengeAcceptedMessage._Challenge._PlayerDetail">
             <summary>
             An object representing a player's id and name
@@ -797,6 +777,26 @@
         <member name="P:GameSparks.Api.Messages.ChallengeAcceptedMessage._Challenge._PlayerDetail.Name">
             <summary>
             A player's name
+            </summary>
+        </member>
+        <member name="T:GameSparks.Api.Messages.ChallengeAcceptedMessage._Challenge._PlayerTurnCount">
+            <summary>
+            Represents the number of turns a player has taken in a turn based challenge.
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Messages.ChallengeAcceptedMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeAcceptedMessage._Challenge._PlayerTurnCount.Count">
+            <summary>
+            The number of turns that the player has taken so far during this challenge.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeAcceptedMessage._Challenge._PlayerTurnCount.PlayerId">
+            <summary>
+            The unique player id.
             </summary>
         </member>
         <member name="P:GameSparks.Api.Messages.ChallengeChangedMessage.Challenge">
@@ -837,6 +837,52 @@
         <member name="P:GameSparks.Api.Messages.ChallengeChangedMessage.Who">
             <summary>
             Indicates which player has changed the challenge
+            </summary>
+        </member>
+        <member name="T:GameSparks.Api.Messages.ChallengeChangedMessage._LeaderboardData">
+            <summary>
+            Leaderboard entry data
+            As well as the parameters below there may be others depending on your game's configuration.
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Messages.ChallengeChangedMessage._LeaderboardData.#ctor(GameSparks.Core.GSData)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeChangedMessage._LeaderboardData.City">
+            <summary>
+            The city where the player was located when they logged this leaderboard entry.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeChangedMessage._LeaderboardData.Country">
+            <summary>
+            The country code where the player was located when they logged this leaderboard entry.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeChangedMessage._LeaderboardData.ExternalIds">
+            <summary>
+            The players rank.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeChangedMessage._LeaderboardData.Rank">
+            <summary>
+            The players rank.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeChangedMessage._LeaderboardData.UserId">
+            <summary>
+            The unique player id for this leaderboard entry.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeChangedMessage._LeaderboardData.UserName">
+            <summary>
+            The players display name.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeChangedMessage._LeaderboardData.When">
+            <summary>
+            The date when this leaderboard entry was created.
             </summary>
         </member>
         <member name="T:GameSparks.Api.Messages.ChallengeChangedMessage._Challenge">
@@ -955,26 +1001,6 @@
             Each turn count is a Long keyed on a String that represents the player's id
             </summary>
         </member>
-        <member name="T:GameSparks.Api.Messages.ChallengeChangedMessage._Challenge._PlayerTurnCount">
-            <summary>
-            Represents the number of turns a player has taken in a turn based challenge.
-            </summary>
-        </member>
-        <member name="M:GameSparks.Api.Messages.ChallengeChangedMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeChangedMessage._Challenge._PlayerTurnCount.Count">
-            <summary>
-            The number of turns that the player has taken so far during this challenge.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeChangedMessage._Challenge._PlayerTurnCount.PlayerId">
-            <summary>
-            The unique player id.
-            </summary>
-        </member>
         <member name="T:GameSparks.Api.Messages.ChallengeChangedMessage._Challenge._PlayerDetail">
             <summary>
             An object representing a player's id and name
@@ -1000,50 +1026,24 @@
             A player's name
             </summary>
         </member>
-        <member name="T:GameSparks.Api.Messages.ChallengeChangedMessage._LeaderboardData">
+        <member name="T:GameSparks.Api.Messages.ChallengeChangedMessage._Challenge._PlayerTurnCount">
             <summary>
-            Leaderboard entry data
-            As well as the parameters below there may be others depending on your game's configuration.
+            Represents the number of turns a player has taken in a turn based challenge.
             </summary>
         </member>
-        <member name="M:GameSparks.Api.Messages.ChallengeChangedMessage._LeaderboardData.#ctor(GameSparks.Core.GSData)">
+        <member name="M:GameSparks.Api.Messages.ChallengeChangedMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
             <summary>
             Constructor
             </summary>
         </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeChangedMessage._LeaderboardData.City">
+        <member name="P:GameSparks.Api.Messages.ChallengeChangedMessage._Challenge._PlayerTurnCount.Count">
             <summary>
-            The city where the player was located when they logged this leaderboard entry.
+            The number of turns that the player has taken so far during this challenge.
             </summary>
         </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeChangedMessage._LeaderboardData.Country">
+        <member name="P:GameSparks.Api.Messages.ChallengeChangedMessage._Challenge._PlayerTurnCount.PlayerId">
             <summary>
-            The country code where the player was located when they logged this leaderboard entry.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeChangedMessage._LeaderboardData.ExternalIds">
-            <summary>
-            The players rank.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeChangedMessage._LeaderboardData.Rank">
-            <summary>
-            The players rank.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeChangedMessage._LeaderboardData.UserId">
-            <summary>
-            The unique player id for this leaderboard entry.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeChangedMessage._LeaderboardData.UserName">
-            <summary>
-            The players display name.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeChangedMessage._LeaderboardData.When">
-            <summary>
-            The date when this leaderboard entry was created.
+            The unique player id.
             </summary>
         </member>
         <member name="P:GameSparks.Api.Messages.ChallengeChatMessage.Challenge">
@@ -1202,26 +1202,6 @@
             Each turn count is a Long keyed on a String that represents the player's id
             </summary>
         </member>
-        <member name="T:GameSparks.Api.Messages.ChallengeChatMessage._Challenge._PlayerTurnCount">
-            <summary>
-            Represents the number of turns a player has taken in a turn based challenge.
-            </summary>
-        </member>
-        <member name="M:GameSparks.Api.Messages.ChallengeChatMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeChatMessage._Challenge._PlayerTurnCount.Count">
-            <summary>
-            The number of turns that the player has taken so far during this challenge.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeChatMessage._Challenge._PlayerTurnCount.PlayerId">
-            <summary>
-            The unique player id.
-            </summary>
-        </member>
         <member name="T:GameSparks.Api.Messages.ChallengeChatMessage._Challenge._PlayerDetail">
             <summary>
             An object representing a player's id and name
@@ -1245,6 +1225,26 @@
         <member name="P:GameSparks.Api.Messages.ChallengeChatMessage._Challenge._PlayerDetail.Name">
             <summary>
             A player's name
+            </summary>
+        </member>
+        <member name="T:GameSparks.Api.Messages.ChallengeChatMessage._Challenge._PlayerTurnCount">
+            <summary>
+            Represents the number of turns a player has taken in a turn based challenge.
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Messages.ChallengeChatMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeChatMessage._Challenge._PlayerTurnCount.Count">
+            <summary>
+            The number of turns that the player has taken so far during this challenge.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeChatMessage._Challenge._PlayerTurnCount.PlayerId">
+            <summary>
+            The unique player id.
             </summary>
         </member>
         <member name="P:GameSparks.Api.Messages.ChallengeDeclinedMessage.Challenge">
@@ -1403,26 +1403,6 @@
             Each turn count is a Long keyed on a String that represents the player's id
             </summary>
         </member>
-        <member name="T:GameSparks.Api.Messages.ChallengeDeclinedMessage._Challenge._PlayerTurnCount">
-            <summary>
-            Represents the number of turns a player has taken in a turn based challenge.
-            </summary>
-        </member>
-        <member name="M:GameSparks.Api.Messages.ChallengeDeclinedMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeDeclinedMessage._Challenge._PlayerTurnCount.Count">
-            <summary>
-            The number of turns that the player has taken so far during this challenge.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeDeclinedMessage._Challenge._PlayerTurnCount.PlayerId">
-            <summary>
-            The unique player id.
-            </summary>
-        </member>
         <member name="T:GameSparks.Api.Messages.ChallengeDeclinedMessage._Challenge._PlayerDetail">
             <summary>
             An object representing a player's id and name
@@ -1446,6 +1426,26 @@
         <member name="P:GameSparks.Api.Messages.ChallengeDeclinedMessage._Challenge._PlayerDetail.Name">
             <summary>
             A player's name
+            </summary>
+        </member>
+        <member name="T:GameSparks.Api.Messages.ChallengeDeclinedMessage._Challenge._PlayerTurnCount">
+            <summary>
+            Represents the number of turns a player has taken in a turn based challenge.
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Messages.ChallengeDeclinedMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeDeclinedMessage._Challenge._PlayerTurnCount.Count">
+            <summary>
+            The number of turns that the player has taken so far during this challenge.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeDeclinedMessage._Challenge._PlayerTurnCount.PlayerId">
+            <summary>
+            The unique player id.
             </summary>
         </member>
         <member name="P:GameSparks.Api.Messages.ChallengeDrawnMessage.Challenge">
@@ -1481,6 +1481,52 @@
         <member name="P:GameSparks.Api.Messages.ChallengeDrawnMessage.Title">
             <summary>
             A textual title for the message.
+            </summary>
+        </member>
+        <member name="T:GameSparks.Api.Messages.ChallengeDrawnMessage._LeaderboardData">
+            <summary>
+            Leaderboard entry data
+            As well as the parameters below there may be others depending on your game's configuration.
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Messages.ChallengeDrawnMessage._LeaderboardData.#ctor(GameSparks.Core.GSData)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeDrawnMessage._LeaderboardData.City">
+            <summary>
+            The city where the player was located when they logged this leaderboard entry.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeDrawnMessage._LeaderboardData.Country">
+            <summary>
+            The country code where the player was located when they logged this leaderboard entry.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeDrawnMessage._LeaderboardData.ExternalIds">
+            <summary>
+            The players rank.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeDrawnMessage._LeaderboardData.Rank">
+            <summary>
+            The players rank.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeDrawnMessage._LeaderboardData.UserId">
+            <summary>
+            The unique player id for this leaderboard entry.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeDrawnMessage._LeaderboardData.UserName">
+            <summary>
+            The players display name.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeDrawnMessage._LeaderboardData.When">
+            <summary>
+            The date when this leaderboard entry was created.
             </summary>
         </member>
         <member name="T:GameSparks.Api.Messages.ChallengeDrawnMessage._Challenge">
@@ -1599,26 +1645,6 @@
             Each turn count is a Long keyed on a String that represents the player's id
             </summary>
         </member>
-        <member name="T:GameSparks.Api.Messages.ChallengeDrawnMessage._Challenge._PlayerTurnCount">
-            <summary>
-            Represents the number of turns a player has taken in a turn based challenge.
-            </summary>
-        </member>
-        <member name="M:GameSparks.Api.Messages.ChallengeDrawnMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeDrawnMessage._Challenge._PlayerTurnCount.Count">
-            <summary>
-            The number of turns that the player has taken so far during this challenge.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeDrawnMessage._Challenge._PlayerTurnCount.PlayerId">
-            <summary>
-            The unique player id.
-            </summary>
-        </member>
         <member name="T:GameSparks.Api.Messages.ChallengeDrawnMessage._Challenge._PlayerDetail">
             <summary>
             An object representing a player's id and name
@@ -1644,50 +1670,24 @@
             A player's name
             </summary>
         </member>
-        <member name="T:GameSparks.Api.Messages.ChallengeDrawnMessage._LeaderboardData">
+        <member name="T:GameSparks.Api.Messages.ChallengeDrawnMessage._Challenge._PlayerTurnCount">
             <summary>
-            Leaderboard entry data
-            As well as the parameters below there may be others depending on your game's configuration.
+            Represents the number of turns a player has taken in a turn based challenge.
             </summary>
         </member>
-        <member name="M:GameSparks.Api.Messages.ChallengeDrawnMessage._LeaderboardData.#ctor(GameSparks.Core.GSData)">
+        <member name="M:GameSparks.Api.Messages.ChallengeDrawnMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
             <summary>
             Constructor
             </summary>
         </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeDrawnMessage._LeaderboardData.City">
+        <member name="P:GameSparks.Api.Messages.ChallengeDrawnMessage._Challenge._PlayerTurnCount.Count">
             <summary>
-            The city where the player was located when they logged this leaderboard entry.
+            The number of turns that the player has taken so far during this challenge.
             </summary>
         </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeDrawnMessage._LeaderboardData.Country">
+        <member name="P:GameSparks.Api.Messages.ChallengeDrawnMessage._Challenge._PlayerTurnCount.PlayerId">
             <summary>
-            The country code where the player was located when they logged this leaderboard entry.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeDrawnMessage._LeaderboardData.ExternalIds">
-            <summary>
-            The players rank.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeDrawnMessage._LeaderboardData.Rank">
-            <summary>
-            The players rank.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeDrawnMessage._LeaderboardData.UserId">
-            <summary>
-            The unique player id for this leaderboard entry.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeDrawnMessage._LeaderboardData.UserName">
-            <summary>
-            The players display name.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeDrawnMessage._LeaderboardData.When">
-            <summary>
-            The date when this leaderboard entry was created.
+            The unique player id.
             </summary>
         </member>
         <member name="P:GameSparks.Api.Messages.ChallengeExpiredMessage.Challenge">
@@ -1836,26 +1836,6 @@
             Each turn count is a Long keyed on a String that represents the player's id
             </summary>
         </member>
-        <member name="T:GameSparks.Api.Messages.ChallengeExpiredMessage._Challenge._PlayerTurnCount">
-            <summary>
-            Represents the number of turns a player has taken in a turn based challenge.
-            </summary>
-        </member>
-        <member name="M:GameSparks.Api.Messages.ChallengeExpiredMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeExpiredMessage._Challenge._PlayerTurnCount.Count">
-            <summary>
-            The number of turns that the player has taken so far during this challenge.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeExpiredMessage._Challenge._PlayerTurnCount.PlayerId">
-            <summary>
-            The unique player id.
-            </summary>
-        </member>
         <member name="T:GameSparks.Api.Messages.ChallengeExpiredMessage._Challenge._PlayerDetail">
             <summary>
             An object representing a player's id and name
@@ -1879,6 +1859,26 @@
         <member name="P:GameSparks.Api.Messages.ChallengeExpiredMessage._Challenge._PlayerDetail.Name">
             <summary>
             A player's name
+            </summary>
+        </member>
+        <member name="T:GameSparks.Api.Messages.ChallengeExpiredMessage._Challenge._PlayerTurnCount">
+            <summary>
+            Represents the number of turns a player has taken in a turn based challenge.
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Messages.ChallengeExpiredMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeExpiredMessage._Challenge._PlayerTurnCount.Count">
+            <summary>
+            The number of turns that the player has taken so far during this challenge.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeExpiredMessage._Challenge._PlayerTurnCount.PlayerId">
+            <summary>
+            The unique player id.
             </summary>
         </member>
         <member name="P:GameSparks.Api.Messages.ChallengeIssuedMessage.Challenge">
@@ -2037,26 +2037,6 @@
             Each turn count is a Long keyed on a String that represents the player's id
             </summary>
         </member>
-        <member name="T:GameSparks.Api.Messages.ChallengeIssuedMessage._Challenge._PlayerTurnCount">
-            <summary>
-            Represents the number of turns a player has taken in a turn based challenge.
-            </summary>
-        </member>
-        <member name="M:GameSparks.Api.Messages.ChallengeIssuedMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeIssuedMessage._Challenge._PlayerTurnCount.Count">
-            <summary>
-            The number of turns that the player has taken so far during this challenge.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeIssuedMessage._Challenge._PlayerTurnCount.PlayerId">
-            <summary>
-            The unique player id.
-            </summary>
-        </member>
         <member name="T:GameSparks.Api.Messages.ChallengeIssuedMessage._Challenge._PlayerDetail">
             <summary>
             An object representing a player's id and name
@@ -2080,6 +2060,26 @@
         <member name="P:GameSparks.Api.Messages.ChallengeIssuedMessage._Challenge._PlayerDetail.Name">
             <summary>
             A player's name
+            </summary>
+        </member>
+        <member name="T:GameSparks.Api.Messages.ChallengeIssuedMessage._Challenge._PlayerTurnCount">
+            <summary>
+            Represents the number of turns a player has taken in a turn based challenge.
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Messages.ChallengeIssuedMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeIssuedMessage._Challenge._PlayerTurnCount.Count">
+            <summary>
+            The number of turns that the player has taken so far during this challenge.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeIssuedMessage._Challenge._PlayerTurnCount.PlayerId">
+            <summary>
+            The unique player id.
             </summary>
         </member>
         <member name="P:GameSparks.Api.Messages.ChallengeJoinedMessage.Challenge">
@@ -2238,26 +2238,6 @@
             Each turn count is a Long keyed on a String that represents the player's id
             </summary>
         </member>
-        <member name="T:GameSparks.Api.Messages.ChallengeJoinedMessage._Challenge._PlayerTurnCount">
-            <summary>
-            Represents the number of turns a player has taken in a turn based challenge.
-            </summary>
-        </member>
-        <member name="M:GameSparks.Api.Messages.ChallengeJoinedMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeJoinedMessage._Challenge._PlayerTurnCount.Count">
-            <summary>
-            The number of turns that the player has taken so far during this challenge.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeJoinedMessage._Challenge._PlayerTurnCount.PlayerId">
-            <summary>
-            The unique player id.
-            </summary>
-        </member>
         <member name="T:GameSparks.Api.Messages.ChallengeJoinedMessage._Challenge._PlayerDetail">
             <summary>
             An object representing a player's id and name
@@ -2281,6 +2261,26 @@
         <member name="P:GameSparks.Api.Messages.ChallengeJoinedMessage._Challenge._PlayerDetail.Name">
             <summary>
             A player's name
+            </summary>
+        </member>
+        <member name="T:GameSparks.Api.Messages.ChallengeJoinedMessage._Challenge._PlayerTurnCount">
+            <summary>
+            Represents the number of turns a player has taken in a turn based challenge.
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Messages.ChallengeJoinedMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeJoinedMessage._Challenge._PlayerTurnCount.Count">
+            <summary>
+            The number of turns that the player has taken so far during this challenge.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeJoinedMessage._Challenge._PlayerTurnCount.PlayerId">
+            <summary>
+            The unique player id.
             </summary>
         </member>
         <member name="P:GameSparks.Api.Messages.ChallengeLapsedMessage.Challenge">
@@ -2429,26 +2429,6 @@
             Each turn count is a Long keyed on a String that represents the player's id
             </summary>
         </member>
-        <member name="T:GameSparks.Api.Messages.ChallengeLapsedMessage._Challenge._PlayerTurnCount">
-            <summary>
-            Represents the number of turns a player has taken in a turn based challenge.
-            </summary>
-        </member>
-        <member name="M:GameSparks.Api.Messages.ChallengeLapsedMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeLapsedMessage._Challenge._PlayerTurnCount.Count">
-            <summary>
-            The number of turns that the player has taken so far during this challenge.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeLapsedMessage._Challenge._PlayerTurnCount.PlayerId">
-            <summary>
-            The unique player id.
-            </summary>
-        </member>
         <member name="T:GameSparks.Api.Messages.ChallengeLapsedMessage._Challenge._PlayerDetail">
             <summary>
             An object representing a player's id and name
@@ -2472,6 +2452,26 @@
         <member name="P:GameSparks.Api.Messages.ChallengeLapsedMessage._Challenge._PlayerDetail.Name">
             <summary>
             A player's name
+            </summary>
+        </member>
+        <member name="T:GameSparks.Api.Messages.ChallengeLapsedMessage._Challenge._PlayerTurnCount">
+            <summary>
+            Represents the number of turns a player has taken in a turn based challenge.
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Messages.ChallengeLapsedMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeLapsedMessage._Challenge._PlayerTurnCount.Count">
+            <summary>
+            The number of turns that the player has taken so far during this challenge.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeLapsedMessage._Challenge._PlayerTurnCount.PlayerId">
+            <summary>
+            The unique player id.
             </summary>
         </member>
         <member name="P:GameSparks.Api.Messages.ChallengeLostMessage.Challenge">
@@ -2512,6 +2512,52 @@
         <member name="P:GameSparks.Api.Messages.ChallengeLostMessage.WinnerName">
             <summary>
             The winning players name
+            </summary>
+        </member>
+        <member name="T:GameSparks.Api.Messages.ChallengeLostMessage._LeaderboardData">
+            <summary>
+            Leaderboard entry data
+            As well as the parameters below there may be others depending on your game's configuration.
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Messages.ChallengeLostMessage._LeaderboardData.#ctor(GameSparks.Core.GSData)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeLostMessage._LeaderboardData.City">
+            <summary>
+            The city where the player was located when they logged this leaderboard entry.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeLostMessage._LeaderboardData.Country">
+            <summary>
+            The country code where the player was located when they logged this leaderboard entry.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeLostMessage._LeaderboardData.ExternalIds">
+            <summary>
+            The players rank.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeLostMessage._LeaderboardData.Rank">
+            <summary>
+            The players rank.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeLostMessage._LeaderboardData.UserId">
+            <summary>
+            The unique player id for this leaderboard entry.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeLostMessage._LeaderboardData.UserName">
+            <summary>
+            The players display name.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeLostMessage._LeaderboardData.When">
+            <summary>
+            The date when this leaderboard entry was created.
             </summary>
         </member>
         <member name="T:GameSparks.Api.Messages.ChallengeLostMessage._Challenge">
@@ -2630,26 +2676,6 @@
             Each turn count is a Long keyed on a String that represents the player's id
             </summary>
         </member>
-        <member name="T:GameSparks.Api.Messages.ChallengeLostMessage._Challenge._PlayerTurnCount">
-            <summary>
-            Represents the number of turns a player has taken in a turn based challenge.
-            </summary>
-        </member>
-        <member name="M:GameSparks.Api.Messages.ChallengeLostMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeLostMessage._Challenge._PlayerTurnCount.Count">
-            <summary>
-            The number of turns that the player has taken so far during this challenge.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeLostMessage._Challenge._PlayerTurnCount.PlayerId">
-            <summary>
-            The unique player id.
-            </summary>
-        </member>
         <member name="T:GameSparks.Api.Messages.ChallengeLostMessage._Challenge._PlayerDetail">
             <summary>
             An object representing a player's id and name
@@ -2675,50 +2701,24 @@
             A player's name
             </summary>
         </member>
-        <member name="T:GameSparks.Api.Messages.ChallengeLostMessage._LeaderboardData">
+        <member name="T:GameSparks.Api.Messages.ChallengeLostMessage._Challenge._PlayerTurnCount">
             <summary>
-            Leaderboard entry data
-            As well as the parameters below there may be others depending on your game's configuration.
+            Represents the number of turns a player has taken in a turn based challenge.
             </summary>
         </member>
-        <member name="M:GameSparks.Api.Messages.ChallengeLostMessage._LeaderboardData.#ctor(GameSparks.Core.GSData)">
+        <member name="M:GameSparks.Api.Messages.ChallengeLostMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
             <summary>
             Constructor
             </summary>
         </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeLostMessage._LeaderboardData.City">
+        <member name="P:GameSparks.Api.Messages.ChallengeLostMessage._Challenge._PlayerTurnCount.Count">
             <summary>
-            The city where the player was located when they logged this leaderboard entry.
+            The number of turns that the player has taken so far during this challenge.
             </summary>
         </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeLostMessage._LeaderboardData.Country">
+        <member name="P:GameSparks.Api.Messages.ChallengeLostMessage._Challenge._PlayerTurnCount.PlayerId">
             <summary>
-            The country code where the player was located when they logged this leaderboard entry.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeLostMessage._LeaderboardData.ExternalIds">
-            <summary>
-            The players rank.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeLostMessage._LeaderboardData.Rank">
-            <summary>
-            The players rank.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeLostMessage._LeaderboardData.UserId">
-            <summary>
-            The unique player id for this leaderboard entry.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeLostMessage._LeaderboardData.UserName">
-            <summary>
-            The players display name.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeLostMessage._LeaderboardData.When">
-            <summary>
-            The date when this leaderboard entry was created.
+            The unique player id.
             </summary>
         </member>
         <member name="P:GameSparks.Api.Messages.ChallengeStartedMessage.Challenge">
@@ -2867,26 +2867,6 @@
             Each turn count is a Long keyed on a String that represents the player's id
             </summary>
         </member>
-        <member name="T:GameSparks.Api.Messages.ChallengeStartedMessage._Challenge._PlayerTurnCount">
-            <summary>
-            Represents the number of turns a player has taken in a turn based challenge.
-            </summary>
-        </member>
-        <member name="M:GameSparks.Api.Messages.ChallengeStartedMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeStartedMessage._Challenge._PlayerTurnCount.Count">
-            <summary>
-            The number of turns that the player has taken so far during this challenge.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeStartedMessage._Challenge._PlayerTurnCount.PlayerId">
-            <summary>
-            The unique player id.
-            </summary>
-        </member>
         <member name="T:GameSparks.Api.Messages.ChallengeStartedMessage._Challenge._PlayerDetail">
             <summary>
             An object representing a player's id and name
@@ -2910,6 +2890,26 @@
         <member name="P:GameSparks.Api.Messages.ChallengeStartedMessage._Challenge._PlayerDetail.Name">
             <summary>
             A player's name
+            </summary>
+        </member>
+        <member name="T:GameSparks.Api.Messages.ChallengeStartedMessage._Challenge._PlayerTurnCount">
+            <summary>
+            Represents the number of turns a player has taken in a turn based challenge.
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Messages.ChallengeStartedMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeStartedMessage._Challenge._PlayerTurnCount.Count">
+            <summary>
+            The number of turns that the player has taken so far during this challenge.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeStartedMessage._Challenge._PlayerTurnCount.PlayerId">
+            <summary>
+            The unique player id.
             </summary>
         </member>
         <member name="P:GameSparks.Api.Messages.ChallengeTurnTakenMessage.Challenge">
@@ -3063,26 +3063,6 @@
             Each turn count is a Long keyed on a String that represents the player's id
             </summary>
         </member>
-        <member name="T:GameSparks.Api.Messages.ChallengeTurnTakenMessage._Challenge._PlayerTurnCount">
-            <summary>
-            Represents the number of turns a player has taken in a turn based challenge.
-            </summary>
-        </member>
-        <member name="M:GameSparks.Api.Messages.ChallengeTurnTakenMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeTurnTakenMessage._Challenge._PlayerTurnCount.Count">
-            <summary>
-            The number of turns that the player has taken so far during this challenge.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeTurnTakenMessage._Challenge._PlayerTurnCount.PlayerId">
-            <summary>
-            The unique player id.
-            </summary>
-        </member>
         <member name="T:GameSparks.Api.Messages.ChallengeTurnTakenMessage._Challenge._PlayerDetail">
             <summary>
             An object representing a player's id and name
@@ -3106,6 +3086,26 @@
         <member name="P:GameSparks.Api.Messages.ChallengeTurnTakenMessage._Challenge._PlayerDetail.Name">
             <summary>
             A player's name
+            </summary>
+        </member>
+        <member name="T:GameSparks.Api.Messages.ChallengeTurnTakenMessage._Challenge._PlayerTurnCount">
+            <summary>
+            Represents the number of turns a player has taken in a turn based challenge.
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Messages.ChallengeTurnTakenMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeTurnTakenMessage._Challenge._PlayerTurnCount.Count">
+            <summary>
+            The number of turns that the player has taken so far during this challenge.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeTurnTakenMessage._Challenge._PlayerTurnCount.PlayerId">
+            <summary>
+            The unique player id.
             </summary>
         </member>
         <member name="P:GameSparks.Api.Messages.ChallengeWaitingMessage.Challenge">
@@ -3254,26 +3254,6 @@
             Each turn count is a Long keyed on a String that represents the player's id
             </summary>
         </member>
-        <member name="T:GameSparks.Api.Messages.ChallengeWaitingMessage._Challenge._PlayerTurnCount">
-            <summary>
-            Represents the number of turns a player has taken in a turn based challenge.
-            </summary>
-        </member>
-        <member name="M:GameSparks.Api.Messages.ChallengeWaitingMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeWaitingMessage._Challenge._PlayerTurnCount.Count">
-            <summary>
-            The number of turns that the player has taken so far during this challenge.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeWaitingMessage._Challenge._PlayerTurnCount.PlayerId">
-            <summary>
-            The unique player id.
-            </summary>
-        </member>
         <member name="T:GameSparks.Api.Messages.ChallengeWaitingMessage._Challenge._PlayerDetail">
             <summary>
             An object representing a player's id and name
@@ -3297,6 +3277,26 @@
         <member name="P:GameSparks.Api.Messages.ChallengeWaitingMessage._Challenge._PlayerDetail.Name">
             <summary>
             A player's name
+            </summary>
+        </member>
+        <member name="T:GameSparks.Api.Messages.ChallengeWaitingMessage._Challenge._PlayerTurnCount">
+            <summary>
+            Represents the number of turns a player has taken in a turn based challenge.
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Messages.ChallengeWaitingMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeWaitingMessage._Challenge._PlayerTurnCount.Count">
+            <summary>
+            The number of turns that the player has taken so far during this challenge.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeWaitingMessage._Challenge._PlayerTurnCount.PlayerId">
+            <summary>
+            The unique player id.
             </summary>
         </member>
         <member name="P:GameSparks.Api.Messages.ChallengeWithdrawnMessage.Challenge">
@@ -3455,26 +3455,6 @@
             Each turn count is a Long keyed on a String that represents the player's id
             </summary>
         </member>
-        <member name="T:GameSparks.Api.Messages.ChallengeWithdrawnMessage._Challenge._PlayerTurnCount">
-            <summary>
-            Represents the number of turns a player has taken in a turn based challenge.
-            </summary>
-        </member>
-        <member name="M:GameSparks.Api.Messages.ChallengeWithdrawnMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeWithdrawnMessage._Challenge._PlayerTurnCount.Count">
-            <summary>
-            The number of turns that the player has taken so far during this challenge.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeWithdrawnMessage._Challenge._PlayerTurnCount.PlayerId">
-            <summary>
-            The unique player id.
-            </summary>
-        </member>
         <member name="T:GameSparks.Api.Messages.ChallengeWithdrawnMessage._Challenge._PlayerDetail">
             <summary>
             An object representing a player's id and name
@@ -3498,6 +3478,26 @@
         <member name="P:GameSparks.Api.Messages.ChallengeWithdrawnMessage._Challenge._PlayerDetail.Name">
             <summary>
             A player's name
+            </summary>
+        </member>
+        <member name="T:GameSparks.Api.Messages.ChallengeWithdrawnMessage._Challenge._PlayerTurnCount">
+            <summary>
+            Represents the number of turns a player has taken in a turn based challenge.
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Messages.ChallengeWithdrawnMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeWithdrawnMessage._Challenge._PlayerTurnCount.Count">
+            <summary>
+            The number of turns that the player has taken so far during this challenge.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeWithdrawnMessage._Challenge._PlayerTurnCount.PlayerId">
+            <summary>
+            The unique player id.
             </summary>
         </member>
         <member name="P:GameSparks.Api.Messages.ChallengeWonMessage.Challenge">
@@ -3568,6 +3568,52 @@
         <member name="P:GameSparks.Api.Messages.ChallengeWonMessage.WinnerName">
             <summary>
             The winning player's name.
+            </summary>
+        </member>
+        <member name="T:GameSparks.Api.Messages.ChallengeWonMessage._LeaderboardData">
+            <summary>
+            Leaderboard entry data
+            As well as the parameters below there may be others depending on your game's configuration.
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Messages.ChallengeWonMessage._LeaderboardData.#ctor(GameSparks.Core.GSData)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeWonMessage._LeaderboardData.City">
+            <summary>
+            The city where the player was located when they logged this leaderboard entry.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeWonMessage._LeaderboardData.Country">
+            <summary>
+            The country code where the player was located when they logged this leaderboard entry.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeWonMessage._LeaderboardData.ExternalIds">
+            <summary>
+            The players rank.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeWonMessage._LeaderboardData.Rank">
+            <summary>
+            The players rank.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeWonMessage._LeaderboardData.UserId">
+            <summary>
+            The unique player id for this leaderboard entry.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeWonMessage._LeaderboardData.UserName">
+            <summary>
+            The players display name.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.ChallengeWonMessage._LeaderboardData.When">
+            <summary>
+            The date when this leaderboard entry was created.
             </summary>
         </member>
         <member name="T:GameSparks.Api.Messages.ChallengeWonMessage._Challenge">
@@ -3686,26 +3732,6 @@
             Each turn count is a Long keyed on a String that represents the player's id
             </summary>
         </member>
-        <member name="T:GameSparks.Api.Messages.ChallengeWonMessage._Challenge._PlayerTurnCount">
-            <summary>
-            Represents the number of turns a player has taken in a turn based challenge.
-            </summary>
-        </member>
-        <member name="M:GameSparks.Api.Messages.ChallengeWonMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeWonMessage._Challenge._PlayerTurnCount.Count">
-            <summary>
-            The number of turns that the player has taken so far during this challenge.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeWonMessage._Challenge._PlayerTurnCount.PlayerId">
-            <summary>
-            The unique player id.
-            </summary>
-        </member>
         <member name="T:GameSparks.Api.Messages.ChallengeWonMessage._Challenge._PlayerDetail">
             <summary>
             An object representing a player's id and name
@@ -3731,50 +3757,24 @@
             A player's name
             </summary>
         </member>
-        <member name="T:GameSparks.Api.Messages.ChallengeWonMessage._LeaderboardData">
+        <member name="T:GameSparks.Api.Messages.ChallengeWonMessage._Challenge._PlayerTurnCount">
             <summary>
-            Leaderboard entry data
-            As well as the parameters below there may be others depending on your game's configuration.
+            Represents the number of turns a player has taken in a turn based challenge.
             </summary>
         </member>
-        <member name="M:GameSparks.Api.Messages.ChallengeWonMessage._LeaderboardData.#ctor(GameSparks.Core.GSData)">
+        <member name="M:GameSparks.Api.Messages.ChallengeWonMessage._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
             <summary>
             Constructor
             </summary>
         </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeWonMessage._LeaderboardData.City">
+        <member name="P:GameSparks.Api.Messages.ChallengeWonMessage._Challenge._PlayerTurnCount.Count">
             <summary>
-            The city where the player was located when they logged this leaderboard entry.
+            The number of turns that the player has taken so far during this challenge.
             </summary>
         </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeWonMessage._LeaderboardData.Country">
+        <member name="P:GameSparks.Api.Messages.ChallengeWonMessage._Challenge._PlayerTurnCount.PlayerId">
             <summary>
-            The country code where the player was located when they logged this leaderboard entry.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeWonMessage._LeaderboardData.ExternalIds">
-            <summary>
-            The players rank.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeWonMessage._LeaderboardData.Rank">
-            <summary>
-            The players rank.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeWonMessage._LeaderboardData.UserId">
-            <summary>
-            The unique player id for this leaderboard entry.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeWonMessage._LeaderboardData.UserName">
-            <summary>
-            The players display name.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.ChallengeWonMessage._LeaderboardData.When">
-            <summary>
-            The date when this leaderboard entry was created.
+            The unique player id.
             </summary>
         </member>
         <member name="P:GameSparks.Api.Messages.FriendMessage.FromId">
@@ -4283,6 +4283,52 @@
             A textual title for the message.
             </summary>
         </member>
+        <member name="T:GameSparks.Api.Messages.NewHighScoreMessage._LeaderboardData">
+            <summary>
+            Leaderboard entry data
+            As well as the parameters below there may be others depending on your game's configuration.
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Messages.NewHighScoreMessage._LeaderboardData.#ctor(GameSparks.Core.GSData)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.NewHighScoreMessage._LeaderboardData.City">
+            <summary>
+            The city where the player was located when they logged this leaderboard entry.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.NewHighScoreMessage._LeaderboardData.Country">
+            <summary>
+            The country code where the player was located when they logged this leaderboard entry.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.NewHighScoreMessage._LeaderboardData.ExternalIds">
+            <summary>
+            The players rank.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.NewHighScoreMessage._LeaderboardData.Rank">
+            <summary>
+            The players rank.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.NewHighScoreMessage._LeaderboardData.UserId">
+            <summary>
+            The unique player id for this leaderboard entry.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.NewHighScoreMessage._LeaderboardData.UserName">
+            <summary>
+            The players display name.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.NewHighScoreMessage._LeaderboardData.When">
+            <summary>
+            The date when this leaderboard entry was created.
+            </summary>
+        </member>
         <member name="T:GameSparks.Api.Messages.NewHighScoreMessage._LeaderboardRankDetails">
             <summary>
             Ranking information.
@@ -4399,52 +4445,6 @@
             The date when this leaderboard entry was created.
             </summary>
         </member>
-        <member name="T:GameSparks.Api.Messages.NewHighScoreMessage._LeaderboardData">
-            <summary>
-            Leaderboard entry data
-            As well as the parameters below there may be others depending on your game's configuration.
-            </summary>
-        </member>
-        <member name="M:GameSparks.Api.Messages.NewHighScoreMessage._LeaderboardData.#ctor(GameSparks.Core.GSData)">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.NewHighScoreMessage._LeaderboardData.City">
-            <summary>
-            The city where the player was located when they logged this leaderboard entry.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.NewHighScoreMessage._LeaderboardData.Country">
-            <summary>
-            The country code where the player was located when they logged this leaderboard entry.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.NewHighScoreMessage._LeaderboardData.ExternalIds">
-            <summary>
-            The players rank.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.NewHighScoreMessage._LeaderboardData.Rank">
-            <summary>
-            The players rank.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.NewHighScoreMessage._LeaderboardData.UserId">
-            <summary>
-            The unique player id for this leaderboard entry.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.NewHighScoreMessage._LeaderboardData.UserName">
-            <summary>
-            The players display name.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.NewHighScoreMessage._LeaderboardData.When">
-            <summary>
-            The date when this leaderboard entry was created.
-            </summary>
-        </member>
         <member name="P:GameSparks.Api.Messages.NewTeamScoreMessage.LeaderboardData">
             <summary>
             The new leaderboard data associated with this message.
@@ -4488,6 +4488,52 @@
         <member name="P:GameSparks.Api.Messages.NewTeamScoreMessage.Title">
             <summary>
             A textual title for the message.
+            </summary>
+        </member>
+        <member name="T:GameSparks.Api.Messages.NewTeamScoreMessage._LeaderboardData">
+            <summary>
+            Leaderboard entry data
+            As well as the parameters below there may be others depending on your game's configuration.
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Messages.NewTeamScoreMessage._LeaderboardData.#ctor(GameSparks.Core.GSData)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.NewTeamScoreMessage._LeaderboardData.City">
+            <summary>
+            The city where the player was located when they logged this leaderboard entry.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.NewTeamScoreMessage._LeaderboardData.Country">
+            <summary>
+            The country code where the player was located when they logged this leaderboard entry.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.NewTeamScoreMessage._LeaderboardData.ExternalIds">
+            <summary>
+            The players rank.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.NewTeamScoreMessage._LeaderboardData.Rank">
+            <summary>
+            The players rank.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.NewTeamScoreMessage._LeaderboardData.UserId">
+            <summary>
+            The unique player id for this leaderboard entry.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.NewTeamScoreMessage._LeaderboardData.UserName">
+            <summary>
+            The players display name.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Messages.NewTeamScoreMessage._LeaderboardData.When">
+            <summary>
+            The date when this leaderboard entry was created.
             </summary>
         </member>
         <member name="T:GameSparks.Api.Messages.NewTeamScoreMessage._LeaderboardRankDetails">
@@ -4606,52 +4652,6 @@
             The date when this leaderboard entry was created.
             </summary>
         </member>
-        <member name="T:GameSparks.Api.Messages.NewTeamScoreMessage._LeaderboardData">
-            <summary>
-            Leaderboard entry data
-            As well as the parameters below there may be others depending on your game's configuration.
-            </summary>
-        </member>
-        <member name="M:GameSparks.Api.Messages.NewTeamScoreMessage._LeaderboardData.#ctor(GameSparks.Core.GSData)">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.NewTeamScoreMessage._LeaderboardData.City">
-            <summary>
-            The city where the player was located when they logged this leaderboard entry.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.NewTeamScoreMessage._LeaderboardData.Country">
-            <summary>
-            The country code where the player was located when they logged this leaderboard entry.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.NewTeamScoreMessage._LeaderboardData.ExternalIds">
-            <summary>
-            The players rank.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.NewTeamScoreMessage._LeaderboardData.Rank">
-            <summary>
-            The players rank.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.NewTeamScoreMessage._LeaderboardData.UserId">
-            <summary>
-            The unique player id for this leaderboard entry.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.NewTeamScoreMessage._LeaderboardData.UserName">
-            <summary>
-            The players display name.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Messages.NewTeamScoreMessage._LeaderboardData.When">
-            <summary>
-            The date when this leaderboard entry was created.
-            </summary>
-        </member>
         <member name="P:GameSparks.Api.Messages.ScriptMessage.Data">
             <summary>
             JSON data sent from a Cloud Code script.
@@ -4659,7 +4659,7 @@
         </member>
         <member name="P:GameSparks.Api.Messages.ScriptMessage.ExtCode">
             <summary>
-            The extension code used wen creating this script message
+            The extension code used when creating this script message
             </summary>
         </member>
         <member name="P:GameSparks.Api.Messages.ScriptMessage.MessageId">
@@ -5649,6 +5649,26 @@
         <member name="M:GameSparks.Api.Requests.DismissMessageRequest.SetMessageId(System.String)">
             <summary>
             The messageId of the message to dismiss
+            </summary>
+        </member>
+        <member name="T:GameSparks.Api.Requests.DismissMultipleMessagesRequest">
+            <summary>
+            Allows multiple messages to be dismissed. Once dismissed the messages will no longer appear in either ListMessageResponse or ListMessageSummaryResponse.}
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Requests.DismissMultipleMessagesRequest.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Requests.DismissMultipleMessagesRequest.#ctor(GameSparks.Core.GSInstance)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Requests.DismissMultipleMessagesRequest.SetMessageIds(System.Collections.Generic.List{System.String})">
+            <summary>
+            The list of the messageIds to dismiss
             </summary>
         </member>
         <member name="T:GameSparks.Api.Requests.DropTeamRequest">
@@ -6843,10 +6863,46 @@
             Constructor
             </summary>
         </member>
+        <member name="T:GameSparks.Api.Requests.ListMessageDetailRequest">
+            <summary>
+            Returns the list of the current player's messages / notifications.}
+            The list only contains un-dismissed messages, to dismiss a message see DismissMessageRequest Read the section on Messages to see the complete list of messages and their meaning.}
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Requests.ListMessageDetailRequest.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Requests.ListMessageDetailRequest.#ctor(GameSparks.Core.GSInstance)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Requests.ListMessageDetailRequest.SetEntryCount(System.Int64)">
+            <summary>
+            The number of items to return in a page (default=50)
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Requests.ListMessageDetailRequest.SetInclude(System.String)">
+            <summary>
+            An optional filter that limits the message types returned
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Requests.ListMessageDetailRequest.SetOffset(System.Int64)">
+            <summary>
+            The offset (page number) to start from (default=0)
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Requests.ListMessageDetailRequest.SetStatus(System.String)">
+            <summary>
+            The status of messages to be retrieved. If omitted, messages of all statuses will be retrieved
+            </summary>
+        </member>
         <member name="T:GameSparks.Api.Requests.ListMessageRequest">
             <summary>
-            Returns the list of the current players messages / notifications.}
-            The list only contains un-dismissed messages, to dismiss a message see DismissMessageRequest Read the section on Messages to the the complete list of messages and their meaning.}
+            Returns the list of the current player's messages / notifications.}
+            The list only contains un-dismissed messages, to dismiss a message see DismissMessageRequest Read the section on Messages to see the complete list of messages and their meaning.}
             </summary>
         </member>
         <member name="M:GameSparks.Api.Requests.ListMessageRequest.#ctor">
@@ -7235,6 +7291,11 @@
             Constructor
             </summary>
         </member>
+        <member name="M:GameSparks.Api.Requests.PushRegistrationRequest.SetDeviceOS(System.String)">
+            <summary>
+            The type of id, valid values are ios, android, fcm, wp8, w8, kindle or viber
+            </summary>
+        </member>
         <member name="M:GameSparks.Api.Requests.PushRegistrationRequest.SetPushId(System.String)">
             <summary>
             The push notification identifier for the device
@@ -7475,7 +7536,8 @@
         </member>
         <member name="M:GameSparks.Api.Requests.SocialDisconnectRequest.SetSystemId(System.String)">
             <summary>
-            The external system from which to disconnect this profile.
+            The external system from which to disconnect this profile, supplied as a two letter ID. The options are: {FACEBOOK:FB, AMAZON:AM, GAME_CENTER:GC
+            GOOGLE_PLAY:GY , GOOGLE_PLUS:GP, KONGREGATE:KO, PSN:PS, QQ:QQ, STEAM:ST, TWITCH:TC, TWITTER:TW, VIBER:VB, WECHAT:WC, XBOX:XB}
             </summary>
         </member>
         <member name="T:GameSparks.Api.Requests.SocialLeaderboardDataRequest">
@@ -7760,6 +7822,31 @@
             Indicates that the associated players displayName should be kept in syn with this profile when it's updated by the external provider.
             </summary>
         </member>
+        <member name="T:GameSparks.Api.Requests.UpdateMessageRequest">
+            <summary>
+            Allows a message status to be updated.}
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Requests.UpdateMessageRequest.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Requests.UpdateMessageRequest.#ctor(GameSparks.Core.GSInstance)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Requests.UpdateMessageRequest.SetMessageId(System.String)">
+            <summary>
+            The messageId of the message to update
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Requests.UpdateMessageRequest.SetStatus(System.String)">
+            <summary>
+            The status to set on the message
+            </summary>
+        </member>
         <member name="T:GameSparks.Api.Requests.ViberConnectRequest">
             <summary>
             Allows a Viber account to be used as an authentication mechanism.}
@@ -7955,6 +8042,11 @@
             Constructor
             </summary>
         </member>
+        <member name="M:GameSparks.Api.Requests.XBOXLiveConnectRequest.SetDisplayName(System.String)">
+            <summary>
+            The displayName to set for the player in GameSparks
+            </summary>
+        </member>
         <member name="M:GameSparks.Api.Requests.XBOXLiveConnectRequest.SetDoNotLinkToCurrentPlayer(System.Boolean)">
             <summary>
             Indicates that the server should not try to link the external profile with the current player.  If false, links the external profile to the currently signed in player.  If true, creates a new player and links the external profile to them.  Defaults to false.
@@ -7986,6 +8078,62 @@
         <member name="M:GameSparks.Api.Requests.XBOXLiveConnectRequest.SetSyncDisplayName(System.Boolean)">
             <summary>
             Indicates that the associated players displayName should be kept in syn with this profile when it's updated by the external provider.
+            </summary>
+        </member>
+        <member name="T:GameSparks.Api.Requests.XboxOneConnectRequest">
+            <summary>
+            Allows an Xbox One XSTS token to be used as an authentication mechanism.}
+            Once authenticated the platform can determine the current players details from Xbox Live and store them within GameSparks.}
+            If the Xbox One user is already linked to a player, the current session will switch to the linked player.}
+            If the current player has previously created an account using either DeviceAuthentictionRequest or RegistrationRequest AND the Xbox One user is not already registered with the game, the Xbox One user will be linked to the current player.}
+            If the current player has not authenticated and the Xbox One user is not known, a new player will be created using the Xbox Live details and the session will be authenticated against the new player.}
+            If the Xbox One user is already known, the session will switch to being the previously created user.}
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Requests.XboxOneConnectRequest.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Requests.XboxOneConnectRequest.#ctor(GameSparks.Core.GSInstance)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Requests.XboxOneConnectRequest.SetDoNotLinkToCurrentPlayer(System.Boolean)">
+            <summary>
+            Indicates that the server should not try to link the external profile with the current player.  If false, links the external profile to the currently signed in player.  If true, creates a new player and links the external profile to them.  Defaults to false.
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Requests.XboxOneConnectRequest.SetErrorOnSwitch(System.Boolean)">
+            <summary>
+            Indicates whether the server should return an error if an account switch would have occurred, rather than switching automatically.  Defaults to false.
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Requests.XboxOneConnectRequest.SetSandbox(System.String)">
+            <summary>
+            The Xbox Live sandbox to use. If not specified, the sandbox from the decoded token will be used.
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Requests.XboxOneConnectRequest.SetSegments(GameSparks.Core.GSRequestData)">
+            <summary>
+            An optional segment configuration for this request.
+            If this request creates a new player on the gamesparks platform, the segments of the new player will match the values provided
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Requests.XboxOneConnectRequest.SetSwitchIfPossible(System.Boolean)">
+            <summary>
+            Indicates that the server should switch to the supplied profile if it isalready associated to a player. Defaults to false.
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Requests.XboxOneConnectRequest.SetSyncDisplayName(System.Boolean)">
+            <summary>
+            Indicates that the associated players displayName should be kept in syn with this profile when it's updated by the external provider.
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Requests.XboxOneConnectRequest.SetToken(System.String)">
+            <summary>
+            The Xbox One authentication token
             </summary>
         </member>
         <member name="P:GameSparks.Api.Responses.AcceptChallengeResponse.ChallengeInstanceId">
@@ -8304,6 +8452,11 @@
             For a buy with currency request, which currency type was used
             </summary>
         </member>
+        <member name="P:GameSparks.Api.Responses.BuyVirtualGoodResponse.InvalidItems">
+            <summary>
+            A list of invalid items for this purchase (if any). This field is populated only for store buys
+            </summary>
+        </member>
         <member name="P:GameSparks.Api.Responses.BuyVirtualGoodResponse.TransactionIds">
             <summary>
             The list of transactionIds, for this purchase, if they exist. This field is populated only for store buys
@@ -8494,6 +8647,21 @@
             The challenge instance id
             </summary>
         </member>
+        <member name="P:GameSparks.Api.Responses.DismissMultipleMessagesResponse.FailedDismissals">
+            <summary>
+            A list of the messageId values that were not dismissed
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.DismissMultipleMessagesResponse.MessagesDismissed">
+            <summary>
+            An integer describing how many messages were dismissed
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.EndSessionResponse.SessionDuration">
+            <summary>
+            The length of this session
+            </summary>
+        </member>
         <member name="P:GameSparks.Api.Responses.FindChallengeResponse.ChallengeInstances">
             <summary>
             A list of JSON objects representing the challenges.
@@ -8615,26 +8783,6 @@
             Each turn count is a Long keyed on a String that represents the player's id
             </summary>
         </member>
-        <member name="T:GameSparks.Api.Responses.FindChallengeResponse._Challenge._PlayerTurnCount">
-            <summary>
-            Represents the number of turns a player has taken in a turn based challenge.
-            </summary>
-        </member>
-        <member name="M:GameSparks.Api.Responses.FindChallengeResponse._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Responses.FindChallengeResponse._Challenge._PlayerTurnCount.Count">
-            <summary>
-            The number of turns that the player has taken so far during this challenge.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Responses.FindChallengeResponse._Challenge._PlayerTurnCount.PlayerId">
-            <summary>
-            The unique player id.
-            </summary>
-        </member>
         <member name="T:GameSparks.Api.Responses.FindChallengeResponse._Challenge._PlayerDetail">
             <summary>
             An object representing a player's id and name
@@ -8658,6 +8806,26 @@
         <member name="P:GameSparks.Api.Responses.FindChallengeResponse._Challenge._PlayerDetail.Name">
             <summary>
             A player's name
+            </summary>
+        </member>
+        <member name="T:GameSparks.Api.Responses.FindChallengeResponse._Challenge._PlayerTurnCount">
+            <summary>
+            Represents the number of turns a player has taken in a turn based challenge.
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Responses.FindChallengeResponse._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.FindChallengeResponse._Challenge._PlayerTurnCount.Count">
+            <summary>
+            The number of turns that the player has taken so far during this challenge.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.FindChallengeResponse._Challenge._PlayerTurnCount.PlayerId">
+            <summary>
+            The unique player id.
             </summary>
         </member>
         <member name="P:GameSparks.Api.Responses.FindMatchResponse.AccessToken">
@@ -8758,6 +8926,11 @@
         <member name="P:GameSparks.Api.Responses.FindPendingMatchesResponse._PendingMatch.Id">
             <summary>
             The ID for the pending match
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.FindPendingMatchesResponse._PendingMatch.MatchData">
+            <summary>
+            A JSON Map of the matchData associated to this pending match
             </summary>
         </member>
         <member name="P:GameSparks.Api.Responses.FindPendingMatchesResponse._PendingMatch.MatchGroup">
@@ -8931,26 +9104,6 @@
             Each turn count is a Long keyed on a String that represents the player's id
             </summary>
         </member>
-        <member name="T:GameSparks.Api.Responses.GetChallengeResponse._Challenge._PlayerTurnCount">
-            <summary>
-            Represents the number of turns a player has taken in a turn based challenge.
-            </summary>
-        </member>
-        <member name="M:GameSparks.Api.Responses.GetChallengeResponse._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Responses.GetChallengeResponse._Challenge._PlayerTurnCount.Count">
-            <summary>
-            The number of turns that the player has taken so far during this challenge.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Responses.GetChallengeResponse._Challenge._PlayerTurnCount.PlayerId">
-            <summary>
-            The unique player id.
-            </summary>
-        </member>
         <member name="T:GameSparks.Api.Responses.GetChallengeResponse._Challenge._PlayerDetail">
             <summary>
             An object representing a player's id and name
@@ -8974,6 +9127,26 @@
         <member name="P:GameSparks.Api.Responses.GetChallengeResponse._Challenge._PlayerDetail.Name">
             <summary>
             A player's name
+            </summary>
+        </member>
+        <member name="T:GameSparks.Api.Responses.GetChallengeResponse._Challenge._PlayerTurnCount">
+            <summary>
+            Represents the number of turns a player has taken in a turn based challenge.
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Responses.GetChallengeResponse._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.GetChallengeResponse._Challenge._PlayerTurnCount.Count">
+            <summary>
+            The number of turns that the player has taken so far during this challenge.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.GetChallengeResponse._Challenge._PlayerTurnCount.PlayerId">
+            <summary>
+            The unique player id.
             </summary>
         </member>
         <member name="P:GameSparks.Api.Responses.GetDownloadableResponse.LastModified">
@@ -9004,6 +9177,11 @@
         <member name="P:GameSparks.Api.Responses.GetMessageResponse.Message">
             <summary>
             The message data
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.GetMessageResponse.Status">
+            <summary>
+            The message status
             </summary>
         </member>
         <member name="P:GameSparks.Api.Responses.GetMyTeamsResponse.Teams">
@@ -9279,6 +9457,11 @@
         <member name="P:GameSparks.Api.Responses.JoinPendingMatchResponse._PendingMatch.Id">
             <summary>
             The ID for the pending match
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.JoinPendingMatchResponse._PendingMatch.MatchData">
+            <summary>
+            A JSON Map of the matchData associated to this pending match
             </summary>
         </member>
         <member name="P:GameSparks.Api.Responses.JoinPendingMatchResponse._PendingMatch.MatchGroup">
@@ -9783,26 +9966,6 @@
             Each turn count is a Long keyed on a String that represents the player's id
             </summary>
         </member>
-        <member name="T:GameSparks.Api.Responses.ListChallengeResponse._Challenge._PlayerTurnCount">
-            <summary>
-            Represents the number of turns a player has taken in a turn based challenge.
-            </summary>
-        </member>
-        <member name="M:GameSparks.Api.Responses.ListChallengeResponse._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Responses.ListChallengeResponse._Challenge._PlayerTurnCount.Count">
-            <summary>
-            The number of turns that the player has taken so far during this challenge.
-            </summary>
-        </member>
-        <member name="P:GameSparks.Api.Responses.ListChallengeResponse._Challenge._PlayerTurnCount.PlayerId">
-            <summary>
-            The unique player id.
-            </summary>
-        </member>
         <member name="T:GameSparks.Api.Responses.ListChallengeResponse._Challenge._PlayerDetail">
             <summary>
             An object representing a player's id and name
@@ -9826,6 +9989,26 @@
         <member name="P:GameSparks.Api.Responses.ListChallengeResponse._Challenge._PlayerDetail.Name">
             <summary>
             A player's name
+            </summary>
+        </member>
+        <member name="T:GameSparks.Api.Responses.ListChallengeResponse._Challenge._PlayerTurnCount">
+            <summary>
+            Represents the number of turns a player has taken in a turn based challenge.
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Responses.ListChallengeResponse._Challenge._PlayerTurnCount.#ctor(GameSparks.Core.GSData)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.ListChallengeResponse._Challenge._PlayerTurnCount.Count">
+            <summary>
+            The number of turns that the player has taken so far during this challenge.
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.ListChallengeResponse._Challenge._PlayerTurnCount.PlayerId">
+            <summary>
+            The unique player id.
             </summary>
         </member>
         <member name="P:GameSparks.Api.Responses.ListChallengeTypeResponse.ChallengeTemplates">
@@ -9978,6 +10161,46 @@
             The leaderboard's short code.
             </summary>
         </member>
+        <member name="P:GameSparks.Api.Responses.ListMessageDetailResponse.MessageList">
+            <summary>
+            A list of JSON objects containing player messages
+            </summary>
+        </member>
+        <member name="T:GameSparks.Api.Responses.ListMessageDetailResponse._PlayerMessage">
+            <summary>
+            A nested object that represents a player message.
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Responses.ListMessageDetailResponse._PlayerMessage.#ctor(GameSparks.Core.GSData)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.ListMessageDetailResponse._PlayerMessage.Id">
+            <summary>
+            The id of the message
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.ListMessageDetailResponse._PlayerMessage.Message">
+            <summary>
+            The message content
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.ListMessageDetailResponse._PlayerMessage.Seen">
+            <summary>
+            Whether the message has been delivered to the client
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.ListMessageDetailResponse._PlayerMessage.Status">
+            <summary>
+            The status of the message
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.ListMessageDetailResponse._PlayerMessage.When">
+            <summary>
+            The date of the message
+            </summary>
+        </member>
         <member name="P:GameSparks.Api.Responses.ListMessageResponse.MessageList">
             <summary>
             A list of JSON objects containing player messages
@@ -9986,6 +10209,121 @@
         <member name="P:GameSparks.Api.Responses.ListMessageSummaryResponse.MessageList">
             <summary>
             A list of JSON objects containing player message summaries
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.ListTeamChatResponse.Messages">
+            <summary>
+            The collection of team chat messages
+            </summary>
+        </member>
+        <member name="T:GameSparks.Api.Responses.ListTeamChatResponse._ChatMessage">
+            <summary>
+            A message from a group chat
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Responses.ListTeamChatResponse._ChatMessage.#ctor(GameSparks.Core.GSData)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.ListTeamChatResponse._ChatMessage.FromId">
+            <summary>
+            The id of the player who sent this message
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.ListTeamChatResponse._ChatMessage.Id">
+            <summary>
+            The id of this chat message
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.ListTeamChatResponse._ChatMessage.Message">
+            <summary>
+            The text sent in this message
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.ListTeamChatResponse._ChatMessage.When">
+            <summary>
+            A date representing the time this message was sent
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.ListTeamChatResponse._ChatMessage.Who">
+            <summary>
+            The displayName of the player who sent this message
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.ListTeamsResponse.Teams">
+            <summary>
+            A list of JSON objects containing team information
+            </summary>
+        </member>
+        <member name="T:GameSparks.Api.Responses.ListTeamsResponse._Team">
+            <summary>
+            A nested object that represents the team. This object does not contain a list of the members.
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Responses.ListTeamsResponse._Team.#ctor(GameSparks.Core.GSData)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.ListTeamsResponse._Team.Owner">
+            <summary>
+            A summary of the owner
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.ListTeamsResponse._Team.TeamId">
+            <summary>
+            The Id of the team
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.ListTeamsResponse._Team.TeamName">
+            <summary>
+            The team name
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.ListTeamsResponse._Team.TeamType">
+            <summary>
+            The team type
+            </summary>
+        </member>
+        <member name="T:GameSparks.Api.Responses.ListTeamsResponse._Team._Player">
+            <summary>
+            A nested object that represents a player.
+            </summary>
+        </member>
+        <member name="M:GameSparks.Api.Responses.ListTeamsResponse._Team._Player.#ctor(GameSparks.Core.GSData)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.ListTeamsResponse._Team._Player.Achievements">
+            <summary>
+            The achievements of the Player
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.ListTeamsResponse._Team._Player.DisplayName">
+            <summary>
+            The display name of the Player
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.ListTeamsResponse._Team._Player.ExternalIds">
+            <summary>
+            The external Id's of the Player
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.ListTeamsResponse._Team._Player.Id">
+            <summary>
+            The id of the Player
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.ListTeamsResponse._Team._Player.Online">
+            <summary>
+            The online status of the Player
+            </summary>
+        </member>
+        <member name="P:GameSparks.Api.Responses.ListTeamsResponse._Team._Player.VirtualGoods">
+            <summary>
+            The virtual goods of the Player
             </summary>
         </member>
         <member name="P:GameSparks.Api.Responses.ListTransactionsResponse.TransactionList">

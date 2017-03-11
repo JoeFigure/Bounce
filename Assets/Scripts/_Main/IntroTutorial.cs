@@ -74,18 +74,18 @@ public class IntroTutorial : MonoBehaviour {
 
 		case 1:
 			sectionText.text = "TOP PRIZE";
-			headingText.text = "£10,000";
+			headingText.text = GameManager.grandPrize;
 			iconImage.sprite = prizeIcon;
-			subheadingText.text = "CASH PRIZE";
-			subText.text = "IS GIVEN TO THE\r PLAYER WITH THE\r HIGHEST SCORE AT THE\r END OF THE MONTH";
+			subheadingText.text = "PRIZE";
+			subText.text = "IS GIVEN TO THE\r PLAYER OR PLAYERS WITH THE\r HIGHEST SCORE AT THE\r END OF THE MONTH";
 			break;
 
 		case 2:
-			sectionText.text = "EXTRA PRIZES";
-			headingText.text = "£50";
+			sectionText.text = "INSTANT PRIZES";
+			headingText.text = "£" + GameManager.instance.instantWinPrize.ToString ();
 			iconImage.sprite = smallPrizeIcon;
-			subheadingText.text = "CASH PRIZE";
-			subText.text = "IS INSTANTLY GIVEN\r TO THE FIRST\r 100 PLAYERS THAT\r SCORE 80 OR ABOVE";
+			subheadingText.text = "PRIZE";
+			subText.text = "INSTANT PRIZE WINS\r REGULARLY RELEASED\r THROUGHOUT THE MONTH";
 			break;
 
 		case 3:

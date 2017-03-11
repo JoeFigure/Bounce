@@ -20,10 +20,13 @@ public class UnityAds : MonoBehaviour
 		switch (result)
 		{
 		case ShowResult.Finished:
+
+			int reward = 3;
+
 			Debug.Log ("The ad was successfully shown.");
 			// YOUR CODE TO REWARD THE GAMER
-			UIManager.instance.ShowTextPopup ("Reward", "You now have +1 Zoins!", true);
-			GameSparksManager.AddZoin (20);
+			UIManager.instance.ShowTextPopup ("Reward", "+" + reward.ToString() + " Zoins!", true);
+			GameSparksManager.AddZoin (reward);
 			break;
 		case ShowResult.Skipped:
 			Debug.Log("The ad was skipped before reaching the end.");

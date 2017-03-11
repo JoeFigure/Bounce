@@ -32,6 +32,8 @@ public class UIData : MonoBehaviour {
 	public Text gameOverScore;
 	public Text topScoreGameOverText;
 	public GameObject instantWinPanel;
+	public Text grandPrizeGameoverText;
+	public Text instantWinScoreText;
 	[Header("Profile")]
 	public Text usernameMainMenuText;
 	public Text totalGamesText;
