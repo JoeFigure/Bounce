@@ -59,6 +59,12 @@
      <Compile Include="Assets\FacebookSDK\Examples\Scripts\SubMenus\GraphRequest.cs" />
      <Compile Include="Assets\FacebookSDK\Examples\Scripts\SubMenus\MainMenu.cs" />
      <Compile Include="Assets\FacebookSDK\Examples\Scripts\SubMenus\Pay.cs" />
+     <Compile Include="Assets\FlurryAnalytics\Example\FlurryAnalyticsTest.cs" />
+     <Compile Include="Assets\FlurryAnalytics\Scripts\FlurryAnalytics.cs" />
+     <Compile Include="Assets\FlurryAnalytics\Scripts\FlurryAnalyticsAndroid.cs" />
+     <Compile Include="Assets\FlurryAnalytics\Scripts\FlurryAnalyticsHelper.cs" />
+     <Compile Include="Assets\FlurryAnalytics\Scripts\FlurryAnalyticsIOS.cs" />
+     <Compile Include="Assets\FlurryAnalytics\Scripts\SingletonCrossSceneAutoCreate.cs" />
      <Compile Include="Assets\GameSparks\GameSparksRTUnity.cs" />
      <Compile Include="Assets\GameSparks\GameSparksSettings.cs" />
      <Compile Include="Assets\GameSparks\GameSparksUnity.cs" />
@@ -115,6 +121,8 @@
      <Compile Include="Assets\Scripts\_Prefab\GameSparksAvailablility.cs" />
      <None Include="Assets\GameSparks\Plugins\GameSparksRT.xml" />
      <None Include="Assets\GameSparks\Plugins\Metro\GameSparksRT.xml" />
+     <None Include="Assets\FlurryAnalytics\README.txt" />
+     <None Include="Assets\FlurryAnalytics\Plugins\Android\AndroidManifest.xml" />
      <None Include="Assets\StreamingAssets\TermsAndConditions.xml" />
      <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
      <None Include="Assets\FacebookSDK\link.xml" />

@@ -254,10 +254,13 @@ public class GameSparksManager : MonoBehaviour
 				if (instantWinsAvailable == "TRUE")
 					available = true;
 				//Check if player has won already
+				//Turn on to reactivate after testing
+				/*
 				var previousWinner = response.ScriptData.GetGSData("PREVIOUSWINNER");
 				if(previousWinner != null){
 					available = false;
 				}
+				*/
 
 				GameManager.instantWinsAvailable = available;
 				UIManager.instance.DisplayInstantWinPanel (available);

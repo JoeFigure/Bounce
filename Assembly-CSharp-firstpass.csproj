@@ -61,6 +61,8 @@
      <Compile Include="Assets\Plugins\UnityPurchasing\script\UnibillDemo.cs" />
      <None Include="Assets\GameSparks\Plugins\GameSparksRT.xml" />
      <None Include="Assets\GameSparks\Plugins\Metro\GameSparksRT.xml" />
+     <None Include="Assets\FlurryAnalytics\README.txt" />
+     <None Include="Assets\FlurryAnalytics\Plugins\Android\AndroidManifest.xml" />
      <None Include="Assets\StreamingAssets\TermsAndConditions.xml" />
      <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
      <None Include="Assets\FacebookSDK\link.xml" />

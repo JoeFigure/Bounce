@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 public class Initializer : MonoBehaviour {
 
-	//string iOS_APIKey = "VFFHBMJBDRRTNRQHNXRY";
+	string iOS_APIKey = "VFFHBMJBDRRTNRQHNXRY";
 
 	void Awake() {
 		Application.targetFrameRate = 60;
@@ -13,7 +13,7 @@ public class Initializer : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		//KHD.FlurryAnalytics.Instance.StartSession(iOS_APIKey,"o",false);
+		KHD.FlurryAnalytics.Instance.StartSession(iOS_APIKey,"o",false);
 	
 		InitialiseGame ();
 
